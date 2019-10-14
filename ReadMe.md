@@ -1,0 +1,1 @@
+ExternalProgramExecutorWrapper is a tool to have a wrapper-program which executes an arbitrary program and logs its output.
