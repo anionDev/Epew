@@ -7,7 +7,7 @@
     <ProjectGuid>{9555C4A6-29ED-47AC-9B05-324572A84C6E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PrivateMaintenance.ExternalProgramExecutionWrapper</RootNamespace>
+    <RootNamespace>ExternalProgramExecutionWrapper</RootNamespace>
     <AssemblyName>ExternalProgramExecutionWrapper</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -36,6 +36,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ExternalProgramExecutorWrapper.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GRYLibrary, Version=0.3.0.0, Culture=neutral, PublicKeyToken=def3d0f8e99ddde7, processorArchitecture=MSIL">
@@ -120,9 +123,6 @@
     <None Include="App.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
-    <None Include="Readme.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

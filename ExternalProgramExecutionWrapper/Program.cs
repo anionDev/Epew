@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace PrivateMaintenance.ExternalProgramExecutorWrapper
+namespace ExternalProgramExecutorWrapper
 {
     internal class Program
     {
