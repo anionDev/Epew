@@ -66,11 +66,11 @@ namespace ExternalProgramExecutorWrapper
                     log.Configuration.LoggedMessageTypesInConsole.Add(GRYLibrary.GRYLogLogLevel.Verbose);
                     log.Configuration.LoggedMessageTypesInLogFile.Add(GRYLibrary.GRYLogLogLevel.Verbose);
                 }
-                log.LogVerboseMessage("------------------------------------------");
-                log.LogVerboseMessage("ExternalProgramExecutorWrapper v" + version + " started");
-                log.LogVerboseMessage("Execution-Id: " + executionId);
-                log.LogVerboseMessage("ExternalProgramExecutorWrapper-original-argument is '" + commandLineArguments + "'");
-                log.LogVerboseMessage($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'");
+                log.Log("------------------------------------------", GRYLibrary.GRYLogLogLevel.Verbose);
+                log.Log("ExternalProgramExecutorWrapper v" + version + " started", GRYLibrary.GRYLogLogLevel.Verbose);
+                log.Log("Execution-Id: " + executionId, GRYLibrary.GRYLogLogLevel.Verbose);
+                log.Log("ExternalProgramExecutorWrapper-original-argument is '" + commandLineArguments + "'", GRYLibrary.GRYLogLogLevel.Verbose);
+                log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", GRYLibrary.GRYLogLogLevel.Verbose);
                 GRYLibrary.ExternalProgramExecutor externalProgramExecutor = GRYLibrary.ExternalProgramExecutor.CreateWithGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
                 externalProgramExecutor.LogObject.Configuration.PrintOutputInConsole = true;
                 externalProgramExecutor.LogObject.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
@@ -81,17 +81,17 @@ namespace ExternalProgramExecutorWrapper
                 string errorMessage = "Error in ExternalProgramExecutionWrapper";
                 try
                 {
-                    log.LogError(errorMessage, exception);
+                    log.Log(errorMessage, exception);
                 }
                 catch
                 {
                     Console.WriteLine(errorMessage + ": " + exception.ToString());
                 }
             }
-            log.LogVerboseMessage("ExternalProgramExecutorWrapper finished");
-            log.LogVerboseMessage("Execution-Id: " + executionId);
-            log.LogVerboseMessage("Exit-code: " + exitCode.ToString());
-            log.LogVerboseMessage("------------------------------------------");
+            log.Log("ExternalProgramExecutorWrapper finished", GRYLibrary.GRYLogLogLevel.Verbose);
+            log.Log("Execution-Id: " + executionId, GRYLibrary.GRYLogLogLevel.Verbose);
+            log.Log("Exit-code: " + exitCode.ToString(), GRYLibrary.GRYLogLogLevel.Verbose);
+            log.Log("------------------------------------------");
             return exitCode;
         }
     }
