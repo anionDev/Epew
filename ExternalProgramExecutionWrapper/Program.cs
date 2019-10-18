@@ -9,7 +9,7 @@ namespace ExternalProgramExecutorWrapper
         /// Executes a program based on the given commandline arguments
         /// </summary>
         /// <remarks>
-        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~timeoutInMilliseconds;~verbose")
+        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose")
         /// The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
         /// </remarks>
         /// <return>
@@ -31,7 +31,7 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/help")
                     || commandLineArguments.Equals("/h"))
                 {
-                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~timeoutInMilliseconds;~verbose\")");
+                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose\")");
                 }
                 string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
                 string[] argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
@@ -42,14 +42,14 @@ namespace ExternalProgramExecutorWrapper
                 string workingDirectory = argumentsSplitted[3].Trim();
                 bool printErrorsAsInformation = argumentsSplitted[4].Trim().Equals("1");
                 string logFile = argumentsSplitted[5].Trim();
-                if (string.IsNullOrWhiteSpace(logFile))
+                if (string.IsNullOrEmpty(logFile))
                 {
                     logFile = null;
                 }
 
                 int? timeoutInMilliseconds = null;
                 string timeoutAsString = argumentsSplitted[6].Trim();
-                if (!string.IsNullOrWhiteSpace(timeoutAsString))
+                if (!string.IsNullOrEmpty(timeoutAsString))
                 {
                     timeoutInMilliseconds = int.Parse(timeoutAsString);
                 }

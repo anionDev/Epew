@@ -24,8 +24,9 @@ Now the output of the program can be found in `externalProgramExecutionWrapper\E
 
 Calculate the argument:
 ```
-Commandlineargument=Base64("<ProgramPathAndFile>;~<Arguments>;~<Title>;~<WorkingDirectory>;~<PrintErrorsAsInformation>;~<LogFile>;~<timeoutInMilliseconds>;~<verbose>")
+Commandlineargument=Base64("<ProgramPathAndFile>;~<Arguments>;~<Title>;~<WorkingDirectory>;~<PrintErrorsAsInformation>;~<LogFile>;~<TimeoutInMilliseconds>;~<Verbose>")
 ```
+The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
 
 Now call ExternalProgramExecutionWrapper with the base64-argument:
 ```
