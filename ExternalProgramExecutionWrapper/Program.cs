@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace ExternalProgramExecutorWrapper
@@ -23,7 +24,7 @@ namespace ExternalProgramExecutorWrapper
             Guid executionId = Guid.NewGuid();
             try
             {
-                string commandLineArguments = GRYLibrary.Utilities.GetCommandLineArguments();
+                string commandLineArguments = string.Join(" ", Environment.GetCommandLineArgs().Skip(1)).Trim();
                 if (commandLineArguments.Equals(string.Empty)
                     || commandLineArguments.Equals("help")
                     || commandLineArguments.Equals("--help")
@@ -32,6 +33,7 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/h"))
                 {
                     Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose\")");
+                    return exitCode;
                 }
                 string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
                 string[] argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
