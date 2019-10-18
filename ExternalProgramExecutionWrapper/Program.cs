@@ -9,16 +9,18 @@ namespace ExternalProgramExecutorWrapper
         /// Executes a program based on the given commandline arguments
         /// </summary>
         /// <remarks>
-        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~timeoutInMilliseconds")
+        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~timeoutInMilliseconds;~verbose")
+        /// The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
         /// </remarks>
         /// <return>
         /// Returns the exitcode of the executed program.
         /// </return>
         internal static int Main()
         {
-            int result = -21;
-            bool debugMode = false;
+            int exitCode = -1;
             Console.WriteLine("ExternalProgramExecutorWrapper started");
+            GRYLibrary.GRYLog log = GRYLibrary.GRYLog.Create();
+            Guid executionId = Guid.NewGuid();
             try
             {
                 string commandLineArguments = GRYLibrary.Utilities.GetCommandLineArguments();
@@ -29,18 +31,10 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/help")
                     || commandLineArguments.Equals("/h"))
                 {
-                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~timeoutInMilliseconds\")");
+                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~timeoutInMilliseconds;~verbose\")");
                 }
                 string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
                 string[] argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
-                if (argumentsSplitted.Length >= 8 && argumentsSplitted[7] == "1")
-                {
-                    debugMode = true;
-                }
-                if (debugMode)
-                {
-                    Console.WriteLine(decodedString);
-                }
                 string programPathAndFile = argumentsSplitted[0].Trim();
                 string arguments = argumentsSplitted[1].Trim();
                 string titleOfExecution = argumentsSplitted[2].Trim();
@@ -52,31 +46,49 @@ namespace ExternalProgramExecutorWrapper
                 {
                     logFile = null;
                 }
+
                 int? timeoutInMilliseconds = null;
-                if (argumentsSplitted.Length > 5)
+                string timeoutAsString = argumentsSplitted[6].Trim();
+                if (!string.IsNullOrWhiteSpace(timeoutAsString))
                 {
-                    string timeoutAsString = argumentsSplitted[6].Trim();
-                    if (!string.IsNullOrWhiteSpace(timeoutAsString))
-                    {
-                        timeoutInMilliseconds = int.Parse(timeoutAsString);
-                    }
+                    timeoutInMilliseconds = int.Parse(timeoutAsString);
                 }
-                GRYLibrary.ExternalProgramExecutor externalProgramExecutor = null;
-                externalProgramExecutor = GRYLibrary.ExternalProgramExecutor.CreateByLogFile(programPathAndFile, arguments, logFile, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
+
+                bool verbose = argumentsSplitted[7].Trim().Equals("1");
+
+                log.Configuration.LogFile = logFile;
+                if (verbose)
+                {
+                    log.Configuration.LoggedMessageTypesInConsole.Add(GRYLibrary.GRYLogLogLevel.Verbose);
+                    log.Configuration.LoggedMessageTypesInLogFile.Add(GRYLibrary.GRYLogLogLevel.Verbose);
+                }
+                log.LogVerboseMessage("------------------------------------------");
+                log.LogVerboseMessage("ExternalProgramExecutorWrapper started");
+                log.LogVerboseMessage("Execution-Id: " + executionId);
+                log.LogVerboseMessage("ExternalProgramExecutorWrapper-original-argument is '" + commandLineArguments + "'");
+                log.LogVerboseMessage($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'");
+                GRYLibrary.ExternalProgramExecutor externalProgramExecutor = GRYLibrary.ExternalProgramExecutor.CreateWithGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
                 externalProgramExecutor.LogObject.Configuration.PrintOutputInConsole = true;
                 externalProgramExecutor.LogObject.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
-                result = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
+                exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Error in ExternalProgramExecutionWrapper: " + exception.Message);
+                string errorMessage = "Error in ExternalProgramExecutionWrapper";
+                try
+                {
+                    log.LogError(errorMessage, exception);
+                }
+                catch
+                {
+                    Console.WriteLine(errorMessage + ": " + exception.ToString());
+                }
             }
-            Console.WriteLine($"ExternalProgramExecutionWrapper finfished with exitcode {result}");
-            if (debugMode)
-            {
-                Console.ReadLine();
-            }
-            return result;
+            log.LogVerboseMessage("ExternalProgramExecutorWrapper finished");
+            log.LogVerboseMessage("Execution-Id: " + executionId);
+            log.LogVerboseMessage("Exit-code: " + exitCode.ToString());
+            log.LogVerboseMessage("------------------------------------------");
+            return exitCode;
         }
     }
 }
