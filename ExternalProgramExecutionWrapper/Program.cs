@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace ExternalProgramExecutorWrapper
@@ -19,7 +20,7 @@ namespace ExternalProgramExecutorWrapper
         internal static int Main()
         {
             int exitCode = -1;
-            Console.WriteLine("ExternalProgramExecutorWrapper started");
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             GRYLibrary.GRYLog log = GRYLibrary.GRYLog.Create();
             Guid executionId = Guid.NewGuid();
             try
@@ -32,6 +33,7 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/help")
                     || commandLineArguments.Equals("/h"))
                 {
+                    Console.WriteLine("ExternalProgramExecutorWrapper v" + version);
                     Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose\")");
                     return exitCode;
                 }
@@ -65,7 +67,7 @@ namespace ExternalProgramExecutorWrapper
                     log.Configuration.LoggedMessageTypesInLogFile.Add(GRYLibrary.GRYLogLogLevel.Verbose);
                 }
                 log.LogVerboseMessage("------------------------------------------");
-                log.LogVerboseMessage("ExternalProgramExecutorWrapper started");
+                log.LogVerboseMessage("ExternalProgramExecutorWrapper v" + version + " started");
                 log.LogVerboseMessage("Execution-Id: " + executionId);
                 log.LogVerboseMessage("ExternalProgramExecutorWrapper-original-argument is '" + commandLineArguments + "'");
                 log.LogVerboseMessage($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'");
