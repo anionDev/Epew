@@ -61,6 +61,8 @@ namespace ExternalProgramExecutorWrapper
                 bool verbose = argumentsSplitted[7].Trim().Equals("1");
 
                 log.Configuration.LogFile = logFile;
+                log.Configuration.PrintOutputInConsole = true;
+                log.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
                 if (verbose)
                 {
                     log.Configuration.LoggedMessageTypesInConsole.Add(GRYLibrary.GRYLogLogLevel.Verbose);
@@ -72,8 +74,6 @@ namespace ExternalProgramExecutorWrapper
                 log.Log("ExternalProgramExecutorWrapper-original-argument is '" + commandLineArguments + "'", GRYLibrary.GRYLogLogLevel.Verbose);
                 log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", GRYLibrary.GRYLogLogLevel.Verbose);
                 GRYLibrary.ExternalProgramExecutor externalProgramExecutor = GRYLibrary.ExternalProgramExecutor.CreateWithGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
-                externalProgramExecutor.LogObject.Configuration.PrintOutputInConsole = true;
-                externalProgramExecutor.LogObject.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
                 exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
             }
             catch (Exception exception)
@@ -91,7 +91,7 @@ namespace ExternalProgramExecutorWrapper
             log.Log("ExternalProgramExecutorWrapper finished", GRYLibrary.GRYLogLogLevel.Verbose);
             log.Log("Execution-Id: " + executionId, GRYLibrary.GRYLogLogLevel.Verbose);
             log.Log("Exit-code: " + exitCode.ToString(), GRYLibrary.GRYLogLogLevel.Verbose);
-            log.Log("------------------------------------------");
+            log.Log("------------------------------------------", GRYLibrary.GRYLogLogLevel.Verbose);
             return exitCode;
         }
     }
