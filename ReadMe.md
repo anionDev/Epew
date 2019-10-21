@@ -26,7 +26,7 @@ Calculate the argument:
 ```
 Commandlineargument=Base64("<ProgramPathAndFile>;~<Arguments>;~<Title>;~<WorkingDirectory>;~<PrintErrorsAsInformation>;~<LogFile>;~<TimeoutInMilliseconds>;~<Verbose>;~<AddLogOverhead>")
 ```
-The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
+The arguments PrintErrorsAsInformation, verbose and AddLogOverhead are boolean values. Pass '1' to set them to true or anything else to set them to false.
 
 Now call ExternalProgramExecutionWrapper with the base64-argument:
 ```

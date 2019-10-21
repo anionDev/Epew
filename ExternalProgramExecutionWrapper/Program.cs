@@ -34,36 +34,109 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/h"))
                 {
                     Console.WriteLine("ExternalProgramExecutorWrapper v" + version);
-                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead\")");
+                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead\")");
                     return exitCode;
                 }
                 string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
-                string[] argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
+                string[] argumentsSplitted;
+                if (decodedString.Contains(";~"))
+                {
+                    argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
+                }
+                else
+                {
+                    argumentsSplitted = new string[] { "decodedString" };
+                }
+
                 string programPathAndFile = argumentsSplitted[0].Trim();
-                string arguments = argumentsSplitted[1].Trim();
-                string titleOfExecution = argumentsSplitted[2].Trim();
+
+                string arguments;
+                if (argumentsSplitted.Length >= 2)
+                {
+                    arguments = argumentsSplitted[1].Trim();
+                }
+                else
+                {
+                    arguments = string.Empty;
+                }
+
+                string workingDirectory;
+                if (argumentsSplitted.Length >= 3)
+                {
+                    workingDirectory = argumentsSplitted[2].Trim();
+                }
+                else
+                {
+                    workingDirectory = System.IO.Directory.GetCurrentDirectory();
+                }
+
+                string titleOfExecution;
+                if (argumentsSplitted.Length >= 4)
+                {
+                    titleOfExecution = argumentsSplitted[3].Trim();
+                }
+                else
+                {
+                    titleOfExecution = workingDirectory + ">" + programPathAndFile + " " + arguments;
+                }
+
+                bool printErrorsAsInformation;
+                if (argumentsSplitted.Length >= 5)
+                {
+                    printErrorsAsInformation = argumentsSplitted[4].Trim().Equals("1");
+                }
+                else
+                {
+                    printErrorsAsInformation = false;
+                }
+
+                string logFile = null;
+                if (argumentsSplitted.Length >= 6)
+                {
+                    logFile = argumentsSplitted[5].Trim();
+                    if (string.IsNullOrEmpty(logFile))
+                    {
+                        logFile = null;
+                    }
+                }
+
+                int? timeoutInMilliseconds;
+                if (argumentsSplitted.Length >= 7)
+                {
+                    timeoutInMilliseconds = null;
+                    string timeoutAsString = argumentsSplitted[6].Trim();
+                    if (!string.IsNullOrEmpty(timeoutAsString))
+                    {
+                        timeoutInMilliseconds = int.Parse(timeoutAsString);
+                    }
+                }
+                else
+                {
+                    timeoutInMilliseconds = 15 * 60 * 1000;
+                }
+
+                bool verbose;
+                if (argumentsSplitted.Length >= 8)
+                {
+                    verbose = argumentsSplitted[7].Trim().Equals("1");
+                }
+                else
+                {
+                    verbose = true;
+                }
+
+                bool addLogOverhead;
+                if (argumentsSplitted.Length >= 9)
+                {
+                    addLogOverhead = argumentsSplitted[8].Trim().Equals("1");
+                }
+                else
+                {
+                    addLogOverhead = true;
+                }
+
                 Console.Title = titleOfExecution;
-                string workingDirectory = argumentsSplitted[3].Trim();
-                bool printErrorsAsInformation = argumentsSplitted[4].Trim().Equals("1");
-                string logFile = argumentsSplitted[5].Trim();
-                if (string.IsNullOrEmpty(logFile))
-                {
-                    logFile = null;
-                }
-
-                int? timeoutInMilliseconds = null;
-                string timeoutAsString = argumentsSplitted[6].Trim();
-                if (!string.IsNullOrEmpty(timeoutAsString))
-                {
-                    timeoutInMilliseconds = int.Parse(timeoutAsString);
-                }
-
-                bool verbose = argumentsSplitted[7].Trim().Equals("1");
-
-                bool addLogOverhead = argumentsSplitted[8].Trim().Equals("1");
-
                 log.Configuration.LogFile = logFile;
-                log.Configuration.PrintOutputInConsole = true;
                 if (addLogOverhead)
                 {
                     log.Configuration.Format = GRYLibrary.GRYLogLogFormat.GRYLogFormat;
@@ -72,6 +145,7 @@ namespace ExternalProgramExecutorWrapper
                 {
                     log.Configuration.Format = GRYLibrary.GRYLogLogFormat.OnlyMessage;
                 }
+                log.Configuration.PrintOutputInConsole = true;
                 log.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
                 if (verbose)
                 {
