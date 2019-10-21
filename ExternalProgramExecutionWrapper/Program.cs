@@ -11,7 +11,7 @@ namespace ExternalProgramExecutorWrapper
         /// Executes a program based on the given commandline arguments
         /// </summary>
         /// <remarks>
-        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose")
+        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead")
         /// The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
         /// </remarks>
         /// <return>
@@ -34,7 +34,7 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/h"))
                 {
                     Console.WriteLine("ExternalProgramExecutorWrapper v" + version);
-                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose\")");
+                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead\")");
                     return exitCode;
                 }
                 string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
@@ -60,8 +60,18 @@ namespace ExternalProgramExecutorWrapper
 
                 bool verbose = argumentsSplitted[7].Trim().Equals("1");
 
+                bool addLogOverhead = argumentsSplitted[8].Trim().Equals("1");
+
                 log.Configuration.LogFile = logFile;
                 log.Configuration.PrintOutputInConsole = true;
+                if (addLogOverhead)
+                {
+                    log.Configuration.Format = GRYLibrary.GRYLogLogFormat.GRYLogFormat;
+                }
+                else
+                {
+                    log.Configuration.Format = GRYLibrary.GRYLogLogFormat.OnlyMessage;
+                }
                 log.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
                 if (verbose)
                 {
