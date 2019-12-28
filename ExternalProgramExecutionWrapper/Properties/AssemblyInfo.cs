@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyInformationalVersion(Version.AssemblyInformationalVersion)]
 internal static class Version
 {
-    public const string AssemblyVersion = "1.0.8.0";
+    public const string AssemblyVersion = "1.0.9.0";
     public const string AssemblyFileVersion = AssemblyVersion;
     public const string AssemblyInformationalVersion = AssemblyVersion;
 }
