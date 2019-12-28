@@ -142,7 +142,6 @@ namespace ExternalProgramExecutorWrapper
                 {
                     log = GRYLibrary.GRYLog.Create(logFile);
                 }
-                log.Configuration.LogFile = logFile;
                 if (addLogOverhead)
                 {
                     log.Configuration.Format = GRYLibrary.GRYLogLogFormat.GRYLogFormat;
