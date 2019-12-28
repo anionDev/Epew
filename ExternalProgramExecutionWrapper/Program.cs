@@ -19,10 +19,12 @@ namespace ExternalProgramExecutorWrapper
         /// </return>
         internal static int Main()
         {
+
             int exitCode = -1;
+            string line = "----------------------------------";
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            GRYLibrary.GRYLog log = GRYLibrary.GRYLog.Create();
             Guid executionId = Guid.NewGuid();
+            GRYLibrary.GRYLog log = GRYLibrary.GRYLog.Create();
             try
             {
                 string commandLineArguments = string.Join(" ", Environment.GetCommandLineArgs().Skip(1)).Trim();
@@ -45,7 +47,7 @@ namespace ExternalProgramExecutorWrapper
                 }
                 else
                 {
-                    argumentsSplitted = new string[] { "decodedString" };
+                    argumentsSplitted = new string[] { decodedString };
                 }
 
                 string programPathAndFile = argumentsSplitted[0].Trim();
@@ -77,7 +79,7 @@ namespace ExternalProgramExecutorWrapper
                 }
                 else
                 {
-                    titleOfExecution = workingDirectory + ">" + programPathAndFile + " " + arguments;
+                    titleOfExecution = $"{workingDirectory}>{programPathAndFile} {arguments}";
                 }
 
                 bool printErrorsAsInformation;
@@ -112,7 +114,7 @@ namespace ExternalProgramExecutorWrapper
                 }
                 else
                 {
-                    timeoutInMilliseconds = 15 * 60 * 1000;
+                    timeoutInMilliseconds = int.MaxValue;
                 }
 
                 bool verbose;
@@ -136,6 +138,10 @@ namespace ExternalProgramExecutorWrapper
                 }
 
                 Console.Title = titleOfExecution;
+                if (logFile != null)
+                {
+                    log = GRYLibrary.GRYLog.CreateByConfigurationFile(logFile);
+                }
                 log.Configuration.LogFile = logFile;
                 if (addLogOverhead)
                 {
@@ -152,7 +158,7 @@ namespace ExternalProgramExecutorWrapper
                     log.Configuration.LoggedMessageTypesInConsole.Add(GRYLibrary.GRYLogLogLevel.Verbose);
                     log.Configuration.LoggedMessageTypesInLogFile.Add(GRYLibrary.GRYLogLogLevel.Verbose);
                 }
-                log.Log("------------------------------------------", GRYLibrary.GRYLogLogLevel.Verbose);
+                log.Log(line, GRYLibrary.GRYLogLogLevel.Verbose);
                 log.Log("ExternalProgramExecutorWrapper v" + version + " started", GRYLibrary.GRYLogLogLevel.Verbose);
                 log.Log("Execution-Id: " + executionId, GRYLibrary.GRYLogLogLevel.Verbose);
                 log.Log("ExternalProgramExecutorWrapper-original-argument is '" + commandLineArguments + "'", GRYLibrary.GRYLogLogLevel.Verbose);
@@ -162,20 +168,12 @@ namespace ExternalProgramExecutorWrapper
             }
             catch (Exception exception)
             {
-                string errorMessage = "Error in ExternalProgramExecutionWrapper";
-                try
-                {
-                    log.Log(errorMessage, exception);
-                }
-                catch
-                {
-                    Console.WriteLine(errorMessage + ": " + exception.ToString());
-                }
+                log.Log("Error in ExternalProgramExecutionWrapper", exception);
             }
             log.Log("ExternalProgramExecutorWrapper finished", GRYLibrary.GRYLogLogLevel.Verbose);
             log.Log("Execution-Id: " + executionId, GRYLibrary.GRYLogLogLevel.Verbose);
             log.Log("Exit-code: " + exitCode.ToString(), GRYLibrary.GRYLogLogLevel.Verbose);
-            log.Log("------------------------------------------", GRYLibrary.GRYLogLogLevel.Verbose);
+            log.Log(line, GRYLibrary.GRYLogLogLevel.Verbose);
             return exitCode;
         }
     }
