@@ -140,7 +140,7 @@ namespace ExternalProgramExecutorWrapper
                 Console.Title = titleOfExecution;
                 if (logFile != null)
                 {
-                    log = GRYLibrary.GRYLog.CreateByConfigurationFile(logFile);
+                    log = GRYLibrary.GRYLog.Create(logFile);
                 }
                 log.Configuration.LogFile = logFile;
                 if (addLogOverhead)
