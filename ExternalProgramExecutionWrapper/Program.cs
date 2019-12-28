@@ -100,7 +100,6 @@ namespace ExternalProgramExecutorWrapper
                         logFile = trimmedArgument;
                     }
                 }
-                log.Log("xy");
 
                 int? timeoutInMilliseconds;
                 if (argumentsSplitted.Length >= 7)
