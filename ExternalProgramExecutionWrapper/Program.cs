@@ -100,6 +100,7 @@ namespace ExternalProgramExecutorWrapper
                         logFile = trimmedArgument;
                     }
                 }
+                log.Log("xy");
 
                 int? timeoutInMilliseconds;
                 if (argumentsSplitted.Length >= 7)
@@ -151,8 +152,6 @@ namespace ExternalProgramExecutorWrapper
                 {
                     log.Configuration.Format = GRYLibrary.GRYLogLogFormat.OnlyMessage;
                 }
-                log.Configuration.PrintOutputInConsole = true;
-                log.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
                 if (verbose)
                 {
                     log.Configuration.LoggedMessageTypesInConsole.Add(GRYLibrary.GRYLogLogLevel.Verbose);
