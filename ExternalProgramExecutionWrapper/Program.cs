@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GRYLibrary.Core;
+using GRYLibrary.Core.Log.ConcreteLogTargets;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -22,11 +23,11 @@ namespace ExternalProgramExecutorWrapper
             int exitCode = -1;
             string line = "----------------------------------";
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Guid executionId = Guid.NewGuid();
-            GRYLibrary.GRYLog log = GRYLibrary.GRYLog.Create();
+            System.Guid executionId = System.Guid.NewGuid();
+            GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
             try
             {
-                string commandLineArguments = string.Join(" ", Environment.GetCommandLineArgs().Skip(1)).Trim();
+                string commandLineArguments = string.Join(" ", System.Environment.GetCommandLineArgs().Skip(1)).Trim();
                 if (commandLineArguments.Equals(string.Empty)
                     || commandLineArguments.Equals("help")
                     || commandLineArguments.Equals("--help")
@@ -34,15 +35,15 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/help")
                     || commandLineArguments.Equals("/h"))
                 {
-                    Console.WriteLine($"ExternalProgramExecutorWrapper v{version}");
-                    Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead\")");
+                    System.Console.WriteLine($"ExternalProgramExecutorWrapper v{version}");
+                    System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead\")");
                     return exitCode;
                 }
-                string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
+                string decodedString = new UTF8Encoding(false).GetString(System.Convert.FromBase64String(commandLineArguments));
                 string[] argumentsSplitted;
                 if (decodedString.Contains(";~"))
                 {
-                    argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
+                    argumentsSplitted = decodedString.Split(new string[] { ";~" }, System.StringSplitOptions.None);
                 }
                 else
                 {
@@ -135,43 +136,51 @@ namespace ExternalProgramExecutorWrapper
                 {
                     addLogOverhead = true;
                 }
-
-                Console.Title = titleOfExecution;
+                try
+                {
+                    System.Console.Title = titleOfExecution;
+                }
+                catch
+                {
+                    GRYLibrary.Core.Utilities.NoOperation();
+                }
                 if (logFile != null)
                 {
-                    log.Configuration.WriteToLogFileIfLogFileIsAvailable = true;
-                    log.Configuration.CreateLogFileIfRequiredAndIfPossible = true;
-                    log.Configuration.LogFile = logFile;
+                    log.Configuration.GetLogTarget<LogFile>().Enabled = true;
+                    log.Configuration.GetLogTarget<LogFile>().File = logFile;
                 }
                 if (addLogOverhead)
                 {
-                    log.Configuration.Format = GRYLibrary.GRYLogLogFormat.GRYLogFormat;
+                    log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.GRYLogFormat;
                 }
                 else
                 {
-                    log.Configuration.Format = GRYLibrary.GRYLogLogFormat.OnlyMessage;
+                    log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.OnlyMessage;
                 }
                 if (verbose)
                 {
-                    log.Configuration.LoggedMessageTypesInConsole.Add(GRYLibrary.GRYLogLogLevel.Verbose);
-                    log.Configuration.LoggedMessageTypesInLogFile.Add(GRYLibrary.GRYLogLogLevel.Verbose);
+                    foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
+                    {
+                        log.Configuration.GetLogTarget<Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                        log.Configuration.GetLogTarget<Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                    }
                 }
-                log.Log(line, GRYLibrary.GRYLogLogLevel.Verbose);
-                log.Log($"ExternalProgramExecutorWrapper v{version} started", GRYLibrary.GRYLogLogLevel.Verbose);
-                log.Log($"Execution-Id: {executionId}", GRYLibrary.GRYLogLogLevel.Verbose);
-                log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", GRYLibrary.GRYLogLogLevel.Verbose);
-                log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", GRYLibrary.GRYLogLogLevel.Verbose);
-                GRYLibrary.ExternalProgramExecutor externalProgramExecutor = GRYLibrary.ExternalProgramExecutor.CreateWithGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
+                log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"ExternalProgramExecutorWrapper v{version} started", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
+                ExternalProgramExecutor externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
                 exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
             }
-            catch (Exception exception)
+            catch (System.Exception exception)
             {
                 log.Log("Error in ExternalProgramExecutionWrapper", exception);
             }
-            log.Log("ExternalProgramExecutorWrapper finished", GRYLibrary.GRYLogLogLevel.Verbose);
-            log.Log($"Execution-Id: {executionId}", GRYLibrary.GRYLogLogLevel.Verbose);
-            log.Log($"Exit-code: {exitCode}", GRYLibrary.GRYLogLogLevel.Verbose);
-            log.Log(line, GRYLibrary.GRYLogLogLevel.Verbose);
+            log.Log("ExternalProgramExecutorWrapper finished", Microsoft.Extensions.Logging.LogLevel.Debug);
+            log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+            log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
+            log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
             return exitCode;
         }
     }
