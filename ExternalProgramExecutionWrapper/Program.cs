@@ -1,5 +1,6 @@
 ﻿using GRYLibrary.Core;
 using GRYLibrary.Core.Log.ConcreteLogTargets;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,11 +13,11 @@ namespace ExternalProgramExecutorWrapper
         /// Executes a program based on the given commandline arguments
         /// </summary>
         /// <remarks>
-        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead")
+        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr")
         /// The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
         /// </remarks>
         /// <return>
-        /// Returns the exitcode of the executed program.
+        /// Returns the exitcode of the executed program. If an unexpected error occurred so that no program will be executed then the returncode is -1.
         /// </return>
         internal static int Main()
         {
@@ -25,6 +26,7 @@ namespace ExternalProgramExecutorWrapper
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             System.Guid executionId = System.Guid.NewGuid();
             GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
+            ExternalProgramExecutor externalProgramExecutor = null;
             try
             {
                 string commandLineArguments = string.Join(" ", System.Environment.GetCommandLineArgs().Skip(1)).Trim();
@@ -36,7 +38,7 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/h"))
                 {
                     System.Console.WriteLine($"ExternalProgramExecutorWrapper v{version}");
-                    System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead\")");
+                    System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr\")");
                     return exitCode;
                 }
                 string decodedString = new UTF8Encoding(false).GetString(System.Convert.FromBase64String(commandLineArguments));
@@ -136,13 +138,34 @@ namespace ExternalProgramExecutorWrapper
                 {
                     addLogOverhead = true;
                 }
+
+                string outputFileForStdOut;
+                if (argumentsSplitted.Length >= 10)
+                {
+                    outputFileForStdOut = argumentsSplitted[9];
+                }
+                else
+                {
+                    outputFileForStdOut = null;
+                }
+
+                string outputFileForStdErr;
+                if (argumentsSplitted.Length >= 11)
+                {
+                    outputFileForStdErr = argumentsSplitted[10];
+                }
+                else
+                {
+                    outputFileForStdErr = null;
+                }
+
                 try
                 {
                     System.Console.Title = titleOfExecution;
                 }
                 catch
                 {
-                    GRYLibrary.Core.Utilities.NoOperation();
+                    Utilities.NoOperation();
                 }
                 if (logFile != null)
                 {
@@ -161,8 +184,8 @@ namespace ExternalProgramExecutorWrapper
                 {
                     foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
                     {
-                        log.Configuration.GetLogTarget<Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                        log.Configuration.GetLogTarget<Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                        log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                        log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
                     }
                 }
                 log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
@@ -170,18 +193,31 @@ namespace ExternalProgramExecutorWrapper
                 log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
-                ExternalProgramExecutor externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
+                externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
                 exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
+                WriteToFile(outputFileForStdOut, externalProgramExecutor.AllStdOutLines);
+                WriteToFile(outputFileForStdErr, externalProgramExecutor.AllStdErrLines);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
                 log.Log("Error in ExternalProgramExecutionWrapper", exception);
             }
-            log.Log("ExternalProgramExecutorWrapper finished", Microsoft.Extensions.Logging.LogLevel.Debug);
-            log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-            log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
-            log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
+            if (externalProgramExecutor != null)
+            {
+                log.Log("ExternalProgramExecutorWrapper finished", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
+            }
             return exitCode;
+        }
+
+        private static void WriteToFile(string file, string[] lines)
+        {
+            file = Utilities.ResolveToFullPath(file);
+            Utilities.EnsureFileExists(file);
+            System.IO.File.WriteAllLines(file, lines, new UTF8Encoding(false));
         }
     }
 }
