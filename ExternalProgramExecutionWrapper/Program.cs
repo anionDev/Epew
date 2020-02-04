@@ -24,7 +24,7 @@ namespace ExternalProgramExecutorWrapper
             int exitCode = -1;
             string line = "----------------------------------";
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            System.Guid executionId = System.Guid.NewGuid();
+            Guid executionId = Guid.NewGuid();
             GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
             ExternalProgramExecutor externalProgramExecutor = null;
             try
@@ -41,11 +41,11 @@ namespace ExternalProgramExecutorWrapper
                     System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr\")");
                     return exitCode;
                 }
-                string decodedString = new UTF8Encoding(false).GetString(System.Convert.FromBase64String(commandLineArguments));
+                string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
                 string[] argumentsSplitted;
                 if (decodedString.Contains(";~"))
                 {
-                    argumentsSplitted = decodedString.Split(new string[] { ";~" }, System.StringSplitOptions.None);
+                    argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
                 }
                 else
                 {
@@ -87,7 +87,7 @@ namespace ExternalProgramExecutorWrapper
                 bool printErrorsAsInformation;
                 if (argumentsSplitted.Length >= 5)
                 {
-                    printErrorsAsInformation = argumentsSplitted[4].Trim().Equals("1");
+                    printErrorsAsInformation = Utilities.StringToBoolean(argumentsSplitted[4]);
                 }
                 else
                 {
@@ -122,7 +122,7 @@ namespace ExternalProgramExecutorWrapper
                 bool verbose;
                 if (argumentsSplitted.Length >= 8)
                 {
-                    verbose = argumentsSplitted[7].Trim().Equals("1");
+                    verbose = Utilities.StringToBoolean(argumentsSplitted[7]);
                 }
                 else
                 {
@@ -132,7 +132,7 @@ namespace ExternalProgramExecutorWrapper
                 bool addLogOverhead;
                 if (argumentsSplitted.Length >= 9)
                 {
-                    addLogOverhead = argumentsSplitted[8].Trim().Equals("1");
+                    addLogOverhead = Utilities.StringToBoolean(argumentsSplitted[8]);
                 }
                 else
                 {
@@ -190,6 +190,8 @@ namespace ExternalProgramExecutorWrapper
                 }
                 log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"ExternalProgramExecutorWrapper v{version} started", Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log("Raw input: " + commandLineArguments, Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log("Decoded input: " + decodedString, Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
