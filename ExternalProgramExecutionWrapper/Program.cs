@@ -215,7 +215,6 @@ namespace ExternalProgramExecutorWrapper
             return exitCode;
         }
 
-
         private static void WriteToFile(string file, string[] lines)
         {
             file = Utilities.ResolveToFullPath(file);
