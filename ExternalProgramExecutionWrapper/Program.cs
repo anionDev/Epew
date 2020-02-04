@@ -81,7 +81,7 @@ namespace ExternalProgramExecutorWrapper
                 }
                 else
                 {
-                    titleOfExecution = $"{workingDirectory}>{programPathAndFile} {arguments}";
+                    titleOfExecution = string.Empty;
                 }
 
                 bool printErrorsAsInformation;
@@ -158,14 +158,17 @@ namespace ExternalProgramExecutorWrapper
                 {
                     outputFileForStdErr = null;
                 }
-
-                try
+                if (!string.IsNullOrWhiteSpace(titleOfExecution))
                 {
-                    System.Console.Title = titleOfExecution;
-                }
-                catch
-                {
-                    Utilities.NoOperation();
+                    try
+                    {
+                        System.Console.Title = titleOfExecution;
+                    }
+                    catch
+                    {
+                        Utilities.NoOperation();
+                    }
+                    log.Configuration.Name = titleOfExecution;
                 }
                 if (logFile != null)
                 {
