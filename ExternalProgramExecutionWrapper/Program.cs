@@ -199,6 +199,7 @@ namespace ExternalProgramExecutorWrapper
                 log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
+                externalProgramExecutor.ThrowErrorIfExitCodeIsNotZero = false;
                 exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
                 WriteToFile(outputFileForStdOut, externalProgramExecutor.AllStdOutLines);
                 WriteToFile(outputFileForStdErr, externalProgramExecutor.AllStdErrLines);
@@ -225,7 +226,7 @@ namespace ExternalProgramExecutorWrapper
         {
             if (!string.IsNullOrEmpty(file))
             {
-                file = Utilities.ResolveToFullPath(file.Trim());
+                file = Utilities.ResolveToFullPath(file);
                 Utilities.EnsureFileExists(file);
                 System.IO.File.WriteAllLines(file, lines, new UTF8Encoding(false));
             }
