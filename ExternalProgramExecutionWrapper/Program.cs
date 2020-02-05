@@ -223,9 +223,12 @@ namespace ExternalProgramExecutorWrapper
 
         private static void WriteToFile(string file, string[] lines)
         {
-            file = Utilities.ResolveToFullPath(file);
-            Utilities.EnsureFileExists(file);
-            System.IO.File.WriteAllLines(file, lines, new UTF8Encoding(false));
+            if (!string.IsNullOrEmpty(file))
+            {
+                file = Utilities.ResolveToFullPath(file.Trim());
+                Utilities.EnsureFileExists(file);
+                System.IO.File.WriteAllLines(file, lines, new UTF8Encoding(false));
+            }
         }
     }
 }
