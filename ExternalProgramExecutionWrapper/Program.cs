@@ -22,14 +22,14 @@ namespace ExternalProgramExecutorWrapper
         internal static int Main()
         {
             int exitCode = -1;
-            string line = "----------------------------------";
+            string line = "--------------------------------------------------------------------";
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Guid executionId = Guid.NewGuid();
             GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
             ExternalProgramExecutor externalProgramExecutor = null;
             try
             {
-                string commandLineArguments = string.Join(" ", System.Environment.GetCommandLineArgs().Skip(1)).Trim();
+                string commandLineArguments = string.Join(" ", Environment.GetCommandLineArgs().Skip(1)).Trim();
                 if (commandLineArguments.Equals(string.Empty)
                     || commandLineArguments.Equals("help")
                     || commandLineArguments.Equals("--help")
@@ -211,8 +211,11 @@ namespace ExternalProgramExecutorWrapper
             {
                 log.Log("ExternalProgramExecutorWrapper finished", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                if (externalProgramExecutor.ExecutionState == ExecutionState.Terminated)
+                {
+                    log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                    log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                }
                 log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
             }
             return exitCode;
