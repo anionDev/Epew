@@ -26,6 +26,7 @@ namespace ExternalProgramExecutorWrapper
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Guid executionId = Guid.NewGuid();
             GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
+            log.Configuration.ResetToDefaultValues();
             ExternalProgramExecutor externalProgramExecutor = null;
             try
             {
