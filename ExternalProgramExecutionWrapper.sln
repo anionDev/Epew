@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalProgramExecutionWrapper", "ExternalProgramExecutionWrapper\ExternalProgramExecutionWrapper.csproj", "{9555C4A6-29ED-47AC-9B05-324572A84C6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRYLibrary", "..\gryLibrary\GRYLibrary\GRYLibrary.csproj", "{28BCAAAF-65CA-4458-B5E7-27BDDEBA54CB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{9555C4A6-29ED-47AC-9B05-324572A84C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9555C4A6-29ED-47AC-9B05-324572A84C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9555C4A6-29ED-47AC-9B05-324572A84C6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28BCAAAF-65CA-4458-B5E7-27BDDEBA54CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28BCAAAF-65CA-4458-B5E7-27BDDEBA54CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28BCAAAF-65CA-4458-B5E7-27BDDEBA54CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28BCAAAF-65CA-4458-B5E7-27BDDEBA54CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
