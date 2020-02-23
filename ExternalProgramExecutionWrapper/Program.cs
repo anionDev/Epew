@@ -13,7 +13,7 @@ namespace ExternalProgramExecutorWrapper
         /// Executes a program based on the given commandline arguments
         /// </summary>
         /// <remarks>
-        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr")
+        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr;~runAsAdministrator")
         /// The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
         /// </remarks>
         /// <return>
@@ -39,7 +39,7 @@ namespace ExternalProgramExecutorWrapper
                     || commandLineArguments.Equals("/h"))
                 {
                     System.Console.WriteLine($"ExternalProgramExecutorWrapper v{version}");
-                    System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr\")");
+                    System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr;~runAsAdministrator\")");
                     return exitCode;
                 }
                 string decodedCommandLineArguments;
@@ -167,6 +167,18 @@ namespace ExternalProgramExecutorWrapper
                 {
                     outputFileForStdErr = null;
                 }
+
+                bool runAsAdministrator;
+                if (argumentsSplitted.Length >= 12)
+                {
+                    runAsAdministrator = Utilities.StringToBoolean(argumentsSplitted[11]);
+                }
+                else
+                {
+                    runAsAdministrator = false;
+                }
+
+
                 if (!string.IsNullOrWhiteSpace(titleOfExecution))
                 {
                     try
@@ -208,6 +220,7 @@ namespace ExternalProgramExecutorWrapper
                 log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(programPathAndFile, arguments, log, workingDirectory, titleOfExecution, printErrorsAsInformation, timeoutInMilliseconds);
+                externalProgramExecutor.RunAsAdministrator = runAsAdministrator;
                 externalProgramExecutor.ThrowErrorIfExitCodeIsNotZero = false;
                 exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
                 WriteToFile(outputFileForStdOut, externalProgramExecutor.AllStdOutLines);
