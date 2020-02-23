@@ -42,15 +42,23 @@ namespace ExternalProgramExecutorWrapper
                     System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~WorkingDirectory;~Title;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr\")");
                     return exitCode;
                 }
-                string decodedString = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
-                string[] argumentsSplitted;
-                if (decodedString.Contains(";~"))
+                string decodedCommandLineArguments;
+                if (commandLineArguments.Contains(";~"))
                 {
-                    argumentsSplitted = decodedString.Split(new string[] { ";~" }, StringSplitOptions.None);
+                    decodedCommandLineArguments = new UTF8Encoding(false).GetString(Convert.FromBase64String(commandLineArguments));
                 }
                 else
                 {
-                    argumentsSplitted = new string[] { decodedString };
+                    decodedCommandLineArguments = commandLineArguments;
+                }
+                string[] argumentsSplitted;
+                if (decodedCommandLineArguments.Contains(";~"))
+                {
+                    argumentsSplitted = decodedCommandLineArguments.Split(new string[] { ";~" }, StringSplitOptions.None);
+                }
+                else
+                {
+                    argumentsSplitted = new string[] { decodedCommandLineArguments };
                 }
 
                 string programPathAndFile = argumentsSplitted[0].Trim();
@@ -195,7 +203,7 @@ namespace ExternalProgramExecutorWrapper
                 log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"ExternalProgramExecutorWrapper v{version} started", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log("Raw input: " + commandLineArguments, Microsoft.Extensions.Logging.LogLevel.Debug);
-                log.Log("Decoded input: " + decodedString, Microsoft.Extensions.Logging.LogLevel.Debug);
+                log.Log("Decoded input: " + decodedCommandLineArguments, Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"ExternalProgramExecutorWrapper-original-argument is '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                 log.Log($"Start executing '{workingDirectory}>{programPathAndFile} {arguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
