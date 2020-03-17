@@ -31,7 +31,7 @@ namespace ExternalProgramExecutionWrapper
         [Option('r', nameof(RunAsAdministrator), Required = false, HelpText = "Run program as administrator", Default = false)]
         public bool RunAsAdministrator { get; set; }
 
-        [Option('v', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = true)]
+        [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = true)]
         public bool AddLogOverhead { get; set; }
 
         [Option('l', nameof(LogFile), Required = false, HelpText = "Logfile for " + nameof(ExternalProgramExecutionWrapper))]
