@@ -5,21 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ExternalProgramExecutorWrapper
+namespace ExternalProgramExecutionWrapper
 {
     internal class Program
     {
-        /// <summary>
-        /// Executes a program based on the given commandline arguments
-        /// </summary>
-        /// <remarks>
-        /// Usage: Commandline-arguments=Base64("ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr;~runAsAdministrator")
-        /// The arguments PrintErrorsAsInformation and verbose are boolean values. Pass '1' to set them to true or anything else to set them to false.
-        /// </remarks>
-        /// <return>
-        /// Returns the exitcode of the executed program. If an unexpected error occurred so that no program will be executed then the returncode is -1.
-        /// </return>
-        internal static int Main()
+        internal static int Main(string[] args)
         {
             int exitCode = -1;
             string line = "--------------------------------------------------------------------";
@@ -30,7 +20,7 @@ namespace ExternalProgramExecutorWrapper
             ExternalProgramExecutor externalProgramExecutor = null;
             try
             {
-                string commandLineArguments = string.Join(" ", Environment.GetCommandLineArgs().Skip(1)).Trim();
+                string commandLineArguments = GRYLibrary.Core.Utilities.GetCommandLineArguments();
                 if (commandLineArguments.Equals(string.Empty)
                     || commandLineArguments.Equals("help")
                     || commandLineArguments.Equals("--help")
@@ -42,6 +32,7 @@ namespace ExternalProgramExecutorWrapper
                     System.Console.WriteLine("Usage: Commandline-arguments=Base64(\"ProgramPathAndFile;~Arguments;~Title;~WorkingDirectory;~PrintErrorsAsInformation;~LogFile;~TimeoutInMilliseconds;~Verbose;~AddLogOverhead;~outputFileForStdOut;~outputFileForStdErr;~runAsAdministrator\")");
                     return exitCode;
                 }
+
                 string decodedCommandLineArguments;
                 if (commandLineArguments.Contains(";~"))
                 {
@@ -243,7 +234,6 @@ namespace ExternalProgramExecutorWrapper
             }
             return exitCode;
         }
-
         private static void WriteToFile(string file, string[] lines)
         {
             if (!string.IsNullOrEmpty(file))
