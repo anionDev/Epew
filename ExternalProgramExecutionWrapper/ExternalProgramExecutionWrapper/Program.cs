@@ -31,7 +31,7 @@ namespace ExternalProgramExecutionWrapper
         [Option('r', nameof(RunAsAdministrator), Required = false, HelpText = "Run program as administrator", Default = false)]
         public bool RunAsAdministrator { get; set; }
 
-        [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = true)]
+        [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
         [Option('l', nameof(LogFile), Required = false, HelpText = "Logfile for " + nameof(ExternalProgramExecutionWrapper))]
@@ -65,7 +65,7 @@ namespace ExternalProgramExecutionWrapper
         internal static int Main(string[] args)
         {
             int exitCode = -1;
-            Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
+            new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args).WithParsed(options =>
             {
                 string line = "--------------------------------------------------------------------";
                 string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -98,7 +98,7 @@ namespace ExternalProgramExecutionWrapper
                         shortTitle = title;
                     }
                     TrySetTitle(title);
-                    log.Configuration.Name = title;
+                    log.Configuration.Name = shortTitle;
                     if (options.LogFile != null)
                     {
                         log.Configuration.GetLogTarget<LogFile>().Enabled = true;
