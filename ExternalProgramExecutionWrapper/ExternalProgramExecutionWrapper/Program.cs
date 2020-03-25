@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 using GRYLibrary.Core;
 using GRYLibrary.Core.Log.ConcreteLogTargets;
 using System;
@@ -14,15 +15,20 @@ namespace ExternalProgramExecutionWrapper
         {
             int exitCode = -1;
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-            if (string.IsNullOrWhiteSpace(Utilities.GetCommandLineArguments()))
+            string argument = Utilities.GetCommandLineArguments();
+            ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args);
+            if (string.IsNullOrWhiteSpace(argument))
             {
                 System.Console.WriteLine("epew v" + version);
-                System.Console.WriteLine("Try \"epew --help\" to get information about the usage");
+                System.Console.WriteLine("Try \"epew help\" to get information about the usage");
+            }
+            else if (IsHelppCommand(argument))
+            {
+                System.Console.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
             }
             else
             {
-                new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args).WithParsed(options =>
+                argumentParserResult.WithParsed(options =>
                 {
                     string line = "--------------------------------------------------------------------";
                     Guid executionId = Guid.NewGuid();
@@ -118,6 +124,16 @@ namespace ExternalProgramExecutionWrapper
                 });
             }
             return exitCode;
+        }
+
+        private static bool IsHelppCommand(string argument)
+        {
+            argument = argument.ToLower().Trim();
+            return argument.Equals("help")
+                || argument.Equals("--help")
+                || argument.Equals("-h")
+                || argument.Equals("/help")
+                || argument.Equals("/h");
         }
 
         private static void TrySetTitle(string title)
