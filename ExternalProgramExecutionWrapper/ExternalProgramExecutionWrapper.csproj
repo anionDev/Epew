@@ -9,6 +9,7 @@
     <PackageId>epew</PackageId>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
     <AssemblyName>epew</AssemblyName>
+    <Description>ExternalProgramExecutionWrapper (epew) is a simple wrapper-program to execute programs.</Description>
   </PropertyGroup>
 
   <ItemGroup>
