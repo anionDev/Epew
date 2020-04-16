@@ -16,132 +16,158 @@ namespace ExternalProgramExecutionWrapper
         internal static int Main(string[] args)
         {
             int exitCode = -1;
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string argument = Utilities.GetCommandLineArguments();
-            ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args);
-            if (string.IsNullOrWhiteSpace(argument))
+            try
             {
-                System.Console.WriteLine(ProgramShortName + " v" + version);
-                System.Console.WriteLine("Try \"" + ProgramShortName + " help\" to get information about the usage");
-            }
-            else if (IsHelppCommand(argument))
-            {
-                System.Console.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
-            }
-            else
-            {
-                argumentParserResult.WithParsed(options =>
+                string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                string argument = Utilities.GetCommandLineArguments();
+                ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args);
+                if (string.IsNullOrWhiteSpace(argument))
                 {
-                    string line = "--------------------------------------------------------------------";
-                    Guid executionId = Guid.NewGuid();
-                    GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
-                    log.Configuration.ResetToDefaultValues();
-                    ExternalProgramExecutor externalProgramExecutor = null;
-                    try
+                    System.Console.WriteLine(ProgramShortName + " v" + version);
+                    System.Console.WriteLine("Try \"" + ProgramShortName + " help\" to get information about the usage");
+                }
+                else if (IsHelppCommand(argument))
+                {
+                    WriteHelp(argumentParserResult);
+                }
+                else
+                {
+                    argumentParserResult.WithParsed(options =>
                     {
-                        string argumentForExecution;
-                        if (options.ArgumentIsBase64Encoded)
+                        string line = "--------------------------------------------------------------------";
+                        Guid executionId = Guid.NewGuid();
+                        GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
+                        log.Configuration.ResetToDefaultValues();
+                        ExternalProgramExecutor externalProgramExecutor = null;
+                        try
                         {
-                            argumentForExecution = new UTF8Encoding(false).GetString(Convert.FromBase64String(options.Argument));
-                        }
-                        else
-                        {
-                            argumentForExecution = options.Argument;
-                        }
-                        string commandLineExecutionAsString = $"'{options.Workingdirectory}>{options.Program} {argumentForExecution}'";
-                        string title;
-                        string shortTitle;
-                        if (string.IsNullOrWhiteSpace(options.Title))
-                        {
-                            title = ProgramShortName + ": " + commandLineExecutionAsString;
-                            shortTitle = string.Empty;
-                        }
-                        else
-                        {
-                            title = options.Title;
-                            shortTitle = title;
-                        }
-                        TrySetTitle(title);
-                        log.Configuration.Name = shortTitle;
-                        if (options.LogFile != null)
-                        {
-                            log.Configuration.GetLogTarget<LogFile>().Enabled = true;
-                            log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
-                        }
-                        if (options.AddLogOverhead)
-                        {
-                            log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.GRYLogFormat;
-                        }
-                        else
-                        {
-                            log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.OnlyMessage;
-                        }
-                        log.Configuration.SetEnabledOfAllLogTargets(options.Verbosity != Verbosity.Quiet);
-                        if (options.Verbosity == Verbosity.Verbose)
-                        {
-                            foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
+                            string argumentForExecution;
+                            if (options.ArgumentIsBase64Encoded)
                             {
-                                log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                                log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                            }
-                        }
-                        string workingDirectory;
-                        if (string.IsNullOrWhiteSpace(options.Workingdirectory))
-                        {
-                            workingDirectory = Directory.GetCurrentDirectory();
-                        }
-                        else
-                        {
-                            if (Directory.Exists(options.Workingdirectory))
-                            {
-                                workingDirectory = options.Workingdirectory;
+                                argumentForExecution = new UTF8Encoding(false).GetString(Convert.FromBase64String(options.Argument));
                             }
                             else
                             {
-                                throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist");
+                                argumentForExecution = options.Argument;
                             }
-                        }
-                        string commandLineArguments = Utilities.GetCommandLineArguments();
-                        log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
-                        DateTime startTime = DateTime.Now;
-                        string startTimeAsString = startTime.ToString(log.Configuration.DateFormat);
-                        log.Log($"{ProgramShortName} v{version} started at " + startTimeAsString, Microsoft.Extensions.Logging.LogLevel.Debug);
-                        log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                        log.Log($"Argument: '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
-                        log.Log($"Start executing {commandLineExecutionAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                        externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(options.Program, argumentForExecution, log, workingDirectory, shortTitle, options.PrintErrorsAsInformation, options.TimeoutInMilliseconds);
-                        externalProgramExecutor.RunAsAdministrator = options.RunAsAdministrator;
-                        externalProgramExecutor.ThrowErrorIfExitCodeIsNotZero = false;
-                        exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
-                        WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
-                        WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
+                            string commandLineExecutionAsString = $"'{options.Workingdirectory}>{options.Program} {argumentForExecution}'";
+                            string title;
+                            string shortTitle;
+                            if (string.IsNullOrWhiteSpace(options.Title))
+                            {
+                                title = ProgramShortName + ": " + commandLineExecutionAsString;
+                                shortTitle = string.Empty;
+                            }
+                            else
+                            {
+                                title = options.Title;
+                                shortTitle = title;
+                            }
+                            TrySetTitle(title);
+                            log.Configuration.Name = shortTitle;
+                            if (options.LogFile != null)
+                            {
+                                log.Configuration.GetLogTarget<LogFile>().Enabled = true;
+                                log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
+                            }
+                            if (options.AddLogOverhead)
+                            {
+                                log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.GRYLogFormat;
+                            }
+                            else
+                            {
+                                log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.OnlyMessage;
+                            }
+                            log.Configuration.SetEnabledOfAllLogTargets(options.Verbosity != Verbosity.Quiet);
+                            if (options.Verbosity == Verbosity.Verbose)
+                            {
+                                foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
+                                {
+                                    log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                                    log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                                }
+                            }
+                            string workingDirectory;
+                            if (string.IsNullOrWhiteSpace(options.Workingdirectory))
+                            {
+                                workingDirectory = Directory.GetCurrentDirectory();
+                            }
+                            else
+                            {
+                                if (Directory.Exists(options.Workingdirectory))
+                                {
+                                    workingDirectory = options.Workingdirectory;
+                                }
+                                else
+                                {
+                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist");
+                                }
+                            }
+                            string commandLineArguments = Utilities.GetCommandLineArguments();
+                            log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
+                            DateTime startTime = DateTime.Now;
+                            string startTimeAsString = startTime.ToString(log.Configuration.DateFormat);
+                            log.Log($"{ProgramShortName} v{version} started at " + startTimeAsString, Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Argument: '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Start executing {commandLineExecutionAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(options.Program, argumentForExecution, log, workingDirectory, shortTitle, options.PrintErrorsAsInformation, options.TimeoutInMilliseconds);
+                            externalProgramExecutor.RunAsAdministrator = options.RunAsAdministrator;
+                            externalProgramExecutor.ThrowErrorIfExitCodeIsNotZero = false;
+                            exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
+                            if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
+                            {
+                                log.Log($"Execution with id {executionId} was aborted due to a timeout (Timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))})", Microsoft.Extensions.Logging.LogLevel.Warning);
+                                exitCode = -3;
+                            }
+                            WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
+                            WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
 
-                        List<string> exitCodeFileContent = new List<string>();
-                        if (options.Verbosity == Verbosity.Verbose)
-                        {
-                            exitCodeFileContent.Add($"{startTimeAsString}: Started {commandLineExecutionAsString} with exitcode");
+                            List<string> exitCodeFileContent = new List<string>();
+                            if (options.Verbosity == Verbosity.Verbose)
+                            {
+                                exitCodeFileContent.Add($"{startTimeAsString}: Started {commandLineExecutionAsString} with exitcode");
+                            }
+                            exitCodeFileContent.Add(externalProgramExecutor.ExitCode.ToString());
+                            WriteToFile(options.ExitCodeFile, exitCodeFileContent.ToArray());
                         }
-                        exitCodeFileContent.Add(externalProgramExecutor.ExitCode.ToString());
-                        WriteToFile(options.ExitCodeFile, exitCodeFileContent.ToArray());
-                    }
-                    catch (Exception exception)
-                    {
-                        log.Log("Error in " + ProgramShortName, exception);
-                    }
-                    if (externalProgramExecutor != null)
-                    {
-                        log.Log(ProgramShortName + " finished", Microsoft.Extensions.Logging.LogLevel.Debug);
-                        log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                        if (externalProgramExecutor.ExecutionState == ExecutionState.Terminated)
+                        catch (Exception exception)
                         {
-                            log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log("Error in " + ProgramShortName, exception);
                         }
-                        log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
-                    }
-                });
+                        if (externalProgramExecutor != null)
+                        {
+                            log.Log(ProgramShortName + " finished", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            if (externalProgramExecutor.ExecutionState == ExecutionState.Terminated)
+                            {
+                                log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                                log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            }
+                            log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
+                        }
+                    });
+                }
+            }
+            catch (Exception exception)
+            {
+                System.Console.WriteLine("Fatal error occurred: " + exception.ToString());
+                exitCode = -2;
             }
             return exitCode;
+        }
+
+        private static void WriteHelp(ParserResult<Options> argumentParserResult)
+        {
+            System.Console.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
+            System.Console.WriteLine();
+            System.Console.WriteLine($"{ProgramShortName} ({nameof(ExternalProgramExecutionWrapper)}) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.");
+            System.Console.WriteLine();
+            System.Console.WriteLine($"Exitcodes:");
+            System.Console.WriteLine($"-1: No program was executed");
+            System.Console.WriteLine($"-2: A fatal error occurred");
+            System.Console.WriteLine($"-3: The executed program was aborted due to the given timeout");
+            System.Console.WriteLine($"If the executed program terminated then its exitcode is the exitcode of {ProgramShortName}");
         }
 
         private static bool IsHelppCommand(string argument)
