@@ -1,34 +1,62 @@
 # General
 
-ExternalProgramExecutionWrapper is a program which receives a programfile and some arguments via commandline-arguments and executes the given program. This tool has some advantages described in the Featue-section.
+epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.
 
 ## Features
 
 ExternalProgramExecutionWrapper
 - has no problems with quotes/backslashs/etc. in the arguments
-- has a very comfortable loggin-mechanism (output will be printed in the console and in a log-file if desired)
+- has a comfortable logging-mechanism: Output will be printed in the console and in a log-file (if desired)
 - has a timeout-function
+- saves the exit-code of the executed program (if desired)
 
 ## Installation
 
-```
-git clone <remote-address>
-pushd externalProgramExecutionWrapper
-Build.bat
-popd
-```
-
-Now the output of the program can be found in `externalProgramExecutionWrapper\ExternalProgramExecutionWrapper\bin\release`. This folder contains the file `ExternalProgramExecutionWrapper.exe`. This exe-file must be available as commandline-program (due to the `PATH`-environment-variable).
+You can download and compile epew on your own machine.
+It is planned to release epew via Chocolatey.
 
 ## Usage
 
-Calculate the argument:
 ```
-Commandlineargument=Base64("<ProgramPathAndFile>;~<Arguments>;~<Title>;~<WorkingDirectory>;~<PrintErrorsAsInformation>;~<LogFile>;~<TimeoutInMilliseconds>;~<Verbose>;~<AddLogOverhead>")
-```
-The arguments PrintErrorsAsInformation, verbose and AddLogOverhead are boolean values. Pass '1' to set them to true or anything else to set them to false.
+epew
+  -p, --Program                     Required. Program which should be executed
 
-Now call ExternalProgramExecutionWrapper with the base64-argument:
+  -a, --Argument                    Argument for the program which should be
+                                    executed
+
+  -b, --ArgumentIsBase64Encoded     (Default: false) Specifiy whether Argument
+                                    is base64-encoded
+
+  -w, --Workingdirectory            Workingdirectory for the program which
+                                    should be executed
+
+  -v, --Verbosity                   (Default: Normal) Verbosity of
+                                    ExternalProgramExecutionWrapper
+
+  -i, --PrintErrorsAsInformation    (Default: false) Treat errors as information
+
+  -r, --RunAsAdministrator          (Default: false) Run program as
+                                    administrator
+
+  -h, --AddLogOverhead              (Default: false) Add log overhead
+
+  -l, --LogFile                     Logfile for ExternalProgramExecutionWrapper
+
+  -o, --StdOutFile                  File for the stdout of the executed program
+
+  -e, --StdErrFile                  File for the stderr of the executed program
+
+  -x, --ExitCodeFile                File for the exitcode of the executed
+                                    program
+
+  -d, --TimeoutInMilliseconds       (Default: 2147483647) Maximal duration of
+                                    the execution process before it will by
+                                    aborted by ExternalProgramExecutionWrapper
+
+  -t, --Title                       Title for the execution-process
+
+  --help                            Display this help screen.
+
+  --version                         Display version information.
 ```
-ExternalProgramExecutionWrapper Commandlineargument
-```
+
