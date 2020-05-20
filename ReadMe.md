@@ -13,19 +13,25 @@ epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some
 
 # Get epew
 
-## Installation via PyPI
+## Installation via PyPI (Linux and Windows)
 
 '''
 pip3 install epew
 epew
 '''
 
-## Download sourcecode using git
+## Download sourcecode using git (Linux and Windows)
 
 '''
 git clone https://github.com/anionDev/externalProgramExecutionWrapper
 cd externalProgramExecutionWrapper
 dotnet build  ExternalProgramExecutionWrapper.sln
+'''
+
+## Installation via WinGet (Windows)
+
+'''
+winget install epew
 '''
 
 ## Usage
