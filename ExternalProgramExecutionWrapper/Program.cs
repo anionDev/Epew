@@ -15,7 +15,7 @@ namespace ExternalProgramExecutionWrapper
         public const string ProgramShortName = "epew";
         internal static int Main(string[] args)
         {
-            int exitCode = -1;
+            int exitCode = 2147393801;
             try
             {
                 string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -118,7 +118,7 @@ namespace ExternalProgramExecutionWrapper
                             if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
                             {
                                 log.Log($"Execution with id {executionId} was aborted due to a timeout (Timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))})", Microsoft.Extensions.Logging.LogLevel.Warning);
-                                exitCode = -3;
+                                exitCode = 2147393803;
                             }
                             WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
                             WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
@@ -151,23 +151,23 @@ namespace ExternalProgramExecutionWrapper
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine("Fatal error occurred: " + exception.ToString());
-                exitCode = -2;
+                System.Console.Error.WriteLine("Fatal error occurred: " + exception.ToString());
+                exitCode = 2147393802;
             }
             return exitCode;
         }
 
         private static void WriteHelp(ParserResult<Options> argumentParserResult)
         {
-            System.Console.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
-            System.Console.WriteLine();
-            System.Console.WriteLine($"{ProgramShortName} ({nameof(ExternalProgramExecutionWrapper)}) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.");
-            System.Console.WriteLine();
-            System.Console.WriteLine($"Exitcodes:");
-            System.Console.WriteLine($"-1: No program was executed");
-            System.Console.WriteLine($"-2: A fatal error occurred");
-            System.Console.WriteLine($"-3: The executed program was aborted due to the given timeout");
-            System.Console.WriteLine($"If the executed program terminated then its exitcode is the exitcode of {ProgramShortName}");
+            System.Console.Out.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
+            System.Console.Out.WriteLine();
+            System.Console.Out.WriteLine($"{ProgramShortName} ({nameof(ExternalProgramExecutionWrapper)}) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.");
+            System.Console.Out.WriteLine();
+            System.Console.Out.WriteLine($"Exitcodes:");
+            System.Console.Out.WriteLine($"2147393801: No program was executed");
+            System.Console.Out.WriteLine($"2147393802: A fatal error occurred");
+            System.Console.Out.WriteLine($"2147393803: The executed program was aborted due to the given timeout");
+            System.Console.Out.WriteLine($"If the executed program terminated then its exitcode is the exitcode of {ProgramShortName}");
         }
 
         private static bool IsHelppCommand(string argument)
