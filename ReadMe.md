@@ -17,7 +17,6 @@ epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some
 
 '''
 pip3 install epew
-epew
 '''
 
 ## Download sourcecode using git (Linux and Windows)
@@ -28,7 +27,7 @@ cd externalProgramExecutionWrapper
 dotnet build  ExternalProgramExecutionWrapper.sln
 '''
 
-## Installation via WinGet (Windows)
+## Installation via WinGet (Windows, planned)
 
 '''
 winget install epew
@@ -67,9 +66,9 @@ epew is a commandline-tool. There is no gui. The main-intention of epew is to be
 ```
 
 Exitcodes:
-- -1: No program was executed
-- -2: A fatal error occurred
-- -3: The executed program was aborted due to the given timeout
+- 2147393801: No program was executed
+- 2147393802: A fatal error occurred
+- 2147393803: The executed program was aborted due to the given timeout
 If the executed program terminated then its exitcode is the exitcode of epew.
 
 # Technical details
