@@ -13,6 +13,10 @@ namespace ExternalProgramExecutionWrapper
     public static class Program
     {
         public const string ProgramShortName = "epew";
+        public const string ProjectLink = "https://github.com/anionDev/externalProgramExecutionWrapper";
+        public const string LicenseLink = "https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt";
+        public const string LicenseName = "MIT";
+
         internal static int Main(string[] args)
         {
             int exitCode = 2147393801;
@@ -23,7 +27,7 @@ namespace ExternalProgramExecutionWrapper
                 ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args);
                 if (string.IsNullOrWhiteSpace(argument))
                 {
-                    System.Console.WriteLine(ProgramShortName + " v" + version);
+                    System.Console.WriteLine($"{ProgramShortName} v{version}");
                     System.Console.WriteLine("Try \"" + ProgramShortName + " help\" to get information about the usage");
                 }
                 else if (IsHelppCommand(argument))
@@ -55,7 +59,7 @@ namespace ExternalProgramExecutionWrapper
                             string shortTitle;
                             if (string.IsNullOrWhiteSpace(options.Title))
                             {
-                                title = ProgramShortName + ": " + commandLineExecutionAsString;
+                                title = $"{ProgramShortName }: { commandLineExecutionAsString}";
                                 shortTitle = string.Empty;
                             }
                             else
@@ -133,11 +137,11 @@ namespace ExternalProgramExecutionWrapper
                         }
                         catch (Exception exception)
                         {
-                            log.Log("Error in " + ProgramShortName, exception);
+                            log.Log($"Error in {ProgramShortName}", exception);
                         }
                         if (externalProgramExecutor != null)
                         {
-                            log.Log(ProgramShortName + " finished", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"{ProgramShortName} finished", Microsoft.Extensions.Logging.LogLevel.Debug);
                             log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             if (externalProgramExecutor.ExecutionState == ExecutionState.Terminated)
                             {
@@ -151,7 +155,7 @@ namespace ExternalProgramExecutionWrapper
             }
             catch (Exception exception)
             {
-                System.Console.Error.WriteLine("Fatal error occurred: " + exception.ToString());
+                System.Console.Error.WriteLine($"Fatal error occurred: {exception}");
                 exitCode = 2147393802;
             }
             return exitCode;
@@ -163,11 +167,14 @@ namespace ExternalProgramExecutionWrapper
             System.Console.Out.WriteLine();
             System.Console.Out.WriteLine($"{ProgramShortName} ({nameof(ExternalProgramExecutionWrapper)}) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.");
             System.Console.Out.WriteLine();
+            System.Console.Out.WriteLine($"For more information see the website of the {ProgramShortName}-project: {ProjectLink}");
+            System.Console.Out.WriteLine($"{ProgramShortName} is mainly licensed under the terms of {LicenseName}. For the concrete license-text see {LicenseLink}");
+            System.Console.Out.WriteLine();
             System.Console.Out.WriteLine($"Exitcodes:");
             System.Console.Out.WriteLine($"2147393801: No program was executed");
             System.Console.Out.WriteLine($"2147393802: A fatal error occurred");
             System.Console.Out.WriteLine($"2147393803: The executed program was aborted due to the given timeout");
-            System.Console.Out.WriteLine($"If the executed program terminated then its exitcode is the exitcode of {ProgramShortName}");
+            System.Console.Out.WriteLine($"If the executed program terminated then its exitcode will be set as exitcode of {ProgramShortName}.");
         }
 
         private static bool IsHelppCommand(string argument)
