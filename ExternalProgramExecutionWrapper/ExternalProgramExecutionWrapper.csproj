@@ -4,14 +4,14 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>ExternalProgramExecutionWrapper.Program</StartupObject>
-    <Version>3.2.0</Version>
+    <Version>3.2.1</Version>
     <Authors>Marius Göcke</Authors>
     <PackageId>epew</PackageId>
-    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>epew</AssemblyName>
     <Description>epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.</Description>
-    <FileVersion>3.2.0.0</FileVersion>
-    <AssemblyVersion>3.2.0.0</AssemblyVersion>
+    <FileVersion>3.2.1.0</FileVersion>
+    <AssemblyVersion>3.2.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
