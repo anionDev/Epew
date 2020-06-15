@@ -1,23 +1,30 @@
 # General
 
-epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.
+epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.
 
 ## Features
 
-- Has a comfortable logging-mechanism: Output will be printed in the console and in a log-file with timestamps (if desired). StdOut and StdErr are of course differentiated.
-- Has a timeout-function
-- Saves the exit-code of the executed program (if desired)
-- Can be executed on Windows and Linux
-- Resolves environment-variables
-- Has no problems with quotes, slashs, backslashs, etc. in the arguments (The argument for the program can be passed to epew as base64-string)
+epew is a commandline-tool. There is no gui. The main-advantage of epew is to be used when
+
+- it is difficult to pass special characters (backslashs, quotes, etc.) from commandline to another program (use epew with the `--ArgumentIsBase64Encoded`-switch).
+- it is difficult to get stdout, stderr or the exitcode of the program (use epew with the `--StdOutFile`- or `--StdErrFile`- or `--ExitCodeFile`-switch).
+- you want to have a simple timeout when running a program (use epew with the `--TimeoutInMilliseconds`-switch).
+- you want to print the output to the console but also log the output into a file when running a program. Both (console and logfile) can of course have timestamps and a distinction between stderr and stdout.
+
+Other features:
+
+- epew is available for Linux and Windows.
+- epew resolves environment-variables (e. g. you can set `git` as program instead of `C:\Program Files\Git\cmd\git.exe` (which would also be possible)).
 
 # Get epew
 
-## Installation via PyPI (Linux and Windows)
+## Installation via pip (Linux and Windows)
 
 '''
-pip3 install epew
+pip install epew
 '''
+
+pip requires [Python](https://www.python.org/)3.8.
 
 ## Download sourcecode using git (Linux and Windows)
 
@@ -27,15 +34,11 @@ cd externalProgramExecutionWrapper
 dotnet build  ExternalProgramExecutionWrapper.sln
 '''
 
-## Installation via WinGet (Windows, planned)
+## Installation via winget (Windows, planned)
 
-'''
-winget install epew
-'''
+Coming as soon as possible. winget is new for all of us, that's why epew is not instant available via winget.
 
 ## Usage
-
-epew is a commandline-tool. There is no gui. The main-intention of epew is to be used in scripts with unattended execution.
 
 ```
 >epew
@@ -65,16 +68,27 @@ epew is a commandline-tool. There is no gui. The main-intention of epew is to be
   --version                         Display version information.
 ```
 
+epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.
+
+For more information see the website of the epew-project: https://github.com/anionDev/externalProgramExecutionWrapper
+epew is mainly licensed under the terms of MIT. For the concrete license-text see https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt
+
 Exitcodes:
+
 - 2147393801: If no program was executed
 - 2147393802: If a fatal error occurred
 - 2147393803: If the executed program was aborted due to the given timeout
 - 2147393881: If executed on MacOS (applies only to the pip-package)
 - 2147393882: If executed on an unknown OS (applies only to the pip-package)
 - 2147393883: If an (unexpected) exception occurred (applies only to the pip-package)
+
 If the executed program terminated then its exitcode is the exitcode of epew.
 
 # Technical details
+
+## The pip-package
+
+Installing epew via pip does really install epew. It does not install another implementation of epew with same behavior. The pip-package of epew takes the binary-files of epew (which are written in C# and compiled for the [runtimes](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) `win-x64` and `linux-x64`), wraps them to a bundle and simple calls the correct one dependent on your OS.
 
 ## Strong name
 
@@ -85,4 +99,3 @@ You can verify the key using [sn](https://docs.microsoft.com/en-us/dotnet/framew
 # License
 
 epew is licensed under the terms of [MIT](https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt)
-
