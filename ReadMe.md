@@ -66,9 +66,12 @@ epew is a commandline-tool. There is no gui. The main-intention of epew is to be
 ```
 
 Exitcodes:
-- 2147393801: No program was executed
-- 2147393802: A fatal error occurred
-- 2147393803: The executed program was aborted due to the given timeout
+- 2147393801: If no program was executed
+- 2147393802: If a fatal error occurred
+- 2147393803: If the executed program was aborted due to the given timeout
+- 2147393881: If executed on MacOS (applies only to the pip-package)
+- 2147393882: If executed on an unknown OS (applies only to the pip-package)
+- 2147393883: If an (unexpected) exception occurred (applies only to the pip-package)
 If the executed program terminated then its exitcode is the exitcode of epew.
 
 # Technical details
