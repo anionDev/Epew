@@ -32,9 +32,9 @@ namespace ExternalProgramExecutionWrapper
                 if (string.IsNullOrWhiteSpace(argument))
                 {
                     System.Console.WriteLine($"{ProgramShortName} v{version}");
-                    System.Console.WriteLine("Try \"" + ProgramShortName + " help\" to get information about the usage");
+                    System.Console.WriteLine($"Try \"{ProgramShortName} help\" to get information about the usage");
                 }
-                else if (IsHelppCommand(argument))
+                else if (IsHelpCommand(argument))
                 {
                     WriteHelp(argumentParserResult);
                 }
@@ -42,7 +42,6 @@ namespace ExternalProgramExecutionWrapper
                 {
                     argumentParserResult.WithParsed(options =>
                     {
-                        string line = "--------------------------------------------------------------------";
                         Guid executionId = Guid.NewGuid();
                         GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
                         log.Configuration.ResetToDefaultValues();
@@ -112,7 +111,6 @@ namespace ExternalProgramExecutionWrapper
                                 }
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
-                            log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
                             DateTime startTime = DateTime.Now;
                             string startTimeAsString = startTime.ToString(log.Configuration.DateFormat);
                             log.Log($"{ProgramShortName} v{version} started at " + startTimeAsString, Microsoft.Extensions.Logging.LogLevel.Debug);
@@ -152,7 +150,6 @@ namespace ExternalProgramExecutionWrapper
                                 log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
                                 log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             }
-                            log.Log(line, Microsoft.Extensions.Logging.LogLevel.Debug);
                         }
                     });
                 }
@@ -181,7 +178,7 @@ namespace ExternalProgramExecutionWrapper
             System.Console.Out.WriteLine($"If the executed program terminated then its exitcode will be set as exitcode of {ProgramShortName}.");
         }
 
-        private static bool IsHelppCommand(string argument)
+        private static bool IsHelpCommand(string argument)
         {
             argument = argument.ToLower().Trim();
             return argument.Equals("help")
