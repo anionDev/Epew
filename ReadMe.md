@@ -25,6 +25,7 @@ pip install epew
 ```
 
 pip requires [Python](https://www.python.org) 3.8.
+See the [pypi-site of epew](https://pypi.org/project/epew/) for more information.
 
 ## Download sourcecode using git (Linux and Windows)
 

@@ -175,6 +175,9 @@ namespace ExternalProgramExecutionWrapper
             System.Console.Out.WriteLine($"{ExitCodeNoProgramExecuted}: If no program was executed");
             System.Console.Out.WriteLine($"{ExitCodeFatalErroroccurred}: If a fatal error occurred");
             System.Console.Out.WriteLine($"{ExitCodeTimeout}: If the executed program was aborted due to the given timeout");
+            System.Console.Out.WriteLine($"2147393881: If executed on MacOS (applies only to the pip-package)");
+            System.Console.Out.WriteLine($"2147393882: If executed on an unknown OS (applies only to the pip-package)");
+            System.Console.Out.WriteLine($"2147393883: If an (unexpected) exception occurred (applies only to the pip-package)");
             System.Console.Out.WriteLine($"If the executed program terminated then its exitcode will be set as exitcode of {ProgramShortName}.");
         }
 
