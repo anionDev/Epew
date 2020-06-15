@@ -20,19 +20,19 @@ Other features:
 
 ## Installation via pip (Linux and Windows)
 
-'''
+```
 pip install epew
-'''
+```
 
-pip requires [Python](https://www.python.org/)3.8.
+pip requires [Python](https://www.python.org) 3.8.
 
 ## Download sourcecode using git (Linux and Windows)
 
-'''
+```
 git clone https://github.com/anionDev/externalProgramExecutionWrapper
 cd externalProgramExecutionWrapper
 dotnet build  ExternalProgramExecutionWrapper.sln
-'''
+```
 
 ## Installation via winget (Windows, planned)
 
@@ -68,11 +68,6 @@ Coming as soon as possible. winget is new for all of us, that's why epew is not 
   --version                         Display version information.
 ```
 
-epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.
-
-For more information see the website of the epew-project: https://github.com/anionDev/externalProgramExecutionWrapper
-epew is mainly licensed under the terms of MIT. For the concrete license-text see https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt
-
 Exitcodes:
 
 - 2147393801: If no program was executed
@@ -98,4 +93,4 @@ You can verify the key using [sn](https://docs.microsoft.com/en-us/dotnet/framew
 
 # License
 
-epew is licensed under the terms of [MIT](https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt)
+epew is licensed under the terms of MIT. The concrete license-text can be found [here](https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt).
