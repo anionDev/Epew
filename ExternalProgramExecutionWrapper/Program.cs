@@ -17,9 +17,13 @@ namespace ExternalProgramExecutionWrapper
         public const string LicenseLink = "https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt";
         public const string LicenseName = "MIT";
 
+        public const int ExitCodeNoProgramExecuted = 2147393801;
+        public const int ExitCodeFatalErroroccurred = 2147393802;
+        public const int ExitCodeTimeout = 2147393803;
+
         internal static int Main(string[] args)
         {
-            int exitCode = 2147393801;
+            int exitCode = ExitCodeNoProgramExecuted;
             try
             {
                 string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -122,7 +126,7 @@ namespace ExternalProgramExecutionWrapper
                             if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
                             {
                                 log.Log($"Execution with id {executionId} was aborted due to a timeout (Timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))})", Microsoft.Extensions.Logging.LogLevel.Warning);
-                                exitCode = 2147393803;
+                                exitCode = ExitCodeTimeout;
                             }
                             WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
                             WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
@@ -156,7 +160,7 @@ namespace ExternalProgramExecutionWrapper
             catch (Exception exception)
             {
                 System.Console.Error.WriteLine($"Fatal error occurred: {exception}");
-                exitCode = 2147393802;
+                exitCode = ExitCodeFatalErroroccurred;
             }
             return exitCode;
         }
@@ -171,9 +175,9 @@ namespace ExternalProgramExecutionWrapper
             System.Console.Out.WriteLine($"{ProgramShortName} is mainly licensed under the terms of {LicenseName}. For the concrete license-text see {LicenseLink}");
             System.Console.Out.WriteLine();
             System.Console.Out.WriteLine($"Exitcodes:");
-            System.Console.Out.WriteLine($"2147393801: No program was executed");
-            System.Console.Out.WriteLine($"2147393802: A fatal error occurred");
-            System.Console.Out.WriteLine($"2147393803: The executed program was aborted due to the given timeout");
+            System.Console.Out.WriteLine($"{ExitCodeNoProgramExecuted}: If no program was executed");
+            System.Console.Out.WriteLine($"{ExitCodeFatalErroroccurred}: If a fatal error occurred");
+            System.Console.Out.WriteLine($"{ExitCodeTimeout}: If the executed program was aborted due to the given timeout");
             System.Console.Out.WriteLine($"If the executed program terminated then its exitcode will be set as exitcode of {ProgramShortName}.");
         }
 
