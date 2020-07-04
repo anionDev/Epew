@@ -32,7 +32,7 @@ namespace ExternalProgramExecutionWrapper
                 if (string.IsNullOrWhiteSpace(argument))
                 {
                     System.Console.WriteLine($"{ProgramShortName} v{version}");
-                    System.Console.WriteLine($"Try \"{ProgramShortName} help\" to get information about the usage");
+                    System.Console.WriteLine($"Try \"{ProgramShortName} help\" to get information about the usage.");
                 }
                 else if (IsHelpCommand(argument))
                 {
@@ -62,7 +62,7 @@ namespace ExternalProgramExecutionWrapper
                             string shortTitle;
                             if (string.IsNullOrWhiteSpace(options.Title))
                             {
-                                title = $"{ProgramShortName }: { commandLineExecutionAsString}";
+                                title = $"{ProgramShortName}: {commandLineExecutionAsString}";
                                 shortTitle = string.Empty;
                             }
                             else
@@ -90,8 +90,7 @@ namespace ExternalProgramExecutionWrapper
                             {
                                 foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
                                 {
-                                    log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                                    log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
+                                    target.LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
                                 }
                             }
                             string workingDirectory;
@@ -107,14 +106,14 @@ namespace ExternalProgramExecutionWrapper
                                 }
                                 else
                                 {
-                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist");
+                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist.");
                                 }
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
                             DateTime startTime = DateTime.Now;
                             string startTimeAsString = startTime.ToString(log.Configuration.DateFormat);
-                            log.Log($"{ProgramShortName} v{version} started at " + startTimeAsString, Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"{ProgramShortName} v{version} started at {startTimeAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Execution-id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             log.Log($"Argument: '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                             log.Log($"Start executing {commandLineExecutionAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(options.Program, argumentForExecution, log, workingDirectory, shortTitle, options.PrintErrorsAsInformation, options.TimeoutInMilliseconds);
@@ -123,7 +122,7 @@ namespace ExternalProgramExecutionWrapper
                             exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
                             if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
                             {
-                                log.Log($"Execution with id {executionId} was aborted due to a timeout (Timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))})", Microsoft.Extensions.Logging.LogLevel.Warning);
+                                log.Log($"Execution with id {executionId} was aborted due to a timeout. (The timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))}).", Microsoft.Extensions.Logging.LogLevel.Warning);
                                 exitCode = ExitCodeTimeout;
                             }
                             WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
@@ -132,22 +131,22 @@ namespace ExternalProgramExecutionWrapper
                             List<string> exitCodeFileContent = new List<string>();
                             if (options.Verbosity == Verbosity.Verbose)
                             {
-                                exitCodeFileContent.Add($"{startTimeAsString}: Started {commandLineExecutionAsString} with exitcode");
+                                exitCodeFileContent.Add($"{startTimeAsString}: Executed {commandLineExecutionAsString} with execution-id {executionId} with exitcode");
                             }
                             exitCodeFileContent.Add(externalProgramExecutor.ExitCode.ToString());
                             WriteToFile(options.ExitCodeFile, exitCodeFileContent.ToArray());
                         }
                         catch (Exception exception)
                         {
-                            log.Log($"Error in {ProgramShortName}", exception);
+                            log.Log($"Error in {ProgramShortName}.", exception);
                         }
                         if (externalProgramExecutor != null)
                         {
-                            log.Log($"{ProgramShortName} finished", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Execution-Id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"{ProgramShortName} finished.", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Execution-id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             if (externalProgramExecutor.ExecutionState == ExecutionState.Terminated)
                             {
-                                log.Log($"Exit-code: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                                log.Log($"Exitcode: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
                                 log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             }
                         }
