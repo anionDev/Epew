@@ -21,14 +21,14 @@ namespace ExternalProgramExecutionWrapper
         public const int ExitCodeFatalErroroccurred = 2147393802;
         public const int ExitCodeTimeout = 2147393803;
 
-        internal static int Main(string[] args)
+        internal static int Main(string[] arguments)
         {
             int exitCode = ExitCodeNoProgramExecuted;
             try
             {
                 string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 string argument = Utilities.GetCommandLineArguments();
-                ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(args);
+                ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(arguments);
                 if (string.IsNullOrWhiteSpace(argument))
                 {
                     System.Console.WriteLine($"{ProgramShortName} v{version}");
