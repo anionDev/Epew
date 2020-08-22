@@ -1,4 +1,4 @@
-# General
+# General ![PyPI](https://img.shields.io/pypi/v/epew)
 
 epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.
 
@@ -16,9 +16,9 @@ Other features:
 - epew is available for Linux and Windows.
 - epew resolves environment-variables (e. g. you can set `git` as program instead of `C:\Program Files\Git\cmd\git.exe` (which would also be possible)).
 
-# Get epew
+## Get epew
 
-## Installation via pip (Linux and Windows)
+### Installation via pip (Linux and Windows)
 
 ```
 pip install epew
@@ -27,7 +27,7 @@ pip install epew
 pip requires [Python](https://www.python.org) 3.8.
 See the [pypi-site of epew](https://pypi.org/project/epew) for more information.
 
-## Download sourcecode using git (Linux and Windows)
+### Download sourcecode using git (Linux and Windows)
 
 ```
 git clone https://github.com/anionDev/externalProgramExecutionWrapper
@@ -35,11 +35,11 @@ cd externalProgramExecutionWrapper
 dotnet build  ExternalProgramExecutionWrapper.sln
 ```
 
-## Installation via winget (Windows, planned)
+### Installation via winget (Windows, planned)
 
 Coming as soon as possible. winget is new for all of us, that's why epew is not instant available via winget.
 
-## Usage
+### Usage
 
 ```
 >epew
@@ -80,18 +80,18 @@ Exitcodes:
 
 If the executed program terminated then its exitcode is the exitcode of epew.
 
-# Technical details
+## Technical details
 
-## The pip-package
+### The pip-package
 
 Installing epew via pip does really install epew. It does not install another implementation of epew with same behavior. The pip-package of epew takes the binary-files of epew (which are written in C# and compiled for the [runtimes](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) `win-x64` and `linux-x64`), wraps them to a bundle and simple calls the correct one dependent on your OS.
 
-## Strong name
+### Strong name
 
 The officially released `epew.dll`-file is always signed with the key with the short-id `79cae7246084aa22`. Do not trust any `epew.dll`-file which are not signed with this key.
 Only `epew.dll` will be signed with this key. All other files contained in a binary-release of epew are not signed by this key.
 You can verify the key using [sn](https://docs.microsoft.com/en-us/dotnet/framework/tools/sn-exe-strong-name-tool) with `sn -T epew.dll`.
 
-# License
+## License
 
 epew is licensed under the terms of MIT. The concrete license-text can be found [here](https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt).
