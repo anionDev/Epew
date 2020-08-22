@@ -5,6 +5,7 @@ using GRYLibrary.Core.Log.ConcreteLogTargets;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -77,13 +78,18 @@ namespace ExternalProgramExecutionWrapper
                                 log.Configuration.GetLogTarget<LogFile>().Enabled = true;
                                 log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
                             }
+                            GRYLibrary.Core.Log.GRYLogLogFormat format = default;
                             if (options.AddLogOverhead)
                             {
-                                log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.GRYLogFormat;
+                                format = GRYLibrary.Core.Log.GRYLogLogFormat.GRYLogFormat;
                             }
                             else
                             {
-                                log.Configuration.Format = GRYLibrary.Core.Log.GRYLogLogFormat.OnlyMessage;
+                                format = GRYLibrary.Core.Log.GRYLogLogFormat.OnlyMessage;
+                            }
+                            foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
+                            {
+                                target.Format = format;
                             }
                             log.Configuration.SetEnabledOfAllLogTargets(options.Verbosity != Verbosity.Quiet);
                             if (options.Verbosity == Verbosity.Verbose)
