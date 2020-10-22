@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ExternalProgramExecutionWrapper
 {
@@ -24,7 +25,7 @@ namespace ExternalProgramExecutionWrapper
 
         internal static int Main(string[] arguments)
         {
-            int exitCode = ExitCodeNoProgramExecuted;
+            int result = ExitCodeNoProgramExecuted;
             try
             {
                 string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -41,7 +42,7 @@ namespace ExternalProgramExecutionWrapper
                 }
                 else
                 {
-                    argumentParserResult.WithParsed(options =>
+                    argumentParserResult.WithParsed((Action<Options>)(options =>
                     {
                         Guid executionId = Guid.NewGuid();
                         GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
@@ -123,24 +124,38 @@ namespace ExternalProgramExecutionWrapper
                             log.Log($"Argument: '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
                             log.Log($"Start executing {commandLineExecutionAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             externalProgramExecutor = ExternalProgramExecutor.CreateByGRYLog(options.Program, argumentForExecution, log, workingDirectory, shortTitle, options.PrintErrorsAsInformation, options.TimeoutInMilliseconds);
-                            externalProgramExecutor.RunAsAdministrator = options.RunAsAdministrator;
+                            externalProgramExecutor.RunSynchronously = !options.NotSynchronous;
                             externalProgramExecutor.ThrowErrorIfExitCodeIsNotZero = false;
-                            exitCode = externalProgramExecutor.StartConsoleApplicationInCurrentConsoleWindow();
-                            if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
+                            int externalProgramExecutorStartReturnValue = externalProgramExecutor.Start();
+                            void programExecutionResultHandler()
                             {
-                                log.Log($"Execution with id {executionId} was aborted due to a timeout. (The timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))}).", Microsoft.Extensions.Logging.LogLevel.Warning);
-                                exitCode = ExitCodeTimeout;
+                                if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
+                                {
+                                    log.Log($"Execution with id {executionId} was aborted due to a timeout. (The timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))}).", Microsoft.Extensions.Logging.LogLevel.Warning);
+                                    result = ExitCodeTimeout;
+                                }
+                                WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
+                                WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
+                                List<string> exitCodeFileContent = new List<string>();
+                                if (options.Verbosity == Verbosity.Verbose)
+                                {
+                                    exitCodeFileContent.Add($"{startTimeAsString}: Executed {commandLineExecutionAsString} with execution-id {executionId} with exitcode");
+                                }
+                                exitCodeFileContent.Add(externalProgramExecutor.ExitCode.ToString());
+                                WriteToFile(options.ExitCodeFile, exitCodeFileContent.ToArray());
                             }
-                            WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
-                            WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
-
-                            List<string> exitCodeFileContent = new List<string>();
-                            if (options.Verbosity == Verbosity.Verbose)
+                            if (!options.NotSynchronous)
                             {
-                                exitCodeFileContent.Add($"{startTimeAsString}: Executed {commandLineExecutionAsString} with execution-id {executionId} with exitcode");
+                                programExecutionResultHandler();
+                                result = externalProgramExecutor.ExitCode;
                             }
-                            exitCodeFileContent.Add(externalProgramExecutor.ExitCode.ToString());
-                            WriteToFile(options.ExitCodeFile, exitCodeFileContent.ToArray());
+                            else
+                            {
+                                Task task = new Task(programExecutionResultHandler);
+                                task.Start();
+                                task.Wait();
+                                result = externalProgramExecutorStartReturnValue;
+                            }
                         }
                         catch (Exception exception)
                         {
@@ -152,19 +167,19 @@ namespace ExternalProgramExecutionWrapper
                             log.Log($"Execution-id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             if (externalProgramExecutor.ExecutionState == ExecutionState.Terminated)
                             {
-                                log.Log($"Exitcode: {exitCode}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                                log.Log($"Exitcode: {result}", Microsoft.Extensions.Logging.LogLevel.Debug);
                                 log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             }
                         }
-                    });
+                    }));
                 }
             }
             catch (Exception exception)
             {
                 System.Console.Error.WriteLine($"Fatal error occurred: {exception}");
-                exitCode = ExitCodeFatalErroroccurred;
+                result = ExitCodeFatalErroroccurred;
             }
-            return exitCode;
+            return result;
         }
 
         private static void WriteHelp(ParserResult<Options> argumentParserResult)
@@ -238,9 +253,6 @@ namespace ExternalProgramExecutionWrapper
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
         public bool PrintErrorsAsInformation { get; set; }
 
-        [Option('r', nameof(RunAsAdministrator), Required = false, HelpText = "Run program as administrator", Default = false)]
-        public bool RunAsAdministrator { get; set; }
-
         [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
@@ -262,6 +274,8 @@ namespace ExternalProgramExecutionWrapper
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
         public string Title { get; set; }
 
+        [Option('n', nameof(NotSynchronous), Required = false, HelpText = "Run the program asynchronously", Default = false)]
+        public bool NotSynchronous { get; set; }
     }
     public enum Verbosity
     {
