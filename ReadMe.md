@@ -53,8 +53,6 @@ Coming as soon as possible. winget is new for all of us, that's why epew is not 
   -v, --Verbosity                   (Default: Normal) Verbosity of
                                     ExternalProgramExecutionWrapper
   -i, --PrintErrorsAsInformation    (Default: false) Treat errors as information
-  -r, --RunAsAdministrator          (Default: false) Run program as
-                                    administrator
   -h, --AddLogOverhead              (Default: false) Add log overhead
   -l, --LogFile                     Logfile for ExternalProgramExecutionWrapper
   -o, --StdOutFile                  File for the stdout of the executed program
@@ -65,20 +63,22 @@ Coming as soon as possible. winget is new for all of us, that's why epew is not 
                                     the execution process before it will by
                                     aborted by ExternalProgramExecutionWrapper
   -t, --Title                       Title for the execution-process
+  -n, --NotSynchronous              (Default: false) Run the program
+                                    asynchronously
   --help                            Display this help screen.
   --version                         Display version information.
 ```
 
 Exitcodes:
 
-- 2147393801: If no program was executed
-- 2147393802: If a fatal error occurred
-- 2147393803: If the executed program was aborted due to the given timeout
-- 2147393881: If executed on MacOS (applies only to the pip-package)
-- 2147393882: If executed on an unknown OS (applies only to the pip-package)
-- 2147393883: If an (unexpected) exception occurred (applies only to the pip-package)
+2147393801: If no program was executed
+2147393802: If a fatal error occurred
+2147393803: If the executed program was aborted due to the given timeout
+2147393881: If executed on MacOS (applies only to the pip-package)
+2147393882: If executed on an unknown OS (applies only to the pip-package)
+2147393883: If an (unexpected) exception occurred (applies only to the pip-package)
 
-If the executed program terminated then its exitcode is the exitcode of epew.
+If the executed program terminated then its exitcode will be set as exitcode of epew.
 
 ## Technical details
 
