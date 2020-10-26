@@ -42,7 +42,7 @@ namespace ExternalProgramExecutionWrapper
                 }
                 else
                 {
-                    argumentParserResult.WithParsed((Action<Options>)(options =>
+                    argumentParserResult.WithParsed((options =>
                     {
                         Guid executionId = Guid.NewGuid();
                         GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
@@ -59,6 +59,23 @@ namespace ExternalProgramExecutionWrapper
                             {
                                 argumentForExecution = options.Argument;
                             }
+                            string workingDirectory;
+                            if (string.IsNullOrWhiteSpace(options.Workingdirectory))
+                            {
+                                workingDirectory = Directory.GetCurrentDirectory();
+                            }
+                            else
+                            {
+                                if (Directory.Exists(options.Workingdirectory))
+                                {
+                                    workingDirectory = options.Workingdirectory;
+                                }
+                                else
+                                {
+                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist.");
+                                }
+                            }
+
                             string commandLineExecutionAsString = $"'{options.Workingdirectory}>{options.Program} {argumentForExecution}'";
                             string title;
                             string shortTitle;
@@ -98,22 +115,6 @@ namespace ExternalProgramExecutionWrapper
                                 foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
                                 {
                                     target.LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                                }
-                            }
-                            string workingDirectory;
-                            if (string.IsNullOrWhiteSpace(options.Workingdirectory))
-                            {
-                                workingDirectory = Directory.GetCurrentDirectory();
-                            }
-                            else
-                            {
-                                if (Directory.Exists(options.Workingdirectory))
-                                {
-                                    workingDirectory = options.Workingdirectory;
-                                }
-                                else
-                                {
-                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist.");
                                 }
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
