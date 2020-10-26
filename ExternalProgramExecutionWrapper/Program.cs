@@ -42,7 +42,7 @@ namespace ExternalProgramExecutionWrapper
                 }
                 else
                 {
-                    argumentParserResult.WithParsed((Action<Options>)(options =>
+                    argumentParserResult.WithParsed((options =>
                     {
                         Guid executionId = Guid.NewGuid();
                         GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
@@ -57,9 +57,37 @@ namespace ExternalProgramExecutionWrapper
                             }
                             else
                             {
-                                argumentForExecution = options.Argument;
+                                if (string.IsNullOrWhiteSpace(options.Argument))
+                                {
+                                    argumentForExecution = string.Empty;
+                                }
+                                else
+                                {
+                                    argumentForExecution = options.Argument;
+                                }
                             }
-                            string commandLineExecutionAsString = $"'{options.Workingdirectory}>{options.Program} {argumentForExecution}'";
+                            string workingDirectory;
+                            if (string.IsNullOrWhiteSpace(options.Workingdirectory))
+                            {
+                                workingDirectory = Directory.GetCurrentDirectory();
+                            }
+                            else
+                            {
+                                if (Directory.Exists(options.Workingdirectory))
+                                {
+                                    workingDirectory = options.Workingdirectory;
+                                }
+                                else
+                                {
+                                    throw new ArgumentException($"The specified workingdirectory '{options.Workingdirectory}' does not exist.");
+                                }
+                            }
+                            if (string.IsNullOrWhiteSpace(options.Program))
+                            {
+                                throw new ArgumentException($"No program to execute specified.");
+                            }
+
+                            string commandLineExecutionAsString = $"'{workingDirectory}>{options.Program} {argumentForExecution}'";
                             string title;
                             string shortTitle;
                             if (string.IsNullOrWhiteSpace(options.Title))
@@ -98,22 +126,6 @@ namespace ExternalProgramExecutionWrapper
                                 foreach (GRYLibrary.Core.Log.GRYLogTarget target in log.Configuration.LogTargets)
                                 {
                                     target.LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                                }
-                            }
-                            string workingDirectory;
-                            if (string.IsNullOrWhiteSpace(options.Workingdirectory))
-                            {
-                                workingDirectory = Directory.GetCurrentDirectory();
-                            }
-                            else
-                            {
-                                if (Directory.Exists(options.Workingdirectory))
-                                {
-                                    workingDirectory = options.Workingdirectory;
-                                }
-                                else
-                                {
-                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist.");
                                 }
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
