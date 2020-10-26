@@ -47,6 +47,7 @@ namespace ExternalProgramExecutionWrapper
                         Guid executionId = Guid.NewGuid();
                         GRYLibrary.Core.Log.GRYLog log = GRYLibrary.Core.Log.GRYLog.Create();
                         log.Configuration.ResetToDefaultValues();
+                        log.Configuration.WriteExceptionStackTraceOfExceptionInLogEntry = true;
                         ExternalProgramExecutor externalProgramExecutor = null;
                         try
                         {
