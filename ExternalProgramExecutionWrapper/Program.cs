@@ -57,7 +57,14 @@ namespace ExternalProgramExecutionWrapper
                             }
                             else
                             {
-                                argumentForExecution = options.Argument;
+                                if (string.IsNullOrWhiteSpace(options.Argument))
+                                {
+                                    argumentForExecution = string.Empty;
+                                }
+                                else
+                                {
+                                    argumentForExecution = options.Argument;
+                                }
                             }
                             string workingDirectory;
                             if (string.IsNullOrWhiteSpace(options.Workingdirectory))
@@ -72,11 +79,15 @@ namespace ExternalProgramExecutionWrapper
                                 }
                                 else
                                 {
-                                    throw new ArgumentException($"The specified working-directory '{options.Workingdirectory}' does not exist.");
+                                    throw new ArgumentException($"The specified workingdirectory '{options.Workingdirectory}' does not exist.");
                                 }
                             }
+                            if (string.IsNullOrWhiteSpace(options.Program))
+                            {
+                                throw new ArgumentException($"No program to execute specified.");
+                            }
 
-                            string commandLineExecutionAsString = $"'{options.Workingdirectory}>{options.Program} {argumentForExecution}'";
+                            string commandLineExecutionAsString = $"'{workingDirectory}>{options.Program} {argumentForExecution}'";
                             string title;
                             string shortTitle;
                             if (string.IsNullOrWhiteSpace(options.Title))
