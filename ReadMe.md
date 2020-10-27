@@ -2,6 +2,8 @@
 
 epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.
 
+Important: epew is not ready for usage yet.
+
 ## Features
 
 epew is a commandline-tool. There is no gui. The main-advantage of epew is to be used when
