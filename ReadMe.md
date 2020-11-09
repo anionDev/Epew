@@ -1,8 +1,6 @@
-# General ![PyPI](https://img.shields.io/pypi/v/epew)
+# General
 
 epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.
-
-Important: epew is not ready for usage yet.
 
 ## Features
 
@@ -20,26 +18,21 @@ Other features:
 
 ## Get epew
 
-### Installation via pip (Linux and Windows)
-
-```
-pip install epew
-```
-
-pip requires [Python](https://www.python.org) 3.8.
-See the [pypi-site of epew](https://pypi.org/project/epew) for more information.
-
 ### Download sourcecode using git (Linux and Windows)
 
 ```
-git clone https://github.com/anionDev/externalProgramExecutionWrapper
-cd externalProgramExecutionWrapper
-dotnet build  ExternalProgramExecutionWrapper.sln
+git clone https://github.com/anionDev/Epew
+cd Epew
+dotnet build  Epew.sln
 ```
 
 ### Installation via winget (Windows, planned)
 
-Coming as soon as possible. winget is new for all of us, that's why epew is not instant available via winget.
+Coming as soon as possible.
+
+### Installation via apt (Linux, planned)
+
+Coming as soon as possible.
 
 ### Usage
 

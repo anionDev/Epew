@@ -5,7 +5,6 @@ ExternalProgramExecutionWrapper uses dependencies which are released under their
 -CommandLineParser is licensed under the terms of the MIT-license (see appendix 1)
 -GRYLibrary is licensed under the terms of the MIT-license (see appendix 1)
 -Microsoft.Extensions.Logging.Abstractions is licensed under the terms of the Apache-license version 2.0 (see appendix 2)
--NETCore is licensed under the terms of the MIT-license (see appendix 1)
 
 ----------------------------------------------------------------------
 Appendix 1:

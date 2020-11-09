@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace ExternalProgramExecutionWrapper.Overhead
+namespace Epew.Overhead
 {
     public class Options
     {
@@ -16,7 +16,7 @@ namespace ExternalProgramExecutionWrapper.Overhead
         [Option('w', nameof(Workingdirectory), Required = false, HelpText = "Workingdirectory for the program which should be executed")]
         public string Workingdirectory { get; set; }
 
-        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + nameof(ExternalProgramExecutionWrapper), Default = Verbosity.Normal)]
+        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + Epew.Program.ProgramName, Default = Verbosity.Normal)]
         public Verbosity Verbosity { get; set; }
 
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
@@ -25,7 +25,7 @@ namespace ExternalProgramExecutionWrapper.Overhead
         [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
-        [Option('l', nameof(LogFile), Required = false, HelpText = "Logfile for " + nameof(ExternalProgramExecutionWrapper))]
+        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + Epew.Program.ProgramName)]
         public string LogFile { get; set; }
 
         [Option('o', nameof(StdOutFile), Required = false, HelpText = "File for the stdout of the executed program")]
@@ -37,7 +37,7 @@ namespace ExternalProgramExecutionWrapper.Overhead
         [Option('x', nameof(ExitCodeFile), Required = false, HelpText = "File for the exitcode of the executed program")]
         public string ExitCodeFile { get; set; }
 
-        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + nameof(ExternalProgramExecutionWrapper), Default = int.MaxValue)]
+        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + Epew.Program.ProgramName, Default = int.MaxValue)]
         public int TimeoutInMilliseconds { get; set; }
 
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
@@ -45,5 +45,8 @@ namespace ExternalProgramExecutionWrapper.Overhead
 
         [Option('n', nameof(NotSynchronous), Required = false, HelpText = "Run the program asynchronously", Default = false)]
         public bool NotSynchronous { get; set; }
+     
+        [Option('n', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
+        public string LogNamespace { get; set; }
     }
 }

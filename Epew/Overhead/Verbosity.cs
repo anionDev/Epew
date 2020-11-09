@@ -1,4 +1,4 @@
-﻿namespace ExternalProgramExecutionWrapper.Overhead
+﻿namespace Epew.Overhead
 {
     public enum Verbosity
     {
