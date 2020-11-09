@@ -228,8 +228,8 @@ namespace Epew
             System.Console.Out.WriteLine($"2147393881: If executed on MacOS (applies only to the pip-package)");
             System.Console.Out.WriteLine($"2147393882: If executed on an unknown OS (applies only to the pip-package)");
             System.Console.Out.WriteLine($"2147393883: If an (unexpected) exception occurred (applies only to the pip-package)");
-            System.Console.Out.WriteLine($"If running synchronously the program terminated then its exitcode will be set as exitcode of {ProgramName}.");
-            System.Console.Out.WriteLine($"If running asynchronously the program terminated then its process-id will be set as exitcode of {ProgramName}.");
+            System.Console.Out.WriteLine($"If running synchronously then the exitcode of the executed program will be set as exitcode of {ProgramName}.");
+            System.Console.Out.WriteLine($"If running asynchronously then the process-id of the executed program will be set as exitcode of {ProgramName}.");
         }
 
         private static bool IsHelpCommand(string argument)
