@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalProgramExecutionWrapper", "ExternalProgramExecutionWrapper\ExternalProgramExecutionWrapper.csproj", "{C6F0143C-749E-43D2-AF9E-35DD02CF6291}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epew", "Epew\Epew.csproj", "{C6F0143C-749E-43D2-AF9E-35DD02CF6291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
