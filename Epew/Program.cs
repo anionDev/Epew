@@ -54,6 +54,7 @@ namespace Epew
                         log.Configuration.WriteExceptionStackTraceOfExceptionInLogEntry = true;
                         try
                         {
+                            RemoveQuotes(options);
                             string argumentForExecution;
                             if (options.ArgumentIsBase64Encoded)
                             {
@@ -176,6 +177,32 @@ namespace Epew
                 result = ExitCodeFatalErroroccurred;
             }
             return result;
+        }
+
+        private static void RemoveQuotes(Options options)
+        {
+            options.Argument = TrimQuotes(options.Argument);
+            options.Argument = TrimQuotes(options.Program);
+            options.Argument = TrimQuotes(options.Workingdirectory);
+            options.Argument = TrimQuotes(options.LogFile);
+            options.Argument = TrimQuotes(options.ExitCodeFile);
+            options.Argument = TrimQuotes(options.ProcessIdFile);
+            options.Argument = TrimQuotes(options.StdOutFile);
+            options.Argument = TrimQuotes(options.StdErrFile);
+            options.Argument = TrimQuotes(options.Title);
+            options.Argument = TrimQuotes(options.LogNamespace);
+        }
+
+        private static string TrimQuotes(string argument)
+        {
+            if (argument == null)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return Utilities.EnsurePathHasNoLeadingOrTrailingQuotes(argument.Trim()).Trim();
+            }
         }
 
         private static void WriteNumberToFile(Verbosity verbosity, ExternalProgramExecutor externalProgramExecutor, Guid executionId, string title, string commandLineExecutionAsString, string startTimeAsString, int value, string nameOfValue)
