@@ -37,7 +37,7 @@ namespace Epew
                 if (string.IsNullOrWhiteSpace(argument))
                 {
                     System.Console.WriteLine($"{ProgramName} v{Version}");
-                    System.Console.WriteLine($"Try \"{ProgramName} help\" to get information about the usage.");
+                    System.Console.WriteLine($"Try \"{ProgramName} --help\" to get information about the usage.");
                 }
                 else if (IsHelpCommand(argument))
                 {

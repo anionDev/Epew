@@ -68,6 +68,9 @@ Copyright (C) 2020 Marius Göcke
   -x, --ExitCodeFile                File for the exitcode of the executed
                                     program
 
+  -r, --ProcessIdFile               File for the process-id of the executed
+                                    program
+
   -d, --TimeoutInMilliseconds       (Default: 2147483647) Maximal duration of
                                     the execution process before it will by
                                     aborted by epew
@@ -79,9 +82,12 @@ Copyright (C) 2020 Marius Göcke
 
   -n, --LogNamespace                (Default: ) Namespace for log
 
+  -c, --WriteOutputToConsole        (Default: false) Write output to console
+
   --help                            Display this help screen.
 
   --version                         Display version information.
+
 ```
 
 Exitcodes:
