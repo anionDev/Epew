@@ -182,15 +182,15 @@ namespace Epew
         private static void RemoveQuotes(Options options)
         {
             options.Argument = TrimQuotes(options.Argument);
-            options.Argument = TrimQuotes(options.Program);
-            options.Argument = TrimQuotes(options.Workingdirectory);
-            options.Argument = TrimQuotes(options.LogFile);
-            options.Argument = TrimQuotes(options.ExitCodeFile);
-            options.Argument = TrimQuotes(options.ProcessIdFile);
-            options.Argument = TrimQuotes(options.StdOutFile);
-            options.Argument = TrimQuotes(options.StdErrFile);
-            options.Argument = TrimQuotes(options.Title);
-            options.Argument = TrimQuotes(options.LogNamespace);
+            options.Program = TrimQuotes(options.Program);
+            options.Workingdirectory = TrimQuotes(options.Workingdirectory);
+            options.LogFile = TrimQuotes(options.LogFile);
+            options.ExitCodeFile = TrimQuotes(options.ExitCodeFile);
+            options.ProcessIdFile = TrimQuotes(options.ProcessIdFile);
+            options.StdOutFile = TrimQuotes(options.StdOutFile);
+            options.StdErrFile = TrimQuotes(options.StdErrFile);
+            options.Title = TrimQuotes(options.Title);
+            options.LogNamespace = TrimQuotes(options.LogNamespace);
         }
 
         private static string TrimQuotes(string argument)
