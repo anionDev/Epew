@@ -37,6 +37,9 @@ namespace Epew.Overhead
         [Option('x', nameof(ExitCodeFile), Required = false, HelpText = "File for the exitcode of the executed program")]
         public string ExitCodeFile { get; set; }
 
+        [Option('r', nameof(ProcessIdFile), Required = false, HelpText = "File for the process-id of the executed program")]
+        public string ProcessIdFile { get; set; }
+
         [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + Epew.Program.ProgramName, Default = int.MaxValue)]
         public int TimeoutInMilliseconds { get; set; }
 
@@ -48,5 +51,9 @@ namespace Epew.Overhead
      
         [Option('n', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
         public string LogNamespace { get; set; }
+
+        [Option('c', nameof(WriteOutputToConsole), Required = false, HelpText = "Write output to console", Default = false)]
+        public bool WriteOutputToConsole { get; set; }
+
     }
 }

@@ -34,52 +34,77 @@ Coming as soon as possible.
 
 Coming as soon as possible.
 
-### Usage
+## Usage
+
+### Arguments
 
 ```
 >epew
+Copyright (C) 2020 Marius Göcke
+
   -p, --Program                     Required. Program which should be executed
+
   -a, --Argument                    Argument for the program which should be
                                     executed
+
   -b, --ArgumentIsBase64Encoded     (Default: false) Specifiy whether Argument
                                     is base64-encoded
+
   -w, --Workingdirectory            Workingdirectory for the program which
                                     should be executed
-  -v, --Verbosity                   (Default: Normal) Verbosity of
-                                    ExternalProgramExecutionWrapper
+
+  -v, --Verbosity                   (Default: Normal) Verbosity of epew
+
   -i, --PrintErrorsAsInformation    (Default: false) Treat errors as information
+
   -h, --AddLogOverhead              (Default: false) Add log overhead
-  -l, --LogFile                     Logfile for ExternalProgramExecutionWrapper
+
+  -f, --LogFile                     Logfile for epew
+
   -o, --StdOutFile                  File for the stdout of the executed program
+
   -e, --StdErrFile                  File for the stderr of the executed program
+
   -x, --ExitCodeFile                File for the exitcode of the executed
                                     program
+
   -d, --TimeoutInMilliseconds       (Default: 2147483647) Maximal duration of
                                     the execution process before it will by
-                                    aborted by ExternalProgramExecutionWrapper
+                                    aborted by epew
+
   -t, --Title                       Title for the execution-process
+
   -n, --NotSynchronous              (Default: false) Run the program
                                     asynchronously
+
+  -n, --LogNamespace                (Default: ) Namespace for log
+
   --help                            Display this help screen.
+
   --version                         Display version information.
 ```
 
 Exitcodes:
 
 2147393801: If no program was executed
-2147393802: If a fatal error occurred
-2147393803: If the executed program was aborted due to the given timeout
-2147393881: If executed on MacOS (applies only to the pip-package)
-2147393882: If executed on an unknown OS (applies only to the pip-package)
-2147393883: If an (unexpected) exception occurred (applies only to the pip-package)
 
-If the executed program terminated then its exitcode will be set as exitcode of epew.
+2147393802: If a fatal error occurred
+
+2147393803: If the executed program was aborted due to the given timeout
+
+If running synchronously then the exitcode of the executed program will be set as exitcode of epew.
+
+If running asynchronously then the process-id of the executed program will be set as exitcode of epew.
+
+### Verbosity
+
+Currently the following verbosity-levels are available:
+
+- 0 (Quiet)
+- 1 (Normal)
+- 2 (Verbose)
 
 ## Technical details
-
-### The pip-package
-
-Installing epew via pip does really install epew. It does not install another implementation of epew with same behavior. The pip-package of epew takes the binary-files of epew (which are written in C# and compiled for the [runtimes](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) `win-x64` and `linux-x64`), wraps them to a bundle and simple calls the correct one dependent on your OS.
 
 ### Strong name
 
