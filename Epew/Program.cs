@@ -120,12 +120,21 @@ namespace Epew
                                 }
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
+                            string astring;
+                            if (options.NotSynchronous)
+                            {
+                                astring = "asynchronous";
+                            }
+                            else
+                            {
+                                astring = "synchronous";
+                            }
                             DateTime startTime = DateTime.Now;
                             string startTimeAsString = startTime.ToString(log.Configuration.DateFormat);
                             log.Log($"{ProgramName} v{Version} started at {startTimeAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             log.Log($"Execution-id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
                             log.Log($"Plain argument: '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Start executing {commandLineExecutionAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
+                            log.Log($"Start executing {commandLineExecutionAsString} ({astring})", Microsoft.Extensions.Logging.LogLevel.Debug);
                             externalProgramExecutor = new ExternalProgramExecutor(options.Program, argumentForExecution, workingDirectory)
                             {
                                 LogObject = log,
