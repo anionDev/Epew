@@ -151,7 +151,7 @@ namespace Epew
                                 externalProgramExecutor.StartSynchronously();
                                 result = ProgramExecutionResultHandler(externalProgramExecutor, options, log, executionId, startTimeAsString, commandLineExecutionAsString);
                             }
-                            WriteNumberToFile(options.Verbosity, externalProgramExecutor, executionId, _Title, commandLineExecutionAsString, startTimeAsString, externalProgramExecutor.ProcessId, "process-id");
+                            WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, startTimeAsString, externalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
                         }
                         catch (Exception exception)
                         {
@@ -205,15 +205,15 @@ namespace Epew
             }
         }
 
-        private static void WriteNumberToFile(Verbosity verbosity, ExternalProgramExecutor externalProgramExecutor, Guid executionId, string title, string commandLineExecutionAsString, string startTimeAsString, int value, string nameOfValue)
+        private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, string startTimeAsString, int value, string nameOfValue, string file)
         {
-            List<string> processIdFileContent = new List<string>();
+            List<string> fileContent = new List<string>();
             if (verbosity == Verbosity.Verbose)
             {
-                processIdFileContent.Add($"{startTimeAsString}: Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
+                fileContent.Add($"{startTimeAsString}: Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
             }
-            processIdFileContent.Add(externalProgramExecutor.ProcessId.ToString());
-            WriteToFile(value.ToString(), processIdFileContent.ToArray());
+            fileContent.Add(value.ToString());
+            WriteToFile(file, fileContent.ToArray());
         }
 
         private static int ProgramExecutionResultHandler(ExternalProgramExecutor externalProgramExecutor, Options options, GRYLog log, Guid executionId, string startTimeAsString, string commandLineExecutionAsString)
@@ -232,7 +232,7 @@ namespace Epew
                 }
                 WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
                 WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
-                WriteNumberToFile(options.Verbosity, externalProgramExecutor, executionId, _Title, commandLineExecutionAsString, startTimeAsString, result, "exit-code");
+                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, startTimeAsString, result, "exit-code", options.ExitCodeFile);
                 return result;
             }
             finally
