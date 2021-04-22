@@ -1,9 +1,9 @@
 ﻿using CommandLine;
 using CommandLine.Text;
 using Epew.Overhead;
-using GRYLibrary.Core;
-using GRYLibrary.Core.Log;
-using GRYLibrary.Core.Log.ConcreteLogTargets;
+using GRYLibrary.Core.LogObject;
+using GRYLibrary.Core.LogObject.ConcreteLogTargets;
+using GRYLibrary.Core.Miscellaneous;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,15 +15,15 @@ namespace Epew
 {
     public static class Program
     {
-        public const string ProgramName = "epew";
-        public const string ProjectLink = "https://github.com/anionDev/Epew";
-        public const string LicenseName = "MIT";
-        public static readonly string Version = GetVersion();
-        public static readonly string LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{Version}/License.txt";
+        internal const string ProgramName = "epew";
+        internal const string ProjectLink = "https://github.com/anionDev/Epew";
+        internal const string LicenseName = "MIT";
+        internal static readonly string Version = GetVersion();
+        internal static readonly string LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{Version}/License.txt";
 
-        public const int ExitCodeNoProgramExecuted = 2147393801;
-        public const int ExitCodeFatalErroroccurred = 2147393802;
-        public const int ExitCodeTimeout = 2147393803;
+        internal const int ExitCodeNoProgramExecuted = 2147393801;
+        internal const int ExitCodeFatalErroroccurred = 2147393802;
+        internal const int ExitCodeTimeout = 2147393803;
 
         private static string _Title;
 
@@ -106,7 +106,7 @@ namespace Epew
                                 log.Configuration.GetLogTarget<LogFile>().Enabled = true;
                                 log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
                             }
-                            log.Configuration.GetLogTarget<GRYLibrary.Core.Log.ConcreteLogTargets.Console>().Enabled = options.WriteOutputToConsole;
+                            log.Configuration.GetLogTarget<GRYLibrary.Core.LogObject.ConcreteLogTargets.Console>().Enabled = options.WriteOutputToConsole;
                             foreach (GRYLogTarget target in log.Configuration.LogTargets)
                             {
                                 target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
@@ -216,7 +216,7 @@ namespace Epew
 
         private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, string startTimeAsString, int value, string nameOfValue, string file)
         {
-            List<string> fileContent = new List<string>();
+            List<string> fileContent = new();
             if (verbosity == Verbosity.Verbose)
             {
                 fileContent.Add($"{startTimeAsString}: Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
