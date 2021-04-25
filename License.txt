@@ -1,4 +1,4 @@
-Copyright © 2020 Marius Göcke
+Copyright © 2021 Marius Göcke
 
 ExternalProgramExecutionWrapper (epew) itself is licensed under the terms of the MIT-license (see appendix 1).
 ExternalProgramExecutionWrapper uses dependencies which are released under their own license:
