@@ -1,6 +1,5 @@
 ﻿using CommandLine;
 using CommandLine.Text;
-using Epew.Overhead;
 using GRYLibrary.Core.LogObject;
 using GRYLibrary.Core.LogObject.ConcreteLogTargets;
 using GRYLibrary.Core.Miscellaneous;
@@ -51,7 +50,6 @@ namespace Epew
                         Guid executionId = Guid.NewGuid();
                         GRYLog log = GRYLog.Create();
                         log.Configuration.ResetToDefaultValues();
-                        log.Configuration.WriteExceptionStackTraceOfExceptionInLogEntry = true;
                         try
                         {
                             RemoveQuotes(options);
@@ -106,18 +104,9 @@ namespace Epew
                                 log.Configuration.GetLogTarget<LogFile>().Enabled = true;
                                 log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
                             }
-                            log.Configuration.GetLogTarget<GRYLibrary.Core.LogObject.ConcreteLogTargets.Console>().Enabled = options.WriteOutputToConsole;
                             foreach (GRYLogTarget target in log.Configuration.LogTargets)
                             {
                                 target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
-                            }
-                            log.Configuration.SetEnabledOfAllLogTargets(options.Verbosity != Verbosity.Quiet);
-                            if (options.Verbosity == Verbosity.Verbose)
-                            {
-                                foreach (GRYLogTarget target in log.Configuration.LogTargets)
-                                {
-                                    target.LogLevels.Add(Microsoft.Extensions.Logging.LogLevel.Debug);
-                                }
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
                             string astring;
@@ -214,14 +203,9 @@ namespace Epew
             }
         }
 
-        private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, string startTimeAsString, int value, string nameOfValue, string file)
+        private static void WriteNumberToFile( int value, string file)
         {
-            List<string> fileContent = new();
-            if (verbosity == Verbosity.Verbose)
-            {
-                fileContent.Add($"{startTimeAsString}: Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
-            }
-            fileContent.Add(value.ToString());
+            List<string> fileContent = new() { value.ToString() };
             WriteToFile(file, fileContent.ToArray());
         }
 

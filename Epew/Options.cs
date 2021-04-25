@@ -1,6 +1,7 @@
 ﻿using CommandLine;
+using GRYLibrary.Core.Miscellaneous;
 
-namespace Epew.Overhead
+namespace Epew
 {
     public class Options
     {
@@ -51,9 +52,6 @@ namespace Epew.Overhead
      
         [Option('n', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
         public string LogNamespace { get; set; }
-
-        [Option('c', nameof(WriteOutputToConsole), Required = false, HelpText = "Write output to console", Default = false)]
-        public bool WriteOutputToConsole { get; set; }
 
     }
 }
