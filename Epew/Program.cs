@@ -49,7 +49,6 @@ namespace Epew
                         ExternalProgramExecutor externalProgramExecutor = null;
                         Guid executionId = Guid.NewGuid();
                         GRYLog log = GRYLog.Create();
-                        log.Configuration.ResetToDefaultValues();
                         try
                         {
                             RemoveQuotes(options);
@@ -109,28 +108,14 @@ namespace Epew
                                 target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                             }
                             string commandLineArguments = Utilities.GetCommandLineArguments();
-                            string astring;
-                            if (options.NotSynchronous)
-                            {
-                                astring = "asynchronous";
-                            }
-                            else
-                            {
-                                astring = "synchronous";
-                            }
-                            DateTime startTime = DateTime.Now;
-                            string startTimeAsString = startTime.ToString(log.Configuration.DateFormat);
-                            log.Log($"{ProgramName} v{Version} started at {startTimeAsString}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Execution-id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Plain argument: '{commandLineArguments}'", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Start executing {commandLineExecutionAsString} ({astring})", Microsoft.Extensions.Logging.LogLevel.Debug);
                             externalProgramExecutor = new ExternalProgramExecutor(options.Program, argumentForExecution, workingDirectory)
                             {
                                 LogObject = log,
                                 LogNamespace = options.LogNamespace,
                                 PrintErrorsAsInformation = options.PrintErrorsAsInformation,
                                 TimeoutInMilliseconds = options.TimeoutInMilliseconds,
-                                ThrowErrorIfExitCodeIsNotZero = false
+                                ThrowErrorIfExitCodeIsNotZero = false,
+                                Verbosity = options.Verbosity
                             };
 
 
@@ -140,38 +125,27 @@ namespace Epew
                                 new Task(() =>
                                 {
                                     externalProgramExecutor.WaitUntilTerminated();
-                                    ProgramExecutionResultHandler(externalProgramExecutor, options, log, executionId, startTimeAsString, commandLineExecutionAsString);
+                                    ProgramExecutionResultHandler(externalProgramExecutor, options, executionId, commandLineExecutionAsString);
                                 }).Start();
                                 result = externalProgramExecutor.ProcessId;
                             }
                             else
                             {
                                 externalProgramExecutor.StartSynchronously();
-                                result = ProgramExecutionResultHandler(externalProgramExecutor, options, log, executionId, startTimeAsString, commandLineExecutionAsString);
+                                result = ProgramExecutionResultHandler(externalProgramExecutor, options, executionId, commandLineExecutionAsString);
                             }
-                            WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, startTimeAsString, externalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
+                            WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, externalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
                         }
                         catch (Exception exception)
                         {
                             log.Log($"Error in {ProgramName}.", exception);
-                        }
-                        if (externalProgramExecutor != null)
-                        {
-                            log.Log($"{ProgramName} finished.", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Execution-id: {executionId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            log.Log($"Process-id: {externalProgramExecutor.ProcessId}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            if (externalProgramExecutor.CurrentExecutionState == ExecutionState.Terminated)
-                            {
-                                log.Log($"Exitcode: {result}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                                log.Log($"Duration: {Utilities.DurationToUserFriendlyString(externalProgramExecutor.ExecutionDuration)}", Microsoft.Extensions.Logging.LogLevel.Debug);
-                            }
                         }
                     });
                 }
             }
             catch (Exception exception)
             {
-                System.Console.Error.WriteLine($"Fatal error occurred: {exception}");
+                System.Console.Error.WriteLine($"Fatal error occurred: {exception.Message}");
                 result = ExitCodeFatalErroroccurred;
             }
             return result;
@@ -203,20 +177,24 @@ namespace Epew
             }
         }
 
-        private static void WriteNumberToFile( int value, string file)
+        private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, int value, string nameOfValue, string file)
         {
-            List<string> fileContent = new() { value.ToString() };
+            List<string> fileContent = new();
+            fileContent.Add(value.ToString());
+            if (verbosity == Verbosity.Verbose)
+            {
+                fileContent.Add($"Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
+            }
             WriteToFile(file, fileContent.ToArray());
         }
 
-        private static int ProgramExecutionResultHandler(ExternalProgramExecutor externalProgramExecutor, Options options, GRYLog log, Guid executionId, string startTimeAsString, string commandLineExecutionAsString)
+        private static int ProgramExecutionResultHandler(ExternalProgramExecutor externalProgramExecutor, Options options, Guid executionId, string commandLineExecutionAsString)
         {
             try
             {
                 int result;
                 if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
                 {
-                    log.Log($"Execution with id {executionId} was aborted due to a timeout. (The timeout was set to {Utilities.DurationToUserFriendlyString(TimeSpan.FromMilliseconds(externalProgramExecutor.TimeoutInMilliseconds.Value))}).", Microsoft.Extensions.Logging.LogLevel.Warning);
                     result = ExitCodeTimeout;
                 }
                 else
@@ -225,7 +203,7 @@ namespace Epew
                 }
                 WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
                 WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
-                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, startTimeAsString, result, "exit-code", options.ExitCodeFile);
+                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, result, "exit-code", options.ExitCodeFile);
                 return result;
             }
             finally
