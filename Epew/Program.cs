@@ -216,7 +216,7 @@ namespace Epew
         {
             System.Console.Out.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
             System.Console.Out.WriteLine();
-            System.Console.Out.WriteLine($"{ProgramName} is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.");
+            System.Console.Out.WriteLine($"{ProgramName} is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout and so on.");
             System.Console.Out.WriteLine();
             System.Console.Out.WriteLine($"Current version: v{Version}");
             System.Console.Out.WriteLine($"For more information see the website of the {ProgramName}-project: {ProjectLink}");
