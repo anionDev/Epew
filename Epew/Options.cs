@@ -8,7 +8,7 @@ namespace Epew
         [Option('p', nameof(Program), Required = true, HelpText = "Program which should be executed")]
         public string Program { get; set; }
 
-        [Option('a', nameof(Argument), Required = false, HelpText = "Argument for the program which should be executed")]
+        [Option('a', nameof(Argument), Required = false, HelpText = "Argument for the program which should be executed", Default = Utilities.EmptyString)]
         public string Argument { get; set; }
 
         [Option('b', nameof(ArgumentIsBase64Encoded), Required = false, HelpText = "Specifiy whether " + nameof(Argument) + " is base64-encoded", Default = false)]
@@ -17,7 +17,7 @@ namespace Epew
         [Option('w', nameof(Workingdirectory), Required = false, HelpText = "Workingdirectory for the program which should be executed")]
         public string Workingdirectory { get; set; }
 
-        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + Epew.Program.ProgramName+ ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Normal)]
+        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + Epew.Program.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Normal)]
         public Verbosity Verbosity { get; set; }
 
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
@@ -49,7 +49,7 @@ namespace Epew
 
         [Option('n', nameof(NotSynchronous), Required = false, HelpText = "Run the program asynchronously", Default = false)]
         public bool NotSynchronous { get; set; }
-     
+
         [Option('n', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
         public string LogNamespace { get; set; }
 

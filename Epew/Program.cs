@@ -25,6 +25,7 @@ namespace Epew
         internal const int ExitCodeFatalErroroccurred = 2147393802;
         internal const int ExitCodeTimeout = 2147393803;
         internal static ExternalProgramExecutor _ExternalProgramExecutor = null;
+        internal static GRYLog _Log = GRYLog.Create();
         private static readonly SentenceBuilder _SentenceBuilder = SentenceBuilder.Create();
 
         private static string _Title;
@@ -67,16 +68,14 @@ namespace Epew
             }
             catch (Exception exception)
             {
-                System.Console.Error.WriteLine($"Fatal error occurred while processing argument '{workingDirectory}> epew {argument}': {exception.Message}");
+                _Log.Log($"Fatal error occurred while processing argument '{workingDirectory}> epew {argument}", exception);
                 result = ExitCodeFatalErroroccurred;
             }
             return result;
         }
-
         private static int ProcessArguments(Options options, int initialExitCodeValue)
         {
             Guid executionId = Guid.NewGuid();
-            GRYLog log = GRYLog.Create();
             int result = initialExitCodeValue;
             try
             {
@@ -129,17 +128,17 @@ namespace Epew
                 }
                 if (options.LogFile != null)
                 {
-                    log.Configuration.GetLogTarget<LogFile>().Enabled = true;
-                    log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
+                    _Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
+                    _Log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
                 }
-                foreach (GRYLogTarget target in log.Configuration.LogTargets)
+                foreach (GRYLogTarget target in _Log.Configuration.LogTargets)
                 {
                     target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
                 string commandLineArguments = Utilities.GetCommandLineArguments();
                 _ExternalProgramExecutor = new ExternalProgramExecutor(options.Program, argumentForExecution, workingDirectory)
                 {
-                    LogObject = log,
+                    LogObject = _Log,
                     LogNamespace = options.LogNamespace,
                     PrintErrorsAsInformation = options.PrintErrorsAsInformation,
                     TimeoutInMilliseconds = options.TimeoutInMilliseconds,
@@ -167,7 +166,7 @@ namespace Epew
             }
             catch (Exception exception)
             {
-                log.Log($"Error in {ProgramName}.", exception);
+                _Log.Log($"Error in {ProgramName}.", exception);
             }
             return result;
         }
