@@ -15,7 +15,7 @@ namespace Epew
 {
     public static class Program
     {
-        internal const string ProgramName = "epew";
+        internal const string ProgramName = "Epew";
         internal const string ProjectLink = "https://github.com/anionDev/Epew";
         internal const string LicenseName = "MIT";
         internal static readonly string Version = GetVersion();
@@ -38,10 +38,10 @@ namespace Epew
             try
             {
                 ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(arguments);
-                if (string.IsNullOrWhiteSpace(argument))
+                if (string.IsNullOrEmpty(argument))
                 {
                     System.Console.WriteLine($"{ProgramName} v{Version}");
-                    System.Console.WriteLine($"Try \"{ProgramName} --help\" to get information about the usage.");
+                    System.Console.WriteLine($"Run '{ProgramName} --help' to get help about the usage.");
                 }
                 else if (IsHelpCommand(argument))
                 {
@@ -126,7 +126,7 @@ namespace Epew
                 {
                     _Title = options.Title;
                 }
-                if (options.LogFile != null)
+                if (!string.IsNullOrWhiteSpace(options.LogFile))
                 {
                     _Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
                     _Log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
