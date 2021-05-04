@@ -38,7 +38,7 @@ namespace Epew
             try
             {
                 ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(arguments);
-                if (string.IsNullOrWhiteSpace(argument))
+                if (string.IsNullOrEmpty(argument))
                 {
                     System.Console.WriteLine($"{ProgramName} v{Version}");
                     System.Console.WriteLine($"Run '{ProgramName} --help' to get help about the usage.");
@@ -126,7 +126,7 @@ namespace Epew
                 {
                     _Title = options.Title;
                 }
-                if (options.LogFile != null)
+                if (!string.IsNullOrWhiteSpace(options.LogFile))
                 {
                     _Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
                     _Log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
