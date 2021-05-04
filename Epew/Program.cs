@@ -15,7 +15,7 @@ namespace Epew
 {
     public static class Program
     {
-        internal const string ProgramName = "epew";
+        internal const string ProgramName = "Epew";
         internal const string ProjectLink = "https://github.com/anionDev/Epew";
         internal const string LicenseName = "MIT";
         internal static readonly string Version = GetVersion();
@@ -41,7 +41,7 @@ namespace Epew
                 if (string.IsNullOrWhiteSpace(argument))
                 {
                     System.Console.WriteLine($"{ProgramName} v{Version}");
-                    System.Console.WriteLine($"Try \"{ProgramName} --help\" to get information about the usage.");
+                    System.Console.WriteLine($"Run '{ProgramName} --help' to get help about the usage.");
                 }
                 else if (IsHelpCommand(argument))
                 {
