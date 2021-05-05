@@ -50,7 +50,7 @@ namespace Epew
         [Option('n', nameof(NotSynchronous), Required = false, HelpText = "Run the program asynchronously", Default = false)]
         public bool NotSynchronous { get; set; }
 
-        [Option('n', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
+        [Option('l', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
         public string LogNamespace { get; set; }
 
     }
