@@ -2,11 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
-
+    <Authors>Marius Göcke</Authors>
+    <Copyright>Copyright © 2021 Marius Göcke</Copyright>
+    <Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.</Description>
+    <OutputType>Library</OutputType>
+    <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/anionDev/Epew</RepositoryUrl>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
     <RootNamespace>Epew.EpewLibrary.Tests</RootNamespace>
+    <StartupObject></StartupObject>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+	<Configurations>Development;Productive;QualityCheck</Configurations>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,5 +31,58 @@
   <ItemGroup>
     <ProjectReference Include="..\EpewLibrary\EpewLibrary.csproj" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Development\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Development</DefineConstants>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
+    <DocumentationFile>bin\Development\GRYLibraryTests.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='QualityCheck|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\QualityCheck\</OutputPath>
+    <DefineConstants>TRACE;QualityCheck</DefineConstants>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>none</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
+    <DocumentationFile>bin\QualityCheck\GRYLibraryTests.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Productive|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Productive\</OutputPath>
+    <DefineConstants>Productive</DefineConstants>
+    <LangVersion>9.0</LangVersion>
+    <ErrorReport>none</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
+    <DocumentationFile></DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
 
 </Project>
