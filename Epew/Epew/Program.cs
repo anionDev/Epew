@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Epew
 {
-    public static class Program
+    internal static class Program
     {
         internal const string ProgramName = "Epew";
         internal const string ProjectLink = "https://github.com/anionDev/Epew";
