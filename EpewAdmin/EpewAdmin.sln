@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpewAdmin", "EpewAdmin\EpewAdmin.csproj", "{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpewAdminTests", "EpewAdminTests\EpewAdminTests.csproj", "{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpewAdminTests", "EpewAdminTests\EpewAdminTests.csproj", "{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epew", "..\Epew\Epew\Epew.csproj", "{CB9C4E36-68D9-446A-8B5F-9249CAE8C387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpewLibrary", "..\EpewLibrary\EpewLibrary\EpewLibrary.csproj", "{2C4F826E-16D5-473E-A9A4-38258098063E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CB9C4E36-68D9-446A-8B5F-9249CAE8C387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CB9C4E36-68D9-446A-8B5F-9249CAE8C387}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CB9C4E36-68D9-446A-8B5F-9249CAE8C387}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CB9C4E36-68D9-446A-8B5F-9249CAE8C387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

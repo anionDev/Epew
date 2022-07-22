@@ -1,6 +1,7 @@
 Copyright © 2021 Marius Göcke
 
-ExternalProgramExecutionWrapper (epew) itself is licensed under the terms of the MIT-license (see appendix 1).
+ExternalProgramExecutionWrapper (Epew) itself is licensed under the terms of the MIT-license (see appendix 1).
+In this document ExternalProgramExecutionWrapper means the projects Epew, EpewAdmin and EpewLibrary and its resulting main build-artifacts (Epew.exe, EpewAdmin.exe, EpewLibrary.dll).
 ExternalProgramExecutionWrapper uses dependencies which are released under their own license:
 -CommandLineParser is licensed under the terms of the MIT-license (see appendix 1)
 -GRYLibrary is licensed under the terms of the MIT-license (see appendix 1)

@@ -6,15 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <StartupObject>EpewAdmin.Program</StartupObject>
+    <StartupObject>Epew.EpewAdmin.Core.Program</StartupObject>
+    <RootNamespace>Epew.EpewAdmin.Core</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Epew\Epew\Epew.csproj" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cp -f &quot;$(ProjectDir)..\..\License.txt&quot; &quot;$(OutDir)EpewAdmin.License.txt&quot;&#xD;&#xA;rm &quot;$(OutDir)Epew.exe&quot;" />
+    <Exec Command="cp -f &quot;$(ProjectDir)..\..\License.txt&quot; &quot;$(OutDir)EpewAdmin.License.txt&quot;&#xD;&#xA;" />
   </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EpewLibrary\EpewLibrary\EpewLibrary.csproj" />
+  </ItemGroup>
 
 </Project>

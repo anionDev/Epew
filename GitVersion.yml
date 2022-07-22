@@ -20,21 +20,16 @@ branches:
     regex: ^feature\/\S+
     increment: Minor
     mode: ContinuousDelivery
-    source-branches: ['stable']
+    source-branches: ['main']
   bug:
     regex: ^bug\/\S+
     increment: Patch
     mode: ContinuousDelivery
-    source-branches: ['stable']
-  codequality:
-    regex: ^codequality\/\S+
-    increment: Patch
-    mode: ContinuousDelivery
-    source-branches: ['stable']
+    source-branches: ['main']
   other:
     regex: ^other\/\S+
     increment: Patch
     mode: ContinuousDelivery
-    source-branches: ['stable']
+    source-branches: ['main']
 ignore:
   sha: []

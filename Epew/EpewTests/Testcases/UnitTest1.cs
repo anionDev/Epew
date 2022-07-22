@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EpewTests
+namespace Epew.Epew.Tests.Testcases
 {
     [TestClass]
     public class UnitTest1
