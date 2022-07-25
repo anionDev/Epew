@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata minClientVersion="2.12">
         <id>EpewLibrary</id>
-        <version>0.12.4</version>
+        <version>5.0.0</version>
         <title>EpewLibrary</title>
         <authors>Marius Göcke</authors>
         <owners>Marius Göcke</owners>
