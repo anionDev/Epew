@@ -16,7 +16,7 @@
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 	<Nullable>disable</Nullable>
-	<Configurations>Development;Productive;QualityCheck</Configurations>
+	<Configurations>Development;QualityCheck;Productive</Configurations>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 

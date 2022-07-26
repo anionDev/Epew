@@ -14,7 +14,7 @@
     <StartupObject></StartupObject>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-	<Configurations>Development;Productive;QualityCheck</Configurations>
+	<Configurations>Development;QualityCheck;Productive</Configurations>
 	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
@@ -39,6 +39,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EpewLibrary\EpewLibrary.csproj" />
   </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>full</DebugType>
@@ -51,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile>bin\Development\GRYLibraryTests.xml</DocumentationFile>
+    <DocumentationFile>bin\Development\EpewLibraryTests.xml</DocumentationFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
@@ -69,7 +70,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile>bin\QualityCheck\GRYLibraryTests.xml</DocumentationFile>
+    <DocumentationFile>bin\QualityCheck\EpewLibraryTests.xml</DocumentationFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <WarningsAsErrors>NU1605</WarningsAsErrors>

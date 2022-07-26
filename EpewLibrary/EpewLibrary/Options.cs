@@ -5,6 +5,9 @@ namespace Epew.EpewLibrary.Core
 {
     public class Options
     {
+
+        [Option('x', nameof(ElevatePrivileges), Required = false, HelpText = "Run the program with elevated privileges", Default = false)]
+        public bool ElevatePrivileges { get; set; }
         [Option('p', nameof(Program), Required = true, HelpText = "Program which should be executed")]
         public string? Program { get; set; }
 

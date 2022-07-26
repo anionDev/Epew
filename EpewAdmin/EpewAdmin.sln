@@ -11,22 +11,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpewLibrary", "..\EpewLibra
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Development|Any CPU = Development|Any CPU
+		Productive|Any CPU = Productive|Any CPU
+		QualityCheck|Any CPU = QualityCheck|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C4F826E-16D5-473E-A9A4-38258098063E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C4F826E-16D5-473E-A9A4-38258098063E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C4F826E-16D5-473E-A9A4-38258098063E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C4F826E-16D5-473E-A9A4-38258098063E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Development|Any CPU.Build.0 = Development|Any CPU
+		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Productive|Any CPU.ActiveCfg = Productive|Any CPU
+		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.Productive|Any CPU.Build.0 = Productive|Any CPU
+		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.QualityCheck|Any CPU.ActiveCfg = QualityCheck|Any CPU
+		{E32CE7C1-2994-4583-AB7A-DE45058EDFEC}.QualityCheck|Any CPU.Build.0 = QualityCheck|Any CPU
+		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Development|Any CPU.Build.0 = Development|Any CPU
+		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Productive|Any CPU.ActiveCfg = Productive|Any CPU
+		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.Productive|Any CPU.Build.0 = Productive|Any CPU
+		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.QualityCheck|Any CPU.ActiveCfg = QualityCheck|Any CPU
+		{02AD6A10-E0E8-472F-8FB0-C4CD25AED259}.QualityCheck|Any CPU.Build.0 = QualityCheck|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Development|Any CPU.Build.0 = Development|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Productive|Any CPU.ActiveCfg = Productive|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.Productive|Any CPU.Build.0 = Productive|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.QualityCheck|Any CPU.ActiveCfg = QualityCheck|Any CPU
+		{2C4F826E-16D5-473E-A9A4-38258098063E}.QualityCheck|Any CPU.Build.0 = QualityCheck|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
