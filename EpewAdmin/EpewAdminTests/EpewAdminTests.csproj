@@ -8,6 +8,7 @@
 
     <RootNamespace>Epew.EpewAdmin.Tests</RootNamespace>
 	<Configurations>Development;QualityCheck;Productive</Configurations>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,7 +37,6 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Development\</OutputPath>
     <DefineConstants>TRACE;DEBUG;Development</DefineConstants>
-    <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -54,7 +54,6 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\QualityCheck\</OutputPath>
     <DefineConstants>TRACE;QualityCheck</DefineConstants>
-    <LangVersion>9.0</LangVersion>
     <ErrorReport>none</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -72,7 +71,6 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Productive\</OutputPath>
     <DefineConstants>Productive</DefineConstants>
-    <LangVersion>9.0</LangVersion>
     <ErrorReport>none</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
