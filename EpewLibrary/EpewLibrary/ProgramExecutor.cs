@@ -8,11 +8,10 @@ using CommandLine.Text;
 using GRYLibrary.Core.Log;
 using GRYLibrary.Core.Log.ConcreteLogTargets;
 using GRYLibrary.Core.Miscellaneous;
-using GRYLibrary.Core.Miscellaneous.ExecutePrograms;
-using GRYLibrary.Core.Miscellaneous.ExecutePrograms.WaitingStates;
 using System.IO;
 using System.Reflection;
-
+using GRYLibrary.Core.ExecutePrograms;
+using GRYLibrary.Core.ExecutePrograms.WaitingStates;
 
 namespace Epew.EpewLibrary.Core
 {

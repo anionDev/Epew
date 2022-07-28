@@ -1,6 +1,6 @@
 ﻿using CommandLine;
+using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.Miscellaneous;
-using GRYLibrary.Core.Miscellaneous.ExecutePrograms;
 using System;
 
 namespace Epew.EpewLibrary.Core
