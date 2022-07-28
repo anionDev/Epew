@@ -1,26 +1,26 @@
 ﻿using CommandLine;
 using GRYLibrary.Core.Miscellaneous;
+using GRYLibrary.Core.Miscellaneous.ExecutePrograms;
+using System;
 
 namespace Epew.EpewLibrary.Core
 {
-    public class Options
+    public class EpewOptions
     {
 
-        [Option('x', nameof(ElevatePrivileges), Required = false, HelpText = "Run the program with elevated privileges", Default = false)]
-        public bool ElevatePrivileges { get; set; }
         [Option('p', nameof(Program), Required = true, HelpText = "Program which should be executed")]
-        public string? Program { get; set; }
+        public string Program { get; set; }
 
         [Option('a', nameof(Argument), Required = false, HelpText = "Argument for the program which should be executed", Default = Utilities.EmptyString)]
-        public string? Argument { get; set; }
+        public string Argument { get; set; }
 
-        [Option('b', nameof(ArgumentIsBase64Encoded), Required = false, HelpText = "Specifiy whether " + nameof(Argument) + " is base64-encoded", Default = false)]
+        [Option('b', nameof(ArgumentIsBase64Encoded), Required = false, HelpText = "Specifies whether " + nameof(Argument) + " is base64-encoded", Default = false)]
         public bool ArgumentIsBase64Encoded { get; set; }
 
         [Option('w', nameof(Workingdirectory), Required = false, HelpText = "Workingdirectory for the program which should be executed")]
-        public string? Workingdirectory { get; set; }
+        public string Workingdirectory { get; set; }
 
-        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + EpewLibrary.Core.Program.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Normal)]
+        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + Core.ProgramExecutor.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Normal)]
         public Verbosity Verbosity { get; set; }
 
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
@@ -29,32 +29,39 @@ namespace Epew.EpewLibrary.Core
         [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
-        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + EpewLibrary.Core.Program.ProgramName)]
-        public string? LogFile { get; set; }
+        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + Core.ProgramExecutor.ProgramName)]
+        public string LogFile { get; set; }
 
         [Option('o', nameof(StdOutFile), Required = false, HelpText = "File for the stdout of the executed program")]
-        public string? StdOutFile { get; set; }
+        public string StdOutFile { get; set; }
 
         [Option('e', nameof(StdErrFile), Required = false, HelpText = "File for the stderr of the executed program")]
-        public string? StdErrFile { get; set; }
+        public string StdErrFile { get; set; }
 
         [Option('x', nameof(ExitCodeFile), Required = false, HelpText = "File for the exitcode of the executed program")]
-        public string? ExitCodeFile { get; set; }
+        public string ExitCodeFile { get; set; }
 
         [Option('r', nameof(ProcessIdFile), Required = false, HelpText = "File for the process-id of the executed program")]
-        public string? ProcessIdFile { get; set; }
+        public string ProcessIdFile { get; set; }
 
-        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + EpewLibrary.Core.Program.ProgramName, Default = int.MaxValue)]
+        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + EpewLibrary.Core.ProgramExecutor.ProgramName, Default = int.MaxValue)]
         public int TimeoutInMilliseconds { get; set; }
 
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
-        public string? Title { get; set; }
+        public string Title { get; set; }
 
         [Option('n', nameof(NotSynchronous), Required = false, HelpText = "Run the program asynchronously", Default = false)]
         public bool NotSynchronous { get; set; }
 
         [Option('l', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
-        public string? LogNamespace { get; set; }
+        public string LogNamespace { get; set; }
 
+        [Option('u', nameof(ElevatePrivileges), Required = false, HelpText = "Run the program with elevated privileges", Default = false)]
+        public bool ElevatePrivileges { get; set; }
+
+        internal ExternalProgramExecutorConfiguration ToConfiguration()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

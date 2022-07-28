@@ -1,4 +1,4 @@
-Copyright © 2021 Marius Göcke
+Copyright © Marius Göcke
 
 ExternalProgramExecutionWrapper (Epew) itself is licensed under the terms of the MIT-license (see appendix 1).
 In this document ExternalProgramExecutionWrapper means the projects Epew, EpewAdmin and EpewLibrary and its resulting main build-artifacts (Epew.exe, EpewAdmin.exe, EpewLibrary.dll).

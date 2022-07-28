@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using CommandLine.Text;
-using GRYLibrary.Core.LogObject;
-using GRYLibrary.Core.LogObject.ConcreteLogTargets;
+using GRYLibrary.Core.Log;
+using GRYLibrary.Core.Log.ConcreteLogTargets;
 using GRYLibrary.Core.Miscellaneous;
 using System;
 using System.Collections.Generic;
