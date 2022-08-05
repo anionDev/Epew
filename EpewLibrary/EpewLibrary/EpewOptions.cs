@@ -20,7 +20,7 @@ namespace Epew.EpewLibrary.Core
         [Option('w', nameof(Workingdirectory), Required = false, HelpText = "Workingdirectory for the program which should be executed")]
         public string Workingdirectory { get; set; }
 
-        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + Core.ProgramExecutor.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Normal)]
+        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + ProgramExecutor.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Full)]
         public Verbosity Verbosity { get; set; }
 
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
@@ -29,7 +29,7 @@ namespace Epew.EpewLibrary.Core
         [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
-        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + Core.ProgramExecutor.ProgramName)]
+        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + ProgramExecutor.ProgramName)]
         public string LogFile { get; set; }
 
         [Option('o', nameof(StdOutFile), Required = false, HelpText = "File for the stdout of the executed program")]
@@ -56,8 +56,10 @@ namespace Epew.EpewLibrary.Core
         [Option('l', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
         public string LogNamespace { get; set; }
 
-        [Option('u', nameof(ElevatePrivileges), Required = false, HelpText = "Run the program with elevated privileges", Default = false)]
-        public bool ElevatePrivileges { get; set; }
+        [Option('u', nameof(User), Required = false, HelpText = "Run the program with as the given user", Default = null)]
+        public string User { get; set; }
+        [Option('c', nameof(Password), Required = false, HelpText = "Password of user \""+nameof(User)+"\"", Default = null)]
+        public string Password { get; set; }
 
         internal ExternalProgramExecutorConfiguration ToConfiguration()
         {

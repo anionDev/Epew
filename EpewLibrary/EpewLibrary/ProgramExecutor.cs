@@ -105,7 +105,6 @@ namespace Epew.EpewLibrary.Core
 
         private int HandleSuccessfullyParsedArguments(EpewOptions options)
         {
-            bool elevate = options.ElevatePrivileges && !Utilities.IsAdministrator();
             Guid executionId = Guid.NewGuid();
             int result = ExitCodeNoProgramExecuted;
             try
@@ -168,22 +167,15 @@ namespace Epew.EpewLibrary.Core
                 }
                 string commandLineArguments = Utilities.GetCommandLineArguments();
 
-
-                if (elevate)
+                _ExternalProgramExecutor = new ExternalProgramExecutor(new ExternalProgramExecutorConfiguration()
                 {
-                    _ExternalProgramExecutor = new ExternalProgramExecutor("EpewAdmin",
-                        ExternalProgramExecutor.CreateEpewArgumentString(options.Program, options.Argument, options.Workingdirectory,
-                        options.PrintErrorsAsInformation, options.TimeoutInMilliseconds, options.Verbosity,
-                        options.AddLogOverhead, options.LogFile, options.Title, GetWaitingState(options), options.LogNamespace, options.ElevatePrivileges),
-                        options.Workingdirectory);
-                }
-                else
-                {
-                    _ExternalProgramExecutor = new ExternalProgramExecutor(new ExternalProgramExecutorConfiguration()
-                    {
-                        Program = options.Program,
-                    });
-                }
+                    Program = options.Program,
+                    Argument = argumentForExecution,
+                    WorkingDirectory = workingDirectory,
+                    Verbosity = options.Verbosity,
+                    User=options.User,
+                    Password=options.Password,
+                });
 
                 _ExternalProgramExecutor.Run();
 
@@ -205,23 +197,6 @@ namespace Epew.EpewLibrary.Core
             catch (Exception exception)
             {
                 _Log.Log($"Error in {ProgramName}.", exception);
-            }
-            return result;
-        }
-
-        private static WaitingState GetWaitingState(EpewOptions options)
-        {
-            WaitingState result;
-            if (options.NotSynchronous)
-            {
-                result = new RunAsynchronously();
-            }
-            else
-            {
-                result = new RunSynchronously()
-                {
-                    ThrowErrorIfExitCodeIsNotZero = false
-                };
             }
             return result;
         }
