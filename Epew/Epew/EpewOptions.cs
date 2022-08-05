@@ -3,7 +3,7 @@ using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.Miscellaneous;
 using System;
 
-namespace Epew.EpewLibrary.Core
+namespace Epew.Epew.Core
 {
     public class EpewOptions
     {
@@ -44,7 +44,7 @@ namespace Epew.EpewLibrary.Core
         [Option('r', nameof(ProcessIdFile), Required = false, HelpText = "File for the process-id of the executed program")]
         public string ProcessIdFile { get; set; }
 
-        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + EpewLibrary.Core.ProgramExecutor.ProgramName, Default = int.MaxValue)]
+        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + Epew.Core.ProgramExecutor.ProgramName, Default = int.MaxValue)]
         public int TimeoutInMilliseconds { get; set; }
 
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
@@ -56,9 +56,9 @@ namespace Epew.EpewLibrary.Core
         [Option('l', nameof(LogNamespace), Required = false, HelpText = "Namespace for log", Default = "")]
         public string LogNamespace { get; set; }
 
-        [Option('u', nameof(User), Required = false, HelpText = "Run the program with as the given user", Default = null)]
+        [Option('u', nameof(User), Required = false, HelpText = "Run the program as the given user", Default = null)]
         public string User { get; set; }
-        [Option('c', nameof(Password), Required = false, HelpText = "Password of user \""+nameof(User)+"\"", Default = null)]
+        [Option('c', nameof(Password), Required = false, HelpText = "Password of the user", Default = null)]
         public string Password { get; set; }
 
         internal ExternalProgramExecutorConfiguration ToConfiguration()

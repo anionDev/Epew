@@ -13,7 +13,7 @@ using System.Reflection;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.ExecutePrograms.WaitingStates;
 
-namespace Epew.EpewLibrary.Core
+namespace Epew.Epew.Core
 {
     internal class ProgramExecutor
     {
@@ -286,7 +286,6 @@ namespace Epew.EpewLibrary.Core
             {
                 string argumentLower = argument.ToLower();
                 if (argumentLower.Equals("--help")
-                    || argumentLower.Equals("-h")
                     || argumentLower.Equals("/help")
                     || argumentLower.Equals("/h"))
                 {

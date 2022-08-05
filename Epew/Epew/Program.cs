@@ -4,7 +4,7 @@
     {
         internal static int Main(string[] arguments)
         {
-            return EpewLibrary.Core.Program.Main(arguments);
+            return new ProgramExecutor().Main(arguments);
         }
     }
 }
