@@ -1,6 +1,6 @@
 # General
 
-epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.
+Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.
 
 ## Features
 

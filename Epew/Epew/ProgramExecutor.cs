@@ -1,82 +1,112 @@
-﻿using CommandLine;
-using CommandLine.Text;
-using GRYLibrary.Core.LogObject;
-using GRYLibrary.Core.LogObject.ConcreteLogTargets;
-using GRYLibrary.Core.Miscellaneous;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CommandLine;
+using CommandLine.Text;
+using GRYLibrary.Core.Log;
+using GRYLibrary.Core.Log.ConcreteLogTargets;
+using GRYLibrary.Core.Miscellaneous;
+using System.IO;
+using System.Reflection;
+using GRYLibrary.Core.ExecutePrograms;
+using GRYLibrary.Core.ExecutePrograms.WaitingStates;
 
-namespace Epew
+namespace Epew.Epew.Core
 {
-    public static class Program
+    internal class ProgramExecutor
     {
         internal const string ProgramName = "Epew";
         internal const string ProjectLink = "https://github.com/anionDev/Epew";
         internal const string LicenseName = "MIT";
-        internal static readonly string Version = GetVersion();
-        internal static readonly string LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{Version}/License.txt";
 
         internal const int ExitCodeNoProgramExecuted = 2147393801;
         internal const int ExitCodeFatalErroroccurred = 2147393802;
         internal const int ExitCodeTimeout = 2147393803;
-        internal static ExternalProgramExecutor _ExternalProgramExecutor = null;
-        internal static GRYLog _Log = GRYLog.Create();
-        private static readonly SentenceBuilder _SentenceBuilder = SentenceBuilder.Create();
 
-        private static string _Title;
+        private GRYLog _Log = null;
+        private SentenceBuilder _SentenceBuilder = null;
+        private string _Title = null;
+        private ExternalProgramExecutor _ExternalProgramExecutor = null;
+        internal string Version { get; private set; }
+        internal string LicenseLink { get; private set; }
 
-        internal static int Main(string[] arguments)
+        public int Main(string[] arguments)
         {
             int result = ExitCodeNoProgramExecuted;
-            string argument = Utilities.GetCommandLineArguments();
-            string workingDirectory = Directory.GetCurrentDirectory();
             try
             {
-                ParserResult<Options> argumentParserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<Options>(arguments);
-                if (string.IsNullOrEmpty(argument))
+                Version = GetVersion();
+                LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{Version}/License.txt";
+                _SentenceBuilder = SentenceBuilder.Create();
+                if (arguments == null)
                 {
-                    System.Console.WriteLine($"{ProgramName} v{Version}");
-                    System.Console.WriteLine($"Run '{ProgramName} --help' to get help about the usage.");
+                    throw Utilities.CreateNullReferenceExceptionDueToParameter(nameof(arguments));
                 }
-                else if (IsHelpCommand(argument))
+                string argumentsAsString = String.Join(' ', arguments);
+                _Log = GRYLog.Create();
+                string workingDirectory = Directory.GetCurrentDirectory();
+                try
                 {
-                    WriteHelp(argumentParserResult);
-                }
-                else
-                {
-                    if (argumentParserResult is Parsed<Options>)
+                    if (arguments.Length == 0)
                     {
-                        argumentParserResult.WithParsed(options =>
-                        {
-                            result = ProcessArguments(options, result);
-                        });
-                    }
-                    else if (argumentParserResult is NotParsed<Options> notParsed)
-                    {
-                        throw new ArgumentException($"Argument '{argument}' could not be parsed successfully. Errors: " + string.Join(",", notParsed.Errors.Select(error => $"\"{error.Tag}: {_SentenceBuilder.FormatError(error)}\"")));
+                        _Log.Log($"{ProgramName} v{Version}");
+                        _Log.Log($"Run '{ProgramName} --help' to get help about the usage.");
                     }
                     else
                     {
-                        throw new ArgumentException($"Argument '{argument}' resulted in a undefined parser-result.");
+                        ParserResult<EpewOptions> parserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<EpewOptions>(arguments);
+                        if (IsHelpCommand(arguments))
+                        {
+                            WriteHelp(parserResult);
+                        }
+                        else
+                        {
+                            parserResult.WithParsed(options =>
+                            {
+                                result = HandleSuccessfullyParsedArguments(options);
+                            })
+                            .WithNotParsed(errors =>
+                            {
+                                HandleParsingErrors(argumentsAsString, errors);
+                            });
+                            return result;
+                        }
                     }
                 }
+                catch (Exception exception)
+                {
+                    _Log.Log($"Fatal error occurred while processing argument '{workingDirectory}> epew {argumentsAsString}", exception);
+                }
+
             }
             catch (Exception exception)
             {
-                _Log.Log($"Fatal error occurred while processing argument '{workingDirectory}> epew {argument}", exception);
+                System.Console.Error.WriteLine($"Fatal error occurred", exception.ToString());
                 result = ExitCodeFatalErroroccurred;
             }
             return result;
         }
-        private static int ProcessArguments(Options options, int initialExitCodeValue)
+
+        private void HandleParsingErrors(string argumentsAsString, IEnumerable<Error> errors)
+        {
+            var amountOfErrors = errors.Count();
+            _Log.Log($"Argument '{argumentsAsString}' could not be parsed successfully.", Microsoft.Extensions.Logging.LogLevel.Error);
+            if (0 < amountOfErrors)
+            {
+                _Log.Log($"The following error{(amountOfErrors == 1 ? string.Empty : "s")} occurred:", Microsoft.Extensions.Logging.LogLevel.Error);
+                foreach (var error in errors)
+                {
+                    _Log.Log($"{error.Tag}: {_SentenceBuilder.FormatError(error)}", Microsoft.Extensions.Logging.LogLevel.Error);
+                }
+            }
+        }
+
+        private int HandleSuccessfullyParsedArguments(EpewOptions options)
         {
             Guid executionId = Guid.NewGuid();
-            int result = initialExitCodeValue;
+            int result = ExitCodeNoProgramExecuted;
             try
             {
                 RemoveQuotes(options);
@@ -136,33 +166,33 @@ namespace Epew
                     target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
                 string commandLineArguments = Utilities.GetCommandLineArguments();
-                _ExternalProgramExecutor = new ExternalProgramExecutor(options.Program, argumentForExecution, workingDirectory)
+
+                _ExternalProgramExecutor = new ExternalProgramExecutor(new ExternalProgramExecutorConfiguration()
                 {
-                    LogObject = _Log,
-                    LogNamespace = options.LogNamespace,
-                    PrintErrorsAsInformation = options.PrintErrorsAsInformation,
-                    TimeoutInMilliseconds = options.TimeoutInMilliseconds,
-                    ThrowErrorIfExitCodeIsNotZero = false,
-                    Verbosity = options.Verbosity
-                };
+                    Program = options.Program,
+                    Argument = argumentForExecution,
+                    WorkingDirectory = workingDirectory,
+                    Verbosity = options.Verbosity,
+                    User=options.User,
+                    Password=options.Password,
+                });
 
+                _ExternalProgramExecutor.Run();
 
+                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, _ExternalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
                 if (options.NotSynchronous)
                 {
-                    _ExternalProgramExecutor.StartAsynchronously();
+                    return 2147393804;
+                }
+                else
+                {
                     new Task(() =>
                     {
                         _ExternalProgramExecutor.WaitUntilTerminated();
                         ProgramExecutionResultHandler(_ExternalProgramExecutor, options, executionId, commandLineExecutionAsString);
                     }).Start();
-                    result = _ExternalProgramExecutor.ProcessId;
+                    result = _ExternalProgramExecutor.ExitCode;
                 }
-                else
-                {
-                    _ExternalProgramExecutor.StartSynchronously();
-                    result = ProgramExecutionResultHandler(_ExternalProgramExecutor, options, executionId, commandLineExecutionAsString);
-                }
-                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, _ExternalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
             }
             catch (Exception exception)
             {
@@ -171,7 +201,7 @@ namespace Epew
             return result;
         }
 
-        private static void RemoveQuotes(Options options)
+        private static void RemoveQuotes(EpewOptions options)
         {
             options.Argument = TrimQuotes(options.Argument);
             options.Program = TrimQuotes(options.Program);
@@ -208,7 +238,7 @@ namespace Epew
             WriteToFile(file, fileContent.ToArray());
         }
 
-        private static int ProgramExecutionResultHandler(ExternalProgramExecutor externalProgramExecutor, Options options, Guid executionId, string commandLineExecutionAsString)
+        private int ProgramExecutionResultHandler(ExternalProgramExecutor externalProgramExecutor, EpewOptions options, Guid executionId, string commandLineExecutionAsString)
         {
             try
             {
@@ -232,7 +262,7 @@ namespace Epew
             }
         }
 
-        private static void WriteHelp(ParserResult<Options> argumentParserResult)
+        private void WriteHelp(ParserResult<EpewOptions> argumentParserResult)
         {
             System.Console.Out.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
             System.Console.Out.WriteLine();
@@ -250,14 +280,19 @@ namespace Epew
             System.Console.Out.WriteLine($"If running asynchronously then the process-id of the executed program will be set as exitcode of {ProgramName}.");
         }
 
-        private static bool IsHelpCommand(string argument)
+        private static bool IsHelpCommand(string[] arguments)
         {
-            argument = argument.ToLower().Trim();
-            return argument.Equals("help")
-                || argument.Equals("--help")
-                || argument.Equals("-h")
-                || argument.Equals("/help")
-                || argument.Equals("/h");
+            foreach (var argument in arguments)
+            {
+                string argumentLower = argument.ToLower();
+                if (argumentLower.Equals("--help")
+                    || argumentLower.Equals("/help")
+                    || argumentLower.Equals("/h"))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static void WriteToFile(string file, string[] lines)
@@ -276,4 +311,5 @@ namespace Epew
             return $"{version.Major}.{version.Minor}.{version.Build}";
         }
     }
+
 }

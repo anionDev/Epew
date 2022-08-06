@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Epew", "Epew\Epew.csproj", "{C6F0143C-749E-43D2-AF9E-35DD02CF6291}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EpewTests", "EpewTests\EpewTests.csproj", "{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Any CPU = Development|Any CPU
+		Productive|Any CPU = Productive|Any CPU
+		QualityCheck|Any CPU = QualityCheck|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6F0143C-749E-43D2-AF9E-35DD02CF6291}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{C6F0143C-749E-43D2-AF9E-35DD02CF6291}.Development|Any CPU.Build.0 = Development|Any CPU
+		{C6F0143C-749E-43D2-AF9E-35DD02CF6291}.Productive|Any CPU.ActiveCfg = Productive|Any CPU
+		{C6F0143C-749E-43D2-AF9E-35DD02CF6291}.Productive|Any CPU.Build.0 = Productive|Any CPU
+		{C6F0143C-749E-43D2-AF9E-35DD02CF6291}.QualityCheck|Any CPU.ActiveCfg = QualityCheck|Any CPU
+		{C6F0143C-749E-43D2-AF9E-35DD02CF6291}.QualityCheck|Any CPU.Build.0 = QualityCheck|Any CPU
+		{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}.Development|Any CPU.Build.0 = Development|Any CPU
+		{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}.Productive|Any CPU.ActiveCfg = Productive|Any CPU
+		{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}.Productive|Any CPU.Build.0 = Productive|Any CPU
+		{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}.QualityCheck|Any CPU.ActiveCfg = QualityCheck|Any CPU
+		{C6110F13-7E67-4CD1-9333-D984EE5C4BFC}.QualityCheck|Any CPU.Build.0 = QualityCheck|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E381256E-0DED-4A8E-802E-CA935F231958}
+	EndGlobalSection
+EndGlobal
