@@ -6,7 +6,7 @@
     <StartupObject>Epew.Epew.Core.Program</StartupObject>
     <FileVersion>4.2.10.0</FileVersion>
     <AssemblyVersion>4.2.10.0</AssemblyVersion>
-    <Version>5.0.1</Version>
+    <Version>5.0.2</Version>
     <Authors>Marius Göcke</Authors>
     <PackageId>Epew</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

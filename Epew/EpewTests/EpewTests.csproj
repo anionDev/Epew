@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
     <FileVersion>4.2.10.0</FileVersion>
     <AssemblyVersion>4.2.10.0</AssemblyVersion>
-    <Version>5.0.1</Version>
+    <Version>5.0.2</Version>
     <RootNamespace>Epew.Epew.Tests</RootNamespace>
 	<Configurations>Development;QualityCheck;Productive</Configurations>
     <LangVersion>10.0</LangVersion>
