@@ -4,9 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <FileVersion>4.2.10.0</FileVersion>
-    <AssemblyVersion>4.2.10.0</AssemblyVersion>
-    <Version>5.0.2</Version>
+    <FileVersion>5.0.3</FileVersion>
+    <AssemblyVersion>5.0.3</AssemblyVersion>
+    <Version>5.0.3</Version>
     <RootNamespace>Epew.Epew.Tests</RootNamespace>
 	<Configurations>Development;QualityCheck;Productive</Configurations>
     <LangVersion>10.0</LangVersion>
