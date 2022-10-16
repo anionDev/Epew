@@ -26,7 +26,7 @@ namespace Epew.Epew.Core
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
         public bool PrintErrorsAsInformation { get; set; }
 
-        [Option('h', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
+        [Option('g', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
         [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + ProgramExecutor.ProgramName)]
