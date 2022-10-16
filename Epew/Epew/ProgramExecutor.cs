@@ -176,6 +176,7 @@ namespace Epew.Epew.Core
                     User=options.User,
                     Password=options.Password,
                 });
+                _ExternalProgramExecutor.LogObject = this._Log;
 
                 _ExternalProgramExecutor.Run();
 
