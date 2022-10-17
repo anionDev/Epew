@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <StartupObject>Epew.Epew.Core.Program</StartupObject>
-    <FileVersion>5.0.4</FileVersion>
-    <AssemblyVersion>5.0.4</AssemblyVersion>
-    <Version>5.0.4</Version>
+    <FileVersion>5.0.5</FileVersion>
+    <AssemblyVersion>5.0.5</AssemblyVersion>
+    <Version>5.0.5</Version>
     <Authors>Marius Göcke</Authors>
     <PackageId>Epew</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
