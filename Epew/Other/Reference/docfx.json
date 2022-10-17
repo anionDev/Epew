@@ -1,5 +1,22 @@
 {
   "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Epew.csproj"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "_site/**"
+          ],
+          "src": "../../Epew"
+        }
+      ],
+      "dest": "./ReferenceContent/api",
+      "disableGitFeatures": true
+    }
   ],
   "build": {
     "content": [
@@ -8,14 +25,7 @@
           "**.md",
           "**.yml"
         ],
-        "src":"./ReferenceContent"
-      },
-      {
-       "files": [
-          "**.yml"
-        ],
-        "src":"./ReferenceContent/api",
-        "dest":"../Artifacts/Reference/api"
+        "src": "./ReferenceContent"
       }
     ],
     "resource": [
@@ -23,15 +33,13 @@
         "files": [
           "images/**"
         ],
-        "src":"./ReferenceContent"
+        "src": "./ReferenceContent"
       }
     ],
     "overwrite": [
       {
-        "files": [
-        ],
-        "exclude": [
-        ]
+        "files": [],
+        "exclude": []
       }
     ],
     "dest": "../Artifacts/Reference",
