@@ -10,10 +10,11 @@ def common_tasks():
     file = str(Path(__file__).absolute())
     folder_of_current_file = os.path.dirname(file)
     sc = ScriptCollectionCore()
-    version = sc.getversion_from_arguments_or_gitversion(file, sys.argv)
-    TasksForCommonProjectStructure().update_version_of_codeunit_to_project_version(file, version)
+    version = sc.get_semver_version_from_gitversion(GeneralUtilities.resolve_relative_path("../..", os.path.dirname(file)))
     sc.replace_version_in_csproj_file(GeneralUtilities.resolve_relative_path("../Epew/Epew.csproj", folder_of_current_file), version)
     sc.replace_version_in_csproj_file(GeneralUtilities.resolve_relative_path("../EpewTests/EpewTests.csproj", folder_of_current_file), version)
+    tfcps = TasksForCommonProjectStructure()
+    tfcps.update_version_of_codeunit_to_project_version(file, version)
 
 
 if __name__ == "__main__":

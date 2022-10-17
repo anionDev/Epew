@@ -28,7 +28,7 @@ namespace Epew.Epew.Core
         private GRYLog _Log = null;
         private SentenceBuilder _SentenceBuilder = null;
         private string _Title = null;
-        private ExternalProgramExecutor _ExternalProgramExecutor = null;
+        internal ExternalProgramExecutor _ExternalProgramExecutor = null;
         internal string Version { get; private set; }
         internal string LicenseLink { get; private set; }
 
@@ -83,7 +83,7 @@ namespace Epew.Epew.Core
             }
             catch (Exception exception)
             {
-                System.Console.Error.WriteLine($"Fatal error occurred", exception.ToString());
+                _Log.Log($"Fatal error occurred", exception);
                 result = ExitCodeFatalErroroccurred;
             }
             return result;
@@ -173,9 +173,12 @@ namespace Epew.Epew.Core
                     Argument = argumentForExecution,
                     WorkingDirectory = workingDirectory,
                     Verbosity = options.Verbosity,
-                    User=options.User,
-                    Password=options.Password,
-                });
+                    User = options.User,
+                    Password = options.Password,
+                })
+                {
+                    LogObject = this._Log
+                };
 
                 _ExternalProgramExecutor.Run();
 
@@ -229,8 +232,10 @@ namespace Epew.Epew.Core
 
         private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, int value, string nameOfValue, string file)
         {
-            List<string> fileContent = new();
-            fileContent.Add(value.ToString());
+            List<string> fileContent = new()
+            {
+                value.ToString()
+            };
             if (verbosity == Verbosity.Verbose)
             {
                 fileContent.Add($"Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
@@ -264,20 +269,20 @@ namespace Epew.Epew.Core
 
         private void WriteHelp(ParserResult<EpewOptions> argumentParserResult)
         {
-            System.Console.Out.WriteLine(HelpText.AutoBuild(argumentParserResult).ToString());
-            System.Console.Out.WriteLine();
-            System.Console.Out.WriteLine($"{ProgramName} is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout and so on.");
-            System.Console.Out.WriteLine();
-            System.Console.Out.WriteLine($"Current version: v{Version}");
-            System.Console.Out.WriteLine($"For more information see the website of the {ProgramName}-project: {ProjectLink}");
-            System.Console.Out.WriteLine($"{ProgramName} is licensed under the terms of {LicenseName}. For the concrete license-text see {LicenseLink}");
-            System.Console.Out.WriteLine();
-            System.Console.Out.WriteLine($"Exitcodes:");
-            System.Console.Out.WriteLine($"{ExitCodeNoProgramExecuted}: If no program was executed");
-            System.Console.Out.WriteLine($"{ExitCodeFatalErroroccurred}: If a fatal error occurred");
-            System.Console.Out.WriteLine($"{ExitCodeTimeout}: If the executed program was aborted due to the given timeout");
-            System.Console.Out.WriteLine($"If running synchronously then the exitcode of the executed program will be set as exitcode of {ProgramName}.");
-            System.Console.Out.WriteLine($"If running asynchronously then the process-id of the executed program will be set as exitcode of {ProgramName}.");
+            _Log.Log(HelpText.AutoBuild(argumentParserResult).ToString());
+            _Log.Log(string.Empty);
+            _Log.Log($"{ProgramName} is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout and so on.");
+            _Log.Log(string.Empty);
+            _Log.Log($"Current version: v{Version}");
+            _Log.Log($"For more information see the website of the {ProgramName}-project: {ProjectLink}");
+            _Log.Log($"{ProgramName} is licensed under the terms of {LicenseName}. For the concrete license-text see {LicenseLink}");
+            _Log.Log(string.Empty);
+            _Log.Log($"Exitcodes:");
+            _Log.Log($"{ExitCodeNoProgramExecuted}: If no program was executed");
+            _Log.Log($"{ExitCodeFatalErroroccurred}: If a fatal error occurred");
+            _Log.Log($"{ExitCodeTimeout}: If the executed program was aborted due to the given timeout");
+            _Log.Log($"If running synchronously then the exitcode of the executed program will be set as exitcode of {ProgramName}.");
+            _Log.Log($"If running asynchronously then the process-id of the executed program will be set as exitcode of {ProgramName}.");
         }
 
         private static bool IsHelpCommand(string[] arguments)
