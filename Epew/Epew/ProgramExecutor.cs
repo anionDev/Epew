@@ -173,10 +173,12 @@ namespace Epew.Epew.Core
                     Argument = argumentForExecution,
                     WorkingDirectory = workingDirectory,
                     Verbosity = options.Verbosity,
-                    User=options.User,
-                    Password=options.Password,
-                });
-                _ExternalProgramExecutor.LogObject = this._Log;
+                    User = options.User,
+                    Password = options.Password,
+                })
+                {
+                    LogObject = this._Log
+                };
 
                 _ExternalProgramExecutor.Run();
 
@@ -230,8 +232,10 @@ namespace Epew.Epew.Core
 
         private static void WriteNumberToFile(Verbosity verbosity, Guid executionId, string title, string commandLineExecutionAsString, int value, string nameOfValue, string file)
         {
-            List<string> fileContent = new();
-            fileContent.Add(value.ToString());
+            List<string> fileContent = new()
+            {
+                value.ToString()
+            };
             if (verbosity == Verbosity.Verbose)
             {
                 fileContent.Add($"Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
