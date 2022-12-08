@@ -1,7 +1,12 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": ".",
+			"name": "Entire repository"
+		},
+		{
+			"path": "./Epew",
+			"name": "Epew"
 		}
 	],
 	"tasks": {
@@ -13,46 +18,6 @@
 				"args": [
 					"--codeunitfolder",
 					"${workspaceFolder}/Epew"
-				],
-				"type": "shell",
-			},
-			{
-				"label": "Epew: Common tasks",
-				"command": "python",
-				"args": [
-					"${workspaceFolder}/Epew/Other/CommonTasks.py"
-				],
-				"type": "shell",
-			},
-			{
-				"label": "Epew: Build",
-				"command": "python",
-				"args": [
-					"${workspaceFolder}/Epew/Other/Build/Build.py"
-				],
-				"type": "shell",
-			},
-			{
-				"label": "Epew: Run testcases",
-				"command": "python",
-				"args": [
-					"${workspaceFolder}/Epew/Other/QualityCheck/RunTestcases.py"
-				],
-				"type": "shell",
-			},
-			{
-				"label": "Epew: Linting",
-				"command": "python",
-				"args": [
-					"${workspaceFolder}/Epew/Other/QualityCheck/Linting.py"
-				],
-				"type": "shell",
-			},
-			{
-				"label": "Epew: Generate reference",
-				"command": "python",
-				"args": [
-					"${workspaceFolder}/Epew/Other/Reference/GenerateReference.py"
 				],
 				"type": "shell",
 			}
@@ -71,15 +36,8 @@
 		]
 	},
 	"settings": {
-		"files.associations": {
-			"*.codeunit": "xml",
-		},
 		"files.exclude": {
 			".coverage": true,
-			"Epew/bin": true,
-			"Epew/obj": true,
-			"EpewTests/bin": true,
-			"EpewTests/obj": true,
 			"TestResults": true,
 			".vs": true,
 		},
