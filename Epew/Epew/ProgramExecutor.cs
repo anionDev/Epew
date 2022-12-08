@@ -312,7 +312,7 @@ namespace Epew.Epew.Core
 
         private static string GetVersion()
         {
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            System.Version version = Assembly.GetExecutingAssembly().GetName().Version;
             return $"{version.Major}.{version.Minor}.{version.Build}";
         }
     }

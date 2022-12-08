@@ -1,0 +1,52 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "Entire repository"
+		},
+		{
+			"path": "./Epew",
+			"name": "Epew"
+		}
+	],
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Epew: Build entire codeunit",
+				"command": "SCBuildCodeunit",
+				"args": [
+					"--codeunitfolder",
+					"${workspaceFolder}/Epew"
+				],
+				"type": "shell",
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Debug current file",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		]
+	},
+	"settings": {
+		"files.exclude": {
+			".coverage": true,
+			"TestResults": true,
+			".vs": true,
+		},
+		"spellright.language": [
+			"en",
+		],
+		"spellright.documentTypes": [
+			"markdown",
+			"plaintext",
+		],
+	}
+}

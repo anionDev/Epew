@@ -4,8 +4,9 @@ from ScriptCollection.TasksForCommonProjectStructure import TasksForCommonProjec
 
 
 def build():
-    TasksForCommonProjectStructure().standardized_tasks_build_for_dotnet_project_in_common_project_structure(
-        str(Path(__file__).absolute()), "QualityCheck", "QualityCheck", 1, sys.argv)
+    t = TasksForCommonProjectStructure()
+    t.standardized_tasks_build_for_dotnet_project(
+        str(Path(__file__).absolute()), "QualityCheck", t.get_default_target_environmenttype_mapping(), ["win-x64", "linux-x64"], 1, sys.argv)
 
 
 if __name__ == "__main__":
