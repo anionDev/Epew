@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <StartupObject>Epew.Epew.Core.Program</StartupObject>
     <FileVersion>5.0.5</FileVersion>
     <AssemblyVersion>5.0.5</AssemblyVersion>

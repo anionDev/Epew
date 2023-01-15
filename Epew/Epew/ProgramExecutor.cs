@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.ExecutePrograms.WaitingStates;
+using Microsoft.Extensions.Logging;
 
 namespace Epew.Epew.Core
 {
@@ -46,6 +47,7 @@ namespace Epew.Epew.Core
                 }
                 string argumentsAsString = String.Join(' ', arguments);
                 _Log = GRYLog.Create();
+                _Log.Configuration.ResetToDefaultValues();
                 string workingDirectory = Directory.GetCurrentDirectory();
                 try
                 {
@@ -71,7 +73,6 @@ namespace Epew.Epew.Core
                             {
                                 HandleParsingErrors(argumentsAsString, errors);
                             });
-                            return result;
                         }
                     }
                 }
@@ -86,6 +87,7 @@ namespace Epew.Epew.Core
                 _Log.Log($"Fatal error occurred", exception);
                 result = ExitCodeFatalErroroccurred;
             }
+            _Log.Log($"Finished Epew",LogLevel.Debug);
             return result;
         }
 
@@ -105,6 +107,13 @@ namespace Epew.Epew.Core
 
         private int HandleSuccessfullyParsedArguments(EpewOptions options)
         {
+            if (options.Verbosity == Verbosity.Verbose)
+            {
+                foreach (GRYLogTarget logtarget in _Log.Configuration.LogTargets)
+                {
+                    logtarget.LogLevels.Add(LogLevel.Debug);
+                }
+            }
             Guid executionId = Guid.NewGuid();
             int result = ExitCodeNoProgramExecuted;
             try
@@ -166,8 +175,7 @@ namespace Epew.Epew.Core
                     target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
                 string commandLineArguments = Utilities.GetCommandLineArguments();
-
-                _ExternalProgramExecutor = new ExternalProgramExecutor(new ExternalProgramExecutorConfiguration()
+                var externalProgramExecutor = new ExternalProgramExecutorConfiguration()
                 {
                     Program = options.Program,
                     Argument = argumentForExecution,
@@ -175,7 +183,16 @@ namespace Epew.Epew.Core
                     Verbosity = options.Verbosity,
                     User = options.User,
                     Password = options.Password,
-                })
+                };
+                if (options.NotSynchronous)
+                {
+                    externalProgramExecutor.WaitingState = new RunAsynchronously();
+                }
+                else
+                {
+                    externalProgramExecutor.WaitingState = new RunSynchronously();
+                }
+                _ExternalProgramExecutor = new ExternalProgramExecutor(externalProgramExecutor)
                 {
                     LogObject = this._Log
                 };
@@ -185,7 +202,7 @@ namespace Epew.Epew.Core
                 WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, _ExternalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
                 if (options.NotSynchronous)
                 {
-                    return 2147393804;
+                    return 0;
                 }
                 else
                 {
