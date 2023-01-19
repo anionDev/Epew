@@ -61,9 +61,5 @@ namespace Epew.Epew.Core
         [Option('c', nameof(Password), Required = false, HelpText = "Password of the user", Default = null)]
         public string Password { get; set; }
 
-        internal ExternalProgramExecutorConfiguration ToConfiguration()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
