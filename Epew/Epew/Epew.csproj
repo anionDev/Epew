@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <StartupObject>Epew.Epew.Core.Program</StartupObject>
-    <FileVersion>5.0.6</FileVersion>
-    <AssemblyVersion>5.0.6</AssemblyVersion>
-    <Version>5.0.6</Version>
+    <FileVersion>5.0.7</FileVersion>
+    <AssemblyVersion>5.0.7</AssemblyVersion>
+    <Version>5.0.7</Version>
     <Authors>Marius Göcke</Authors>
     <PackageId>Epew</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="GRYLibrary" Version="0.12.21" />
+    <PackageReference Include="GRYLibrary" Version="0.12.25" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
