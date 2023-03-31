@@ -8,5 +8,4 @@ Resources/Constants/CodeUnitName.*
 Resources/Constants/CodeUnitVersion.*
 Resources/Constants/CommitDate.*
 Resources/Constants/CommitId.*
-Resources/Epew.sarif
-Resources/EpewTests.sarif
+Resources/*.sarif
