@@ -1,4 +1,4 @@
-﻿namespace Epew.Epew.Core
+﻿namespace Epew.Core
 {
     internal static class Program
     {
