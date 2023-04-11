@@ -1,10 +1,10 @@
-using Epew.Epew.Core;
+using Epew.Core;
 using GRYLibrary.Core.Miscellaneous.Event;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Epew.Epew.Tests.Testcases
+namespace Epew.Tests.Testcases
 {
     [TestClass]
     public class BasicTests
@@ -14,7 +14,7 @@ namespace Epew.Epew.Tests.Testcases
         {
             // arrange
             string output = "test";
-            string[] arguments = new string[] { "-p", "echo2", "-a", output};
+            string[] arguments = new string[] { "-p", "echo2", "-a", output };
             var pe = new ProgramExecutor();
 
             // act
@@ -24,7 +24,7 @@ namespace Epew.Epew.Tests.Testcases
             Assert.AreEqual(0, result);
             Assert.AreEqual(0, pe._ExternalProgramExecutor.ExitCode);
             Assert.AreEqual(1, pe._ExternalProgramExecutor.AllStdOutLines.Length);
-            Assert.AreEqual(output,pe._ExternalProgramExecutor.AllStdOutLines[0]);
+            Assert.AreEqual(output, pe._ExternalProgramExecutor.AllStdOutLines[0]);
             Assert.AreEqual(0, pe._ExternalProgramExecutor.AllStdErrLines.Length);
         }
     }

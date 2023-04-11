@@ -1,87 +1,74 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
-    <FileVersion>5.0.7</FileVersion>
-    <AssemblyVersion>5.0.7</AssemblyVersion>
-    <Version>5.0.7</Version>
-    <RootNamespace>Epew.Epew.Tests</RootNamespace>
-	<Configurations>Development;QualityCheck;Productive</Configurations>
-    <LangVersion>10.0</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Authors>Marius Göcke</Authors>
+		<Version>0.0.1</Version>
+		<AssemblyVersion>0.0.1</AssemblyVersion>
+		<FileVersion>0.0.1</FileVersion>
+		<SelfContained>false</SelfContained>
+		<IsPackable>false</IsPackable>
+		<PreserveCompilationContext>false</PreserveCompilationContext>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<Copyright>Copyright © 2023 Marius Göcke</Copyright>
+		<Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.</Description>
+		<PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/anionDev/Epew</RepositoryUrl>
+		<RootNamespace>Epew.Tests</RootNamespace>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<Nullable>disable</Nullable>
+		<Configurations>Development;QualityCheck;Productive</Configurations>
+		<IsTestProject>true</IsTestProject>
+		<LangVersion>11.0</LangVersion>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<OutputPath>..\Other\Artifacts\BuildResultTests_DotNet_win-x64</OutputPath>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<WarningLevel>4</WarningLevel>
+		<Prefer32Bit>false</Prefer32Bit>
+		<NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
+		<WarningsAsErrors>NU1605</WarningsAsErrors>
+		<ErrorLog>..\Other\Resources\EpewTests.sarif</ErrorLog>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="3.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+		<PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Epew\Epew.csproj" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Development'">
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<Optimize>false</Optimize>
+		<DefineConstants>TRACE;DEBUG;Development</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Development\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;Development</DefineConstants>
-    
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile>bin\Development\EpewTests.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='QualityCheck'">
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<Optimize>false</Optimize>
+		<DefineConstants>TRACE;QualityCheck</DefineConstants>
+		<ErrorReport>none</ErrorReport>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='QualityCheck|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\QualityCheck\</OutputPath>
-    <DefineConstants>TRACE;QualityCheck</DefineConstants>
-    
-    <ErrorReport>none</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile>bin\QualityCheck\EpewTests.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Productive'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<Optimize>true</Optimize>
+		<DefineConstants>Productive</DefineConstants>
+		<ErrorReport>none</ErrorReport>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Productive|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Productive\</OutputPath>
-    <DefineConstants>Productive</DefineConstants>
-    
-    <ErrorReport>none</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile></DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Epew\Epew.csproj" />
+	</ItemGroup>
 
 </Project>
