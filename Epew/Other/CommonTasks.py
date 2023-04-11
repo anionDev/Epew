@@ -15,6 +15,7 @@ def common_tasks():
     build_environment = t.get_targetenvironmenttype_from_commandline_arguments(cmd_args, "QualityCheck")
     verbosity = t.get_verbosity_from_commandline_arguments(cmd_args, 1)
     file = str(Path(__file__).absolute())
+    codeunit_folder = GeneralUtilities.resolve_relative_path("..", os.path.dirname(file))
     codeunit_version = sc.get_semver_version_from_gitversion(GeneralUtilities.resolve_relative_path(
         "../..", os.path.dirname(file)))  # Should always be the same as the project-version
     folder_of_current_file = os.path.dirname(file)
