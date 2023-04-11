@@ -1,84 +1,65 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <StartupObject>Epew.Epew.Core.Program</StartupObject>
-    <FileVersion>5.0.7</FileVersion>
-    <AssemblyVersion>5.0.7</AssemblyVersion>
-    <Version>5.0.7</Version>
-    <Authors>Marius Göcke</Authors>
-    <PackageId>Epew</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyName>Epew</AssemblyName>
-    <Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout.</Description>
-    <RootNamespace>Epew.Epew</RootNamespace>
-    <LangVersion>10.0</LangVersion>
-	<Configurations>Development;QualityCheck;Productive</Configurations>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="GRYLibrary" Version="0.12.25" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-  </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cp -f &quot;$(ProjectDir)..\..\License.txt&quot; &quot;$(OutDir)Epew.License.txt&quot;" />
-  </Target>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Development\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;Development</DefineConstants>
-    
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile>bin\Development\Epew.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='QualityCheck|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\QualityCheck\</OutputPath>
-    <DefineConstants>TRACE;QualityCheck</DefineConstants>
-    
-    <ErrorReport>none</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile>bin\QualityCheck\Epew.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Productive|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Productive\</OutputPath>
-    <DefineConstants>Productive</DefineConstants>
-    
-    <ErrorReport>none</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <NoWarn>1701;1702;CA1822;CS1591;CS1573</NoWarn>
-    <DocumentationFile></DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-  </PropertyGroup>
-
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Authors>Marius Göcke</Authors>
+        <Version>5.0.8</Version>
+        <AssemblyVersion>5.0.8</AssemblyVersion>
+        <FileVersion>5.0.8</FileVersion>
+        <SelfContained>false</SelfContained>
+        <IsPackable>false</IsPackable>
+        <PreserveCompilationContext>false</PreserveCompilationContext>
+        <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+        <Copyright>Copyright © 2023 Marius Göcke</Copyright>
+        <Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.</Description>
+        <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
+        <RootNamespace>Epew.Core</RootNamespace>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        <Nullable>disable</Nullable>
+        <Configurations>Development;QualityCheck;Productive</Configurations>
+        <IsTestProject>false</IsTestProject>
+        <LangVersion>11.0</LangVersion>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath>..\Other\Artifacts\BuildResult_DotNet_win-x64</OutputPath>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <WarningLevel>4</WarningLevel>
+        <Prefer32Bit>false</Prefer32Bit>
+        <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
+        <WarningsAsErrors>NU1605</WarningsAsErrors>
+        <ErrorLog>..\Other\Resources\Epew.sarif</ErrorLog>
+        <OutputType>Exe</OutputType>
+        <DocumentationFile>..\Other\Artifacts\MetaInformation\Epew.xml</DocumentationFile>
+        <StartupObject>Epew.Core.Program</StartupObject>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Development'">
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
+        <DefineConstants>TRACE;DEBUG;Development</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='QualityCheck'">
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
+        <DefineConstants>TRACE;QualityCheck</DefineConstants>
+        <ErrorReport>none</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Productive'">
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        <Optimize>true</Optimize>
+        <DefineConstants>Productive</DefineConstants>
+        <ErrorReport>none</ErrorReport>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
+        <PackageReference Include="GRYLibrary" Version="0.12.39" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    </ItemGroup>
 </Project>

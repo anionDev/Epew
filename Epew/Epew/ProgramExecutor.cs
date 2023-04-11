@@ -12,8 +12,9 @@ using System.IO;
 using System.Reflection;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.ExecutePrograms.WaitingStates;
+using Microsoft.Extensions.Logging;
 
-namespace Epew.Epew.Core
+namespace Epew.Core
 {
     internal class ProgramExecutor
     {
@@ -37,87 +38,89 @@ namespace Epew.Epew.Core
             int result = ExitCodeNoProgramExecuted;
             try
             {
-                Version = GetVersion();
-                LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{Version}/License.txt";
-                _SentenceBuilder = SentenceBuilder.Create();
-                if (arguments == null)
+                this.Version = GetVersion();
+                this.LicenseLink = $"https://raw.githubusercontent.com/anionDev/Epew/v{this.Version}/License.txt";
+                this._SentenceBuilder = SentenceBuilder.Create();
+                if(arguments == null)
                 {
                     throw Utilities.CreateNullReferenceExceptionDueToParameter(nameof(arguments));
                 }
-                string argumentsAsString = String.Join(' ', arguments);
-                _Log = GRYLog.Create();
+                string argumentsAsString = string.Join(' ', arguments);
+                this._Log = GRYLog.Create();
+                this._Log.Configuration.Initliaze();
                 string workingDirectory = Directory.GetCurrentDirectory();
                 try
                 {
-                    if (arguments.Length == 0)
+                    if(arguments.Length == 0)
                     {
-                        _Log.Log($"{ProgramName} v{Version}");
-                        _Log.Log($"Run '{ProgramName} --help' to get help about the usage.");
+                        this._Log.Log($"{ProgramName} v{this.Version}");
+                        this._Log.Log($"Run '{ProgramName} --help' to get help about the usage.");
                     }
                     else
                     {
                         ParserResult<EpewOptions> parserResult = new Parser(settings => settings.CaseInsensitiveEnumValues = true).ParseArguments<EpewOptions>(arguments);
-                        if (IsHelpCommand(arguments))
+                        if(IsHelpCommand(arguments))
                         {
-                            WriteHelp(parserResult);
+                            this.WriteHelp(parserResult);
                         }
                         else
                         {
-                            parserResult.WithParsed(options =>
-                            {
-                                result = HandleSuccessfullyParsedArguments(options);
-                            })
-                            .WithNotParsed(errors =>
-                            {
-                                HandleParsingErrors(argumentsAsString, errors);
-                            });
-                            return result;
+                            parserResult.WithParsed(options => result = this.HandleSuccessfullyParsedArguments(options))
+                            .WithNotParsed(errors => this.HandleParsingErrors(argumentsAsString, errors));
                         }
                     }
                 }
-                catch (Exception exception)
+                catch(Exception exception)
                 {
-                    _Log.Log($"Fatal error occurred while processing argument '{workingDirectory}> epew {argumentsAsString}", exception);
+                    this._Log.Log($"Fatal error occurred while processing argument '{workingDirectory}> epew {argumentsAsString}", exception);
                 }
 
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
-                _Log.Log($"Fatal error occurred", exception);
+                this._Log.Log($"Fatal error occurred", exception);
                 result = ExitCodeFatalErroroccurred;
             }
+            this._Log.Log($"Finished Epew", LogLevel.Debug);
             return result;
         }
 
         private void HandleParsingErrors(string argumentsAsString, IEnumerable<Error> errors)
         {
             var amountOfErrors = errors.Count();
-            _Log.Log($"Argument '{argumentsAsString}' could not be parsed successfully.", Microsoft.Extensions.Logging.LogLevel.Error);
-            if (0 < amountOfErrors)
+            this._Log.Log($"Argument '{argumentsAsString}' could not be parsed successfully.", Microsoft.Extensions.Logging.LogLevel.Error);
+            if(0 < amountOfErrors)
             {
-                _Log.Log($"The following error{(amountOfErrors == 1 ? string.Empty : "s")} occurred:", Microsoft.Extensions.Logging.LogLevel.Error);
-                foreach (var error in errors)
+                this._Log.Log($"The following error{(amountOfErrors == 1 ? string.Empty : "s")} occurred:", Microsoft.Extensions.Logging.LogLevel.Error);
+                foreach(var error in errors)
                 {
-                    _Log.Log($"{error.Tag}: {_SentenceBuilder.FormatError(error)}", Microsoft.Extensions.Logging.LogLevel.Error);
+                    this._Log.Log($"{error.Tag}: {this._SentenceBuilder.FormatError(error)}", Microsoft.Extensions.Logging.LogLevel.Error);
                 }
             }
         }
 
         private int HandleSuccessfullyParsedArguments(EpewOptions options)
         {
+            if(options.Verbosity == Verbosity.Verbose)
+            {
+                foreach(GRYLogTarget logtarget in this._Log.Configuration.LogTargets)
+                {
+                    logtarget.LogLevels.Add(LogLevel.Debug);
+                }
+            }
             Guid executionId = Guid.NewGuid();
             int result = ExitCodeNoProgramExecuted;
             try
             {
                 RemoveQuotes(options);
                 string argumentForExecution;
-                if (options.ArgumentIsBase64Encoded)
+                if(options.ArgumentIsBase64Encoded)
                 {
                     argumentForExecution = new UTF8Encoding(false).GetString(Convert.FromBase64String(options.Argument));
                 }
                 else
                 {
-                    if (string.IsNullOrWhiteSpace(options.Argument))
+                    if(string.IsNullOrWhiteSpace(options.Argument))
                     {
                         argumentForExecution = string.Empty;
                     }
@@ -127,13 +130,13 @@ namespace Epew.Epew.Core
                     }
                 }
                 string workingDirectory;
-                if (string.IsNullOrWhiteSpace(options.Workingdirectory))
+                if(string.IsNullOrWhiteSpace(options.Workingdirectory))
                 {
                     workingDirectory = Directory.GetCurrentDirectory();
                 }
                 else
                 {
-                    if (Directory.Exists(options.Workingdirectory))
+                    if(Directory.Exists(options.Workingdirectory))
                     {
                         workingDirectory = options.Workingdirectory;
                     }
@@ -142,32 +145,31 @@ namespace Epew.Epew.Core
                         throw new ArgumentException($"The specified workingdirectory '{options.Workingdirectory}' does not exist.");
                     }
                 }
-                if (string.IsNullOrWhiteSpace(options.Program))
+                if(string.IsNullOrWhiteSpace(options.Program))
                 {
                     throw new ArgumentException($"No program to execute specified.");
                 }
 
                 string commandLineExecutionAsString = $"'{workingDirectory}>{options.Program} {argumentForExecution}'";
-                if (string.IsNullOrWhiteSpace(options.Title))
+                if(string.IsNullOrWhiteSpace(options.Title))
                 {
-                    _Title = $"{ProgramName}: {commandLineExecutionAsString}";
+                    this._Title = $"{ProgramName}: {commandLineExecutionAsString}";
                 }
                 else
                 {
-                    _Title = options.Title;
+                    this._Title = options.Title;
                 }
-                if (!string.IsNullOrWhiteSpace(options.LogFile))
+                if(!string.IsNullOrWhiteSpace(options.LogFile))
                 {
-                    _Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
-                    _Log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
+                    this._Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
+                    this._Log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
                 }
-                foreach (GRYLogTarget target in _Log.Configuration.LogTargets)
+                foreach(GRYLogTarget target in this._Log.Configuration.LogTargets)
                 {
                     target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
                 string commandLineArguments = Utilities.GetCommandLineArguments();
-
-                _ExternalProgramExecutor = new ExternalProgramExecutor(new ExternalProgramExecutorConfiguration()
+                var externalProgramExecutor = new ExternalProgramExecutorConfiguration()
                 {
                     Program = options.Program,
                     Argument = argumentForExecution,
@@ -175,31 +177,40 @@ namespace Epew.Epew.Core
                     Verbosity = options.Verbosity,
                     User = options.User,
                     Password = options.Password,
-                })
+                };
+                if(options.NotSynchronous)
+                {
+                    externalProgramExecutor.WaitingState = new RunAsynchronously();
+                }
+                else
+                {
+                    externalProgramExecutor.WaitingState = new RunSynchronously();
+                }
+                this._ExternalProgramExecutor = new ExternalProgramExecutor(externalProgramExecutor)
                 {
                     LogObject = this._Log
                 };
 
-                _ExternalProgramExecutor.Run();
+                this._ExternalProgramExecutor.Run();
 
-                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, _ExternalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
-                if (options.NotSynchronous)
+                WriteNumberToFile(options.Verbosity, executionId, this._Title, commandLineExecutionAsString, this._ExternalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
+                if(options.NotSynchronous)
                 {
-                    return 2147393804;
+                    return 0;
                 }
                 else
                 {
                     new Task(() =>
                     {
-                        _ExternalProgramExecutor.WaitUntilTerminated();
-                        ProgramExecutionResultHandler(_ExternalProgramExecutor, options, executionId, commandLineExecutionAsString);
+                        this._ExternalProgramExecutor.WaitUntilTerminated();
+                        this.ProgramExecutionResultHandler(this._ExternalProgramExecutor, options, executionId, commandLineExecutionAsString);
                     }).Start();
-                    result = _ExternalProgramExecutor.ExitCode;
+                    result = this._ExternalProgramExecutor.ExitCode;
                 }
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
-                _Log.Log($"Error in {ProgramName}.", exception);
+                this._Log.Log($"Error in {ProgramName}.", exception);
             }
             return result;
         }
@@ -220,7 +231,7 @@ namespace Epew.Epew.Core
 
         private static string TrimQuotes(string argument)
         {
-            if (argument == null)
+            if(argument == null)
             {
                 return string.Empty;
             }
@@ -236,7 +247,7 @@ namespace Epew.Epew.Core
             {
                 value.ToString()
             };
-            if (verbosity == Verbosity.Verbose)
+            if(verbosity == Verbosity.Verbose)
             {
                 fileContent.Add($"Execution '{title}' ('{commandLineExecutionAsString}') with execution-id {executionId} has {nameOfValue}");
             }
@@ -248,7 +259,7 @@ namespace Epew.Epew.Core
             try
             {
                 int result;
-                if (externalProgramExecutor.ProcessWasAbortedDueToTimeout)
+                if(externalProgramExecutor.ProcessWasAbortedDueToTimeout)
                 {
                     result = ExitCodeTimeout;
                 }
@@ -258,7 +269,7 @@ namespace Epew.Epew.Core
                 }
                 WriteToFile(options.StdOutFile, externalProgramExecutor.AllStdOutLines);
                 WriteToFile(options.StdErrFile, externalProgramExecutor.AllStdErrLines);
-                WriteNumberToFile(options.Verbosity, executionId, _Title, commandLineExecutionAsString, result, "exit-code", options.ExitCodeFile);
+                WriteNumberToFile(options.Verbosity, executionId, this._Title, commandLineExecutionAsString, result, "exit-code", options.ExitCodeFile);
                 return result;
             }
             finally
@@ -269,28 +280,28 @@ namespace Epew.Epew.Core
 
         private void WriteHelp(ParserResult<EpewOptions> argumentParserResult)
         {
-            _Log.Log(HelpText.AutoBuild(argumentParserResult).ToString());
-            _Log.Log(string.Empty);
-            _Log.Log($"{ProgramName} is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout and so on.");
-            _Log.Log(string.Empty);
-            _Log.Log($"Current version: v{Version}");
-            _Log.Log($"For more information see the website of the {ProgramName}-project: {ProjectLink}");
-            _Log.Log($"{ProgramName} is licensed under the terms of {LicenseName}. For the concrete license-text see {LicenseLink}");
-            _Log.Log(string.Empty);
-            _Log.Log($"Exitcodes:");
-            _Log.Log($"{ExitCodeNoProgramExecuted}: If no program was executed");
-            _Log.Log($"{ExitCodeFatalErroroccurred}: If a fatal error occurred");
-            _Log.Log($"{ExitCodeTimeout}: If the executed program was aborted due to the given timeout");
-            _Log.Log($"If running synchronously then the exitcode of the executed program will be set as exitcode of {ProgramName}.");
-            _Log.Log($"If running asynchronously then the process-id of the executed program will be set as exitcode of {ProgramName}.");
+            this._Log.Log(HelpText.AutoBuild(argumentParserResult).ToString());
+            this._Log.Log(string.Empty);
+            this._Log.Log($"{ProgramName} is a tool to wrap program-calls with some useful functions like getting stdout, stderr, exitcode and the ability to set a timeout and so on.");
+            this._Log.Log(string.Empty);
+            this._Log.Log($"Current version: v{this.Version}");
+            this._Log.Log($"For more information see the website of the {ProgramName}-project: {ProjectLink}");
+            this._Log.Log($"{ProgramName} is licensed under the terms of {LicenseName}. For the concrete license-text see {this.LicenseLink}");
+            this._Log.Log(string.Empty);
+            this._Log.Log($"Exitcodes:");
+            this._Log.Log($"{ExitCodeNoProgramExecuted}: If no program was executed");
+            this._Log.Log($"{ExitCodeFatalErroroccurred}: If a fatal error occurred");
+            this._Log.Log($"{ExitCodeTimeout}: If the executed program was aborted due to the given timeout");
+            this._Log.Log($"If running synchronously then the exitcode of the executed program will be set as exitcode of {ProgramName}.");
+            this._Log.Log($"If running asynchronously then the process-id of the executed program will be set as exitcode of {ProgramName}.");
         }
 
         private static bool IsHelpCommand(string[] arguments)
         {
-            foreach (var argument in arguments)
+            foreach(var argument in arguments)
             {
                 string argumentLower = argument.ToLower();
-                if (argumentLower.Equals("--help")
+                if(argumentLower.Equals("--help")
                     || argumentLower.Equals("/help")
                     || argumentLower.Equals("/h"))
                 {
@@ -302,7 +313,7 @@ namespace Epew.Epew.Core
 
         private static void WriteToFile(string file, string[] lines)
         {
-            if (!string.IsNullOrEmpty(file))
+            if(!string.IsNullOrEmpty(file))
             {
                 file = Utilities.ResolveToFullPath(file.Trim());
                 Utilities.EnsureFileExists(file);
@@ -316,5 +327,4 @@ namespace Epew.Epew.Core
             return $"{version.Major}.{version.Minor}.{version.Build}";
         }
     }
-
 }

@@ -1,9 +1,8 @@
 ﻿using CommandLine;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.Miscellaneous;
-using System;
 
-namespace Epew.Epew.Core
+namespace Epew.Core
 {
     public class EpewOptions
     {
@@ -44,7 +43,7 @@ namespace Epew.Epew.Core
         [Option('r', nameof(ProcessIdFile), Required = false, HelpText = "File for the process-id of the executed program")]
         public string ProcessIdFile { get; set; }
 
-        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + Epew.Core.ProgramExecutor.ProgramName, Default = int.MaxValue)]
+        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + ProgramExecutor.ProgramName, Default = int.MaxValue)]
         public int TimeoutInMilliseconds { get; set; }
 
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
