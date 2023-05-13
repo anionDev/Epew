@@ -60,5 +60,7 @@ namespace Epew.Core
         [Option('c', nameof(Password), Required = false, HelpText = "Password of the user", Default = null)]
         public string Password { get; set; }
 
+        [Option('h', nameof(HideConsoleWindow), Required = false, HelpText = "Hide console window", Default = false)]
+        public bool HideConsoleWindow { get; set; }
     }
 }

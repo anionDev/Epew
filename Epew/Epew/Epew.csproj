@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.8</Version>
-        <AssemblyVersion>5.0.8</AssemblyVersion>
-        <FileVersion>5.0.8</FileVersion>
+        <Version>5.0.9</Version>
+        <AssemblyVersion>5.0.9</AssemblyVersion>
+        <FileVersion>5.0.9</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -29,7 +29,7 @@
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
         <ErrorLog>..\Other\Resources\Epew.sarif</ErrorLog>
-        <OutputType>Exe</OutputType>
+        <OutputType>WinExe</OutputType>
         <DocumentationFile>..\Other\Artifacts\MetaInformation\Epew.xml</DocumentationFile>
         <StartupObject>Epew.Core.Program</StartupObject>
     </PropertyGroup>
@@ -59,7 +59,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
-        <PackageReference Include="GRYLibrary" Version="0.12.39" />
+        <PackageReference Include="GRYLibrary" Version="0.12.42" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
     </ItemGroup>
 </Project>
