@@ -13,6 +13,7 @@ using System.Reflection;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.ExecutePrograms.WaitingStates;
 using Microsoft.Extensions.Logging;
+using GRYLibrary.Core.Miscellaneous.FilePath;
 
 namespace Epew.Core
 {
@@ -74,7 +75,6 @@ namespace Epew.Core
                 {
                     this._Log.Log($"Fatal error occurred while processing argument '{workingDirectory}> epew {argumentsAsString}", exception);
                 }
-
             }
             catch(Exception exception)
             {
@@ -87,20 +87,24 @@ namespace Epew.Core
 
         private void HandleParsingErrors(string argumentsAsString, IEnumerable<Error> errors)
         {
-            var amountOfErrors = errors.Count();
-            this._Log.Log($"Argument '{argumentsAsString}' could not be parsed successfully.", Microsoft.Extensions.Logging.LogLevel.Error);
+            int amountOfErrors = errors.Count();
+            this._Log.Log($"Argument '{argumentsAsString}' could not be parsed successfully.", LogLevel.Error);
             if(0 < amountOfErrors)
             {
-                this._Log.Log($"The following error{(amountOfErrors == 1 ? string.Empty : "s")} occurred:", Microsoft.Extensions.Logging.LogLevel.Error);
-                foreach(var error in errors)
+                this._Log.Log($"The following error{(amountOfErrors == 1 ? string.Empty : "s")} occurred:", LogLevel.Error);
+                foreach(Error error in errors)
                 {
-                    this._Log.Log($"{error.Tag}: {this._SentenceBuilder.FormatError(error)}", Microsoft.Extensions.Logging.LogLevel.Error);
+                    this._Log.Log($"{error.Tag}: {this._SentenceBuilder.FormatError(error)}", LogLevel.Error);
                 }
             }
         }
 
         private int HandleSuccessfullyParsedArguments(EpewOptions options)
         {
+            if(!options.HideConsoleWindow)
+            {
+                ConsoleExtensions.ShowConsoleWindow();
+            }
             if(options.Verbosity == Verbosity.Verbose)
             {
                 foreach(GRYLogTarget logtarget in this._Log.Configuration.LogTargets)
@@ -162,14 +166,14 @@ namespace Epew.Core
                 if(!string.IsNullOrWhiteSpace(options.LogFile))
                 {
                     this._Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
-                    this._Log.Configuration.GetLogTarget<LogFile>().File = options.LogFile;
+                    this._Log.Configuration.GetLogTarget<LogFile>().File = AbstractFilePath.FromString(options.LogFile);
                 }
                 foreach(GRYLogTarget target in this._Log.Configuration.LogTargets)
                 {
                     target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
                 }
                 string commandLineArguments = Utilities.GetCommandLineArguments();
-                var externalProgramExecutor = new ExternalProgramExecutorConfiguration()
+                ExternalProgramExecutorConfiguration externalProgramExecutorConfiguration = new ExternalProgramExecutorConfiguration()
                 {
                     Program = options.Program,
                     Argument = argumentForExecution,
@@ -177,16 +181,17 @@ namespace Epew.Core
                     Verbosity = options.Verbosity,
                     User = options.User,
                     Password = options.Password,
+                    CreateWindow=!options.HideConsoleWindow
                 };
                 if(options.NotSynchronous)
                 {
-                    externalProgramExecutor.WaitingState = new RunAsynchronously();
+                    externalProgramExecutorConfiguration.WaitingState = new RunAsynchronously();
                 }
                 else
                 {
-                    externalProgramExecutor.WaitingState = new RunSynchronously();
+                    externalProgramExecutorConfiguration.WaitingState = new RunSynchronously();
                 }
-                this._ExternalProgramExecutor = new ExternalProgramExecutor(externalProgramExecutor)
+                this._ExternalProgramExecutor = new ExternalProgramExecutor(externalProgramExecutorConfiguration)
                 {
                     LogObject = this._Log
                 };
@@ -298,7 +303,7 @@ namespace Epew.Core
 
         private static bool IsHelpCommand(string[] arguments)
         {
-            foreach(var argument in arguments)
+            foreach(string argument in arguments)
             {
                 string argumentLower = argument.ToLower();
                 if(argumentLower.Equals("--help")

@@ -29,7 +29,7 @@
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
         <ErrorLog>..\Other\Resources\Epew.sarif</ErrorLog>
-        <OutputType>Exe</OutputType>
+        <OutputType>WinExe</OutputType>
         <DocumentationFile>..\Other\Artifacts\MetaInformation\Epew.xml</DocumentationFile>
         <StartupObject>Epew.Core.Program</StartupObject>
     </PropertyGroup>
