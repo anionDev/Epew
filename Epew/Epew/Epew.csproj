@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.9</Version>
-        <AssemblyVersion>5.0.9</AssemblyVersion>
-        <FileVersion>5.0.9</FileVersion>
+        <Version>5.0.10</Version>
+        <AssemblyVersion>5.0.10</AssemblyVersion>
+        <FileVersion>5.0.10</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -29,7 +29,7 @@
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
         <ErrorLog>..\Other\Resources\Epew.sarif</ErrorLog>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <DocumentationFile>..\Other\Artifacts\MetaInformation\Epew.xml</DocumentationFile>
         <StartupObject>Epew.Core.Program</StartupObject>
     </PropertyGroup>
