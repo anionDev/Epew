@@ -101,9 +101,9 @@ namespace Epew.Core
 
         private int HandleSuccessfullyParsedArguments(EpewOptions options)
         {
-            if(!options.HideConsoleWindow)
+            if(options.HideConsoleWindow)
             {
-                ConsoleExtensions.ShowConsoleWindow();
+                ConsoleExtensions.HideConsoleWindow();
             }
             if(options.Verbosity == Verbosity.Verbose)
             {
