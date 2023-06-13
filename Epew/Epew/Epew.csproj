@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.10</Version>
-        <AssemblyVersion>5.0.10</AssemblyVersion>
-        <FileVersion>5.0.10</FileVersion>
+        <Version>5.0.11</Version>
+        <AssemblyVersion>5.0.11</AssemblyVersion>
+        <FileVersion>5.0.11</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -59,7 +59,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
-        <PackageReference Include="GRYLibrary" Version="0.12.42" />
+        <PackageReference Include="GRYLibrary" Version="0.12.44" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
     </ItemGroup>
 </Project>

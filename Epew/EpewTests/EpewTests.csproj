@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.10</Version>
-        <AssemblyVersion>5.0.10</AssemblyVersion>
-        <FileVersion>5.0.10</FileVersion>
+        <Version>5.0.11</Version>
+        <AssemblyVersion>5.0.11</AssemblyVersion>
+        <FileVersion>5.0.11</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -54,10 +54,10 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Epew\Epew.csproj" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
-        <PackageReference Include="coverlet.collector" Version="3.2.0">
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.0.3" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.0.3" />
+        <PackageReference Include="coverlet.collector" Version="6.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
