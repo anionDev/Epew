@@ -10,8 +10,8 @@ from ScriptCollection.ScriptCollectionCore import ScriptCollectionCore
 from ScriptCollection.TasksForCommonProjectStructure import TasksForCommonProjectStructure
 
 
-# SC
-def create_deb_package(sc: ScriptCollectionCore, codeunit_name: str, binary_folder: str, control_file_content: str, deb_output_folder: str) -> None:
+def create_deb_package(sc: ScriptCollectionCore, codeunit_name: str, binary_folder: str, control_file_content: str,
+                       deb_output_folder: str, verbosity: int, permission_of_executable_file_as_octet_triple: int) -> None:
 
     # prepare
     GeneralUtilities.ensure_directory_exists(deb_output_folder)
@@ -49,10 +49,11 @@ def create_deb_package(sc: ScriptCollectionCore, codeunit_name: str, binary_fold
     GeneralUtilities.ensure_file_exists(postinst_file)
     exe_file = f"/usr/bin/{tool_content_folder_name}/{toolname}"
     link_file = f"/usr/bin/{toolname.lower()}"
+    permission = str(permission_of_executable_file_as_octet_triple)
     GeneralUtilities.write_text_to_file(postinst_file, f"""#!/bin/sh
 ln -s {exe_file} {link_file}
-chmod +x {exe_file}
-chmod +x {link_file}
+chmod {permission} {exe_file}
+chmod {permission} {link_file}
 """)
 
     #  control
@@ -74,9 +75,9 @@ chmod +x {link_file}
 
     # create debfile
     deb_filename = f"{toolname}.deb"
-    sc.run_program_argsasarray("tar", ["czf", f"../{entireresult_content_folder_name}/control.tar.gz", "*"], packagecontent_control_folder)
-    sc.run_program_argsasarray("tar", ["czf", f"../{entireresult_content_folder_name}/data.tar.gz", "*"], packagecontent_data_folder)
-    sc.run_program_argsasarray("ar", ["r", deb_filename, "debian-binary", "control.tar.gz", "data.tar.gz"], packagecontent_entireresult_folder)
+    sc.run_program_argsasarray("tar", ["czf", f"../{entireresult_content_folder_name}/control.tar.gz", "*"], packagecontent_control_folder, verbosity=verbosity)
+    sc.run_program_argsasarray("tar", ["czf", f"../{entireresult_content_folder_name}/data.tar.gz", "*"], packagecontent_data_folder, verbosity=verbosity)
+    sc.run_program_argsasarray("ar", ["r", deb_filename, "debian-binary", "control.tar.gz", "data.tar.gz"], packagecontent_entireresult_folder, verbosity=verbosity)
     result_file = os.path.join(packagecontent_entireresult_folder, deb_filename)
     shutil.copy(result_file, os.path.join(deb_output_folder, deb_filename))
 
@@ -91,7 +92,9 @@ def replace_variable_in_string(input_string: str, variable_name: str, variable_v
     return input_string.replace(f"__[{variable_name}]__", variable_value)
 
 
-def load_deb_control_file_content(file: str,
+# -------------------------------
+
+def load_deb_control_file_content(t: TasksForCommonProjectStructure, file: str,
                                   codeunitname: str, codeunitversion: str, installedsize: int,
                                   maintainername: str, maintaineremail: str, description: str,) -> str:
     content = GeneralUtilities.read_text_from_file(file)
@@ -102,7 +105,6 @@ def load_deb_control_file_content(file: str,
     content = replace_variable_in_string(content, "maintaineremail", maintaineremail)
     content = replace_variable_in_string(content, "description", description)
     return content
-# -------------------------------
 
 
 def calculate_deb_package_size(t: TasksForCommonProjectStructure, binary_folder: str) -> int:
@@ -116,14 +118,15 @@ def calculate_deb_package_size(t: TasksForCommonProjectStructure, binary_folder:
 def create_deb_package_for_artifact(t: TasksForCommonProjectStructure, codeunit_folder: str,
                                     maintainername: str, maintaineremail: str, description: str,
                                     verbosity: int, cmd_arguments: list[str]) -> None:
+    verbosity = t.get_verbosity_from_commandline_arguments(cmd_arguments, verbosity)
     codeunit_name = os.path.basename(codeunit_folder)
     binary_folder = GeneralUtilities.resolve_relative_path("Other/Artifacts/BuildResult_DotNet_linux-x64", codeunit_folder)
     deb_output_folder = GeneralUtilities.resolve_relative_path("Other/Artifacts/BuildResult_Deb", codeunit_folder)
     control_file = GeneralUtilities.resolve_relative_path("Other/Build/DebControlFile.txt", codeunit_folder)
     installedsize = calculate_deb_package_size(t, binary_folder)
-    control_file_content = load_deb_control_file_content(control_file, codeunit_name, t.get_version_of_codeunit_folder(codeunit_folder),
+    control_file_content = load_deb_control_file_content(t, control_file, codeunit_name, t.get_version_of_codeunit_folder(codeunit_folder),
                                                          installedsize, maintainername, maintaineremail, description)
-    create_deb_package(ScriptCollectionCore(), codeunit_name, binary_folder, control_file_content, deb_output_folder)
+    create_deb_package(ScriptCollectionCore(), codeunit_name, binary_folder, control_file_content, deb_output_folder, verbosity, 555)
 
 
 def build():
