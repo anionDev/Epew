@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cps:constant xmlns:cps="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/tree/main/Conventions/RepositoryStructure/CommonProjectStructure" constantspecificationversion="1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/raw/main/Conventions/RepositoryStructure/CommonProjectStructure/constant.xsd">
+    <cps:name>maintaineremail</cps:name>
+    <cps:documentationsummary></cps:documentationsummary>
+    <cps:path>./maintaineremail.value.txt</cps:path>
+</cps:constant>

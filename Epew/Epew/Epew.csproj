@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.10</Version>
-        <AssemblyVersion>5.0.10</AssemblyVersion>
-        <FileVersion>5.0.10</FileVersion>
+        <Version>5.0.11</Version>
+        <AssemblyVersion>5.0.11</AssemblyVersion>
+        <FileVersion>5.0.11</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -12,7 +12,7 @@
         <Copyright>Copyright © 2023 Marius Göcke</Copyright>
         <Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.</Description>
         <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/anionDev/Epew</RepositoryUrl>
         <RootNamespace>Epew.Core</RootNamespace>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
         <Nullable>disable</Nullable>
@@ -28,7 +28,7 @@
         <Prefer32Bit>false</Prefer32Bit>
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
-        <ErrorLog>..\Other\Resources\Epew.sarif</ErrorLog>
+        <ErrorLog>..\Other\Resources\CodeAnalysisResult\Epew.sarif</ErrorLog>
         <OutputType>Exe</OutputType>
         <DocumentationFile>..\Other\Artifacts\MetaInformation\Epew.xml</DocumentationFile>
         <StartupObject>Epew.Core.Program</StartupObject>
@@ -55,11 +55,11 @@
         <ErrorReport>none</ErrorReport>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
-        <PackageReference Include="GRYLibrary" Version="0.12.42" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+        <PackageReference Include="GRYLibrary" Version="0.12.55" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     </ItemGroup>
 </Project>

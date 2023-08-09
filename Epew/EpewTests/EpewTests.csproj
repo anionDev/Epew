@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.10</Version>
-        <AssemblyVersion>5.0.10</AssemblyVersion>
-        <FileVersion>5.0.10</FileVersion>
+        <Version>5.0.11</Version>
+        <AssemblyVersion>5.0.11</AssemblyVersion>
+        <FileVersion>5.0.11</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -12,7 +12,7 @@
         <Copyright>Copyright © 2023 Marius Göcke</Copyright>
         <Description>EpewTests is the test-project for Epew.</Description>
         <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/anionDev/Epew</RepositoryUrl>
         <RootNamespace>Epew.Tests</RootNamespace>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
         <Nullable>disable</Nullable>
@@ -28,7 +28,7 @@
         <Prefer32Bit>false</Prefer32Bit>
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
-        <ErrorLog>..\Other\Resources\EpewTests.sarif</ErrorLog>
+        <ErrorLog>..\Other\Resources\CodeAnalysisResult\EpewTests.sarif</ErrorLog>
         <OutputType>Library</OutputType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Development'">
@@ -54,12 +54,20 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Epew\Epew.csproj" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
-        <PackageReference Include="coverlet.collector" Version="3.2.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PackageReference Include="coverlet.collector" Version="6.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="coverlet.msbuild" Version="6.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeCoverage" Version="17.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
     </ItemGroup>
 </Project>
