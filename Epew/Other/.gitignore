@@ -6,6 +6,8 @@ Reference/ReferenceContent/API/**
 Resources/DependentCodeUnits
 Resources/Constants/CodeUnitName.*
 Resources/Constants/CodeUnitVersion.*
+Resources/Constants/CodeUnitDescription.*
+Resources/Constants/CodeUnitMajorVersion.*
 Resources/Constants/CommitDate.*
 Resources/Constants/CommitId.*
 Resources/CodeAnalysisResult
