@@ -9,10 +9,10 @@
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
         <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-        <Copyright>Copyright © 2023 Marius Göcke</Copyright>
+        <Copyright>Copyright © 2024 Marius Göcke</Copyright>
         <Description>Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.</Description>
         <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/anionDev/Epew</RepositoryUrl>
+        <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
         <RootNamespace>Epew.Core</RootNamespace>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
         <Nullable>disable</Nullable>
