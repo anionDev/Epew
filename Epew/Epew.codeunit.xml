@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<cps:codeunit xmlns:cps="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/tree/main/Conventions/RepositoryStructure/CommonProjectStructure" codeunitspecificationversion="2.7.10"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/raw/v2.7.10/Conventions/RepositoryStructure/CommonProjectStructure/codeunit.xsd" enabled="true">
+<cps:codeunit xmlns:cps="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/tree/main/Conventions/RepositoryStructure/CommonProjectStructure" codeunitspecificationversion="2.8.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/raw/v2.8.0/Conventions/RepositoryStructure/CommonProjectStructure/codeunit.xsd" enabled="true">
     <cps:name>Epew</cps:name>
-    <cps:version>5.0.12</cps:version>
-    <cps:properties codeunithastestablesourcecode="true" codeunithasupdatabledependencies="true" throwexceptionifcodeunitfilecannotbevalidated="true" description="Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.">
+    <cps:version>5.0.13</cps:version>
+    <cps:properties codeunithastestablesourcecode="true" codeunithasupdatabledependencies="true" throwexceptionifcodeunitfilecannotbevalidated="true" developmentState="Active development" description="Epew (ExternalProgramExecutionWrapper) is a tool to wrap program-calls with some useful functions.">
         <cps:testsettings minimalcodecoverageinpercent="30"/>
+        <cps:pipelinedemands>
+        </cps:pipelinedemands>
+        <cps:updatesettings>
+            <cps:ignoreddependencies>
+                <cps:ignoreddependency>MSTest.TestAdapter</cps:ignoreddependency>
+                <cps:ignoreddependency>MSTest.TestFramework</cps:ignoreddependency>            
+            </cps:ignoreddependencies>
+        </cps:updatesettings>        
     </cps:properties>
     <cps:dependentcodeunits/>
     <cps:developerteam>
