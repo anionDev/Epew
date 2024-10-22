@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.13</Version>
-        <AssemblyVersion>5.0.13</AssemblyVersion>
-        <FileVersion>5.0.13</FileVersion>
+        <Version>5.0.14</Version>
+        <AssemblyVersion>5.0.14</AssemblyVersion>
+        <FileVersion>5.0.14</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -15,7 +15,7 @@
         <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
         <RootNamespace>Epew.Tests</RootNamespace>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <Configurations>Development;QualityCheck;Productive</Configurations>
         <IsTestProject>true</IsTestProject>
         <LangVersion>11.0</LangVersion>
@@ -65,12 +65,12 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeCoverage" Version="17.10.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+        <PackageReference Include="Microsoft.CodeCoverage" Version="17.11.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.6.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
     </ItemGroup>
 </Project>
