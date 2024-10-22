@@ -11,7 +11,7 @@ namespace Epew.Tests.Testcases
         {
             // arrange
             string output = "test";
-            string[] arguments = new string[] { "-p", "echo2", "-a", output };
+            string[] arguments = new string[] { "--Program", "echo2", "--Argument", output };
             ProgramExecutor pe = new ProgramExecutor();
 
             // act

@@ -2,10 +2,11 @@
 
 ## Requirements
 
-The following tools from the [tools-list](https://github.com/anionDev/ScriptCollection/blob/main/ScriptCollection/Other/Reference/ReferenceContent/Articles/RequiredToolsForCommonProjectStructure.md#Tools) are required to build this code-unit:
+The following tools from the [tools-list](https://github.com/anionDev/ScriptCollection/blob/main/ScriptCollection/Other/Reference/ReferenceContent/Articles/RequirementsForCommonProjectStructure.md#Tools) are required to build this code-unit:
 
 - `ar`
 - `docfx`
+- `dotnet`
 - `dotnet-coverage`
 - `git`
 - `gitversion`
