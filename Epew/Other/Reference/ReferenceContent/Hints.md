@@ -6,6 +6,7 @@ The following tools from the [tools-list](https://github.com/anionDev/ScriptColl
 
 - `ar`
 - `docfx`
+- `dotnet`
 - `dotnet-coverage`
 - `git`
 - `gitversion`

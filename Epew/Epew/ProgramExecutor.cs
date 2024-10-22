@@ -168,6 +168,7 @@ namespace Epew.Core
                     this._Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
                     this._Log.Configuration.GetLogTarget<LogFile>().File = AbstractFilePath.FromString(options.LogFile);
                 }
+
                 foreach(GRYLogTarget target in this._Log.Configuration.LogTargets)
                 {
                     target.Format = options.AddLogOverhead ? GRYLogLogFormat.GRYLogFormat : GRYLogLogFormat.OnlyMessage;
@@ -181,7 +182,7 @@ namespace Epew.Core
                     Verbosity = options.Verbosity,
                     User = options.User,
                     Password = options.Password,
-                    CreateWindow=!options.HideConsoleWindow
+                    CreateWindow = !options.HideConsoleWindow
                 };
                 if(options.NotSynchronous)
                 {
@@ -196,7 +197,10 @@ namespace Epew.Core
                     LogObject = this._Log
                 };
 
-                this._ExternalProgramExecutor.Run();
+                using(var subNamespace = this._Log.UseSubNamespace(options.LogNamespace))
+                {
+                    this._ExternalProgramExecutor.Run();
+                }
 
                 WriteNumberToFile(options.Verbosity, executionId, this._Title, commandLineExecutionAsString, this._ExternalProgramExecutor.ProcessId, "process-id", options.ProcessIdFile);
                 if(options.NotSynchronous)
