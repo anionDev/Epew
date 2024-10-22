@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using CommandLine;
 using CommandLine.Text;
-using GRYLibrary.Core.Log;
-using GRYLibrary.Core.Log.ConcreteLogTargets;
-using GRYLibrary.Core.Miscellaneous;
+using GRYLibrary.Core.Misc;
 using System.IO;
 using System.Reflection;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.ExecutePrograms.WaitingStates;
 using Microsoft.Extensions.Logging;
-using GRYLibrary.Core.Miscellaneous.FilePath;
+using GRYLibrary.Core.Misc.FilePath;
+using GRYLibrary.Core.Logging.GRYLogger;
+using GRYLibrary.Core.Logging.GRYLogger.ConcreteLogTargets;
 
 namespace Epew.Core
 {

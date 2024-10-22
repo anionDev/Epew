@@ -14,7 +14,7 @@
           "src": "../../Epew"
         }
       ],
-      "dest": "./ReferenceContent/api",
+      "dest": "./ReferenceContent/API",
       "disableGitFeatures": true
     }
   ],

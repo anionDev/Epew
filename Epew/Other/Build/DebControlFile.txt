@@ -1,0 +1,6 @@
+Package: __[codeunitname]__
+Version: __[codeunitversion]__
+Architecture: all
+Installed-Size: __[installedsize]__
+Maintainer: __[maintainername]__ <__[maintaineremail]__>
+Description: __[description]__

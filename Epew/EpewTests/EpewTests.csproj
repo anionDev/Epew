@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.11</Version>
-        <AssemblyVersion>5.0.11</AssemblyVersion>
-        <FileVersion>5.0.11</FileVersion>
+        <Version>5.0.14</Version>
+        <AssemblyVersion>5.0.14</AssemblyVersion>
+        <FileVersion>5.0.14</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
         <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-        <Copyright>Copyright © 2023 Marius Göcke</Copyright>
+        <Copyright>Copyright © 2024 Marius Göcke</Copyright>
         <Description>EpewTests is the test-project for Epew.</Description>
         <PackageProjectUrl>https://github.com/anionDev/Epew</PackageProjectUrl>
         <RepositoryUrl>https://github.com/anionDev/Epew.git</RepositoryUrl>
         <RootNamespace>Epew.Tests</RootNamespace>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-        <Nullable>disable</Nullable>
+        <Nullable>enable</Nullable>
         <Configurations>Development;QualityCheck;Productive</Configurations>
         <IsTestProject>true</IsTestProject>
         <LangVersion>11.0</LangVersion>
@@ -26,9 +26,12 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <WarningLevel>4</WarningLevel>
         <Prefer32Bit>false</Prefer32Bit>
+        <SignAssembly>True</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\..\Other\Resources\PublicKeys\StronglyNamedKey\EpewPublicKey.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>True</DelaySign>
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
-        <ErrorLog>..\Other\Resources\EpewTests.sarif</ErrorLog>
+        <ErrorLog>..\Other\Resources\CodeAnalysisResult\EpewTests.sarif</ErrorLog>
         <OutputType>Library</OutputType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Development'">
@@ -54,12 +57,20 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Epew\Epew.csproj" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.0.3" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.0.3" />
-        <PackageReference Include="coverlet.collector" Version="6.0.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PackageReference Include="coverlet.collector" Version="6.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="coverlet.msbuild" Version="6.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeCoverage" Version="17.11.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.6.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
     </ItemGroup>
 </Project>
