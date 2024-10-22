@@ -10,4 +10,4 @@ Resources/Constants/CodeUnitDescription.*
 Resources/Constants/CodeUnitMajorVersion.*
 Resources/Constants/CommitDate.*
 Resources/Constants/CommitId.*
-Resources/CodeAnalysisResult
+Resources/CodeAnalysisResult/*.sarif

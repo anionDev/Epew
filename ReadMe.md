@@ -14,7 +14,7 @@ epew is a commandline-tool. There is no gui. The main-advantage of epew is to be
 Other features:
 
 - epew is available for Linux and Windows.
-- epew resolves environment-variables (e. g. you can set `git` as program instead of `C:\Program Files\Git\cmd\git.exe` (which would also be possible)).
+- epew resolves environment-variables. (For example you can set `git` as program instead of `C:\Program Files\Git\cmd\git.exe`. Both variants are working.)
 
 ## Get epew
 
@@ -28,11 +28,11 @@ dotnet build  Epew.sln
 
 ### Installation via winget (Windows, planned)
 
-Coming as soon as possible.
+Coming soon.
 
 ### Installation via apt (Linux, planned)
 
-Coming as soon as possible.
+Coming soon.
 
 ## Usage
 
@@ -110,14 +110,36 @@ Currently the following verbosity-levels are available:
 - 1 (Normal)
 - 2 (Verbose)
 
-## Technical details
+## Reference
 
-### Strong name
+The Epew-reference can be found [here](./Epew/Other/Reference/ReferenceContent).
 
-The officially released `epew.dll`-file is always signed with the key with the short-id `79cae7246084aa22`. Do not trust any `epew.dll`-file which are not signed with this key.
-Only `epew.dll` will be signed with this key. All other files contained in a binary-release of epew are not signed by this key.
-You can verify the key using [sn](https://docs.microsoft.com/en-us/dotnet/framework/tools/sn-exe-strong-name-tool) with `sn -T epew.dll`.
+## Build
+
+This product requires to use `scbuildcodeunits` implemented/provided by [ScriptCollection](https://github.com/anionDev/ScriptCollection) to build the project.
+
+## Changelog
+
+See the [Changelog-folder](./Other/Resources/Changelog).
+
+## Contribue
+
+Contributions are always welcome.
+
+This product has the contribution-requirements defines by [DefaultOpenSourceContributionProcess](https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/blob/main/Conventions/Contributing/DefaultOpenSourceContributionProcess/DefaultOpenSourceContributionProcess.md).
+
+## Repository-structure
+
+This product uses the [CommonProjectStructure](https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/blob/main/Conventions/RepositoryStructure/CommonProjectStructure/CommonProjectStructure.md) as repository-structure.
+
+## Branching-system
+
+This product follows the [GitFlowSimplified](https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/blob/main/Conventions/BranchingSystem/GitFlowSimplified/GitFlowSimplified.md)-branching-system.
+
+## Versioning
+
+This product follows the [SemVerPractise](https://projects.aniondev.de/PublicProjects/Common/ProjectTemplates/-/blob/main/Conventions/Versioning/SemVerPractise/SemVerPractise.md)-versioning-system.
 
 ## License
 
-epew is licensed under the terms of MIT. The concrete license-text can be found [here](https://raw.githubusercontent.com/anionDev/externalProgramExecutionWrapper/master/License.txt).
+epew is licensed under the terms of MIT. The concrete license-text can be found [here](https://raw.githubusercontent.com/anionDev/Epew/main/License.txt).
