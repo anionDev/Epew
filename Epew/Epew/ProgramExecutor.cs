@@ -184,6 +184,7 @@ namespace Epew.Core
                     Password = options.Password,
                     CreateWindow = !options.HideConsoleWindow,
                     RedirectStandardInput = true,
+                    TimeoutInMilliseconds = options.TimeoutInMilliseconds,
                 };
                 if(options.NotSynchronous)
                 {
