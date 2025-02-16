@@ -182,7 +182,9 @@ namespace Epew.Core
                     Verbosity = options.Verbosity,
                     User = options.User,
                     Password = options.Password,
-                    CreateWindow = !options.HideConsoleWindow
+                    CreateWindow = !options.HideConsoleWindow,
+                    RedirectStandardInput = true,
+                    TimeoutInMilliseconds = options.TimeoutInMilliseconds,
                 };
                 if(options.NotSynchronous)
                 {

@@ -13,17 +13,16 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
-				"label": "Build all codeunits",
-				"command": "SCBuildCodeunits",
-				"args": [
-					"--buildenvironment",
-					"Development"
-				],
+				"label": "Base: Build all codeunits",
+				"command": "scbuildcodeunits",
 				"type": "shell",
 				"options": {
-					"cwd": "${workspaceFolder}",
+					"cwd": "${workspaceFolder}"
 				},
-			},
+				"aliases": [
+					"bb"
+				]
+			}
 		]
 	},
 	"launch": {
@@ -31,7 +30,7 @@
 		"configurations": [
 			{
 				"name": "Debug current file",
-				"type": "python",
+				"type": "debugpy",
 				"request": "launch",
 				"program": "${file}",
 				"console": "integratedTerminal"
@@ -39,18 +38,13 @@
 		]
 	},
 	"settings": {
-		"window.title": "${dirty} ${rootName}", // see https://code.visualstudio.com/updates/v1_10#_configurable-window-title
-		"files.exclude": {
-			".coverage": true,
-			"TestResults": true,
-			".vs": true,
-		},
-		"spellright.language": [
-			"en",
-		],
+		"window.title": "${dirty} ${rootName}",
 		"spellright.documentTypes": [
 			"markdown",
-			"plaintext",
+			"plaintext"
 		],
+		"spellright.language": [
+			"en"
+		]
 	}
 }
