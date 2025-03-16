@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<coverage version="1.0" date="2025-03-16_09-28-56" tag="v5.0.18">
+  <assembly name="Epew">
+    <class name="Epew.Core.EpewOptions" coveredlines="19" coverablelines="19" totallines="66" coveredbranches="0" totalbranches="0" coveredcodeelements="19" fullcoveredcodeelements="19" totalcodeelements="19" />
+    <class name="Epew.Core.Program" coveredlines="0" coverablelines="3" totallines="10" coveredbranches="0" totalbranches="0" coveredcodeelements="0" fullcoveredcodeelements="0" totalcodeelements="1" />
+    <class name="Epew.Core.ProgramExecutor" coveredlines="157" coverablelines="257" totallines="341" coveredbranches="26" totalbranches="56" coveredcodeelements="12" fullcoveredcodeelements="5" totalcodeelements="14" />
+  </assembly>
+</coverage>

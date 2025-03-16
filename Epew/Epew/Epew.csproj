@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.17</Version>
-        <AssemblyVersion>5.0.17</AssemblyVersion>
-        <FileVersion>5.0.17</FileVersion>
+        <Version>5.0.18</Version>
+        <AssemblyVersion>5.0.18</AssemblyVersion>
+        <FileVersion>5.0.18</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
