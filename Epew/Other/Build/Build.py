@@ -13,7 +13,7 @@ def build():
     t.create_deb_package_for_artifact(codeunit_folder, t.get_constant_value(codeunit_folder, "MaintainerName"), t.get_constant_value(codeunit_folder, "MaintainerEMailAddress"), t.get_constant_value(codeunit_folder, "CodeUnitDescription"), verbosity, sys.argv)
     winget_artifact_name: str = "Epew-Zip-for-Windows"
     t.create_zip_file_for_artifact(codeunit_folder, "BuildResult_DotNet_win-x64", winget_artifact_name, verbosity, sys.argv)
-    t.generate_winget_zip_manifest(codeunit_folder, winget_artifact_name, verbosity, sys.argv)
+    t.generate_winget_zip_manifest(codeunit_folder, winget_artifact_name)
 
 
 if __name__ == "__main__":

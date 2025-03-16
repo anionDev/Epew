@@ -1,5 +1,5 @@
 Id: anionDev.Epew
-Version: 5.0.18
+Version: 5.0.19
 Name: Epew
 Publisher: anionDev
 License: MIT
@@ -7,8 +7,8 @@ Homepage: https://github.com/anionDev/Epew
 Installers:
   - Architecture: x64
     InstallerType: zip
-    InstallerUrl: https://github.com/anionDev/Epew/releases/download/v5.0.18/Epew-Zip-for-Windows.zip
-    InstallerSha256: 990aed1dcc87f0cc8900c571ea92fc56115858b055982eb027880c5eea64184e
+    InstallerUrl: https://github.com/anionDev/Epew/releases/download/v5.0.19/Epew-Zip-for-Windows.zip
+    InstallerSha256: ec1849233b051eb6bd28ef4449dee84800244434f2b181626d48f4efbe97b058
     InstallLocation: "%LOCALAPPDATA%\\Epew"
     Commands:
       - epew.exe
