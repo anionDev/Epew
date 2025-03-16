@@ -8,7 +8,7 @@ Installers:
   - Architecture: x64
     InstallerType: zip
     InstallerUrl: https://github.com/anionDev/Epew/releases/download/v5.0.19/Epew-Zip-for-Windows.zip
-    InstallerSha256: ec1849233b051eb6bd28ef4449dee84800244434f2b181626d48f4efbe97b058
+    InstallerSha256: dbc53e1b774154b1549deca010f883512589fd103f432ace69f816348d2adbb2
     InstallLocation: "%LOCALAPPDATA%\\Epew"
     Commands:
       - epew.exe
