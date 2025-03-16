@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.16</Version>
-        <AssemblyVersion>5.0.16</AssemblyVersion>
-        <FileVersion>5.0.16</FileVersion>
+        <Version>5.0.17</Version>
+        <AssemblyVersion>5.0.17</AssemblyVersion>
+        <FileVersion>5.0.17</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -66,11 +66,11 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.CodeCoverage" Version="17.13.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.3" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.8.0" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.8.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.8.2" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.8.2" />
     </ItemGroup>
 </Project>
