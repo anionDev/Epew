@@ -1,0 +1,18 @@
+Id: anionDev.Epew
+Version: __[version]__
+Name: Epew
+Publisher: anionDev
+License: MIT
+Homepage: https://github.com/anionDev/Epew
+Installers:
+  - Architecture: x64
+    InstallerType: zip
+    InstallerUrl: https://github.com/anionDev/Epew/releases/download/v__[version]__/Epew-Zip-for-Windows.zip
+    InstallerSha256: __[sha256_hashvalue]__
+    InstallLocation: "%LOCALAPPDATA%\\Epew"
+    Commands:
+      - epew.exe
+    EnvironmentVariables:
+      - Variable: PATH
+        Value: "%LOCALAPPDATA%\\Epew"
+        Operation: prepend
