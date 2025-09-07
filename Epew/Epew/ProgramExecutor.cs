@@ -165,8 +165,15 @@ namespace Epew.Core
                 }
                 if(!string.IsNullOrWhiteSpace(options.LogFile))
                 {
-                    this._Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
-                    this._Log.Configuration.GetLogTarget<LogFile>().File = AbstractFilePath.FromString(options.LogFile);
+                    foreach(var target in this._Log.Configuration.LogTargets)
+                    {
+                        if(target is LogFile logFile)
+                        {
+                            logFile.Enabled = true;
+                            logFile.File = AbstractFilePath.FromString(options.LogFile);
+                            break;
+                        }
+                    }
                 }
 
                 foreach(GRYLogTarget target in this._Log.Configuration.LogTargets)
@@ -183,7 +190,6 @@ namespace Epew.Core
                     User = options.User,
                     Password = options.Password,
                     CreateWindow = !options.HideConsoleWindow,
-                    RedirectStandardInput = true,
                     TimeoutInMilliseconds = options.TimeoutInMilliseconds,
                 };
                 if(options.NotSynchronous)
@@ -199,7 +205,7 @@ namespace Epew.Core
                     LogObject = this._Log
                 };
 
-                using(var subNamespace = this._Log.UseSubNamespace(options.LogNamespace))
+                using(IDisposable subNamespace = this._Log.UseSubNamespace(options.LogNamespace))
                 {
                     this._ExternalProgramExecutor.Run();
                 }
