@@ -51,7 +51,7 @@ namespace Epew.Core.Helper
                     return parserResult.MapResult(
                         (RunCLI parsedArgument) => parsedArgument.Accept(new VerbVisitor(this)),
                         (RunFile parsedArgument) => parsedArgument.Accept(new VerbVisitor(this)),
-                        (IEnumerable<Error> errors) => this.HandleErrors(errors, parserResult)
+                        errors => this.HandleErrors(errors, parserResult)
                     );
                 }
             }

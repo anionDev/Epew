@@ -1,17 +1,18 @@
-﻿using Epew.Core.Verbs;
-using GRYLibrary.Core.ExecutePrograms.WaitingStates;
+﻿using Epew.Core.Helper;
+using Epew.Core.Verbs;
 using GRYLibrary.Core.ExecutePrograms;
-using GRYLibrary.Core.Logging.GRYLogger.ConcreteLogTargets;
+using GRYLibrary.Core.ExecutePrograms.WaitingStates;
 using GRYLibrary.Core.Logging.GRYLogger;
-using GRYLibrary.Core.Misc.FilePath;
+using GRYLibrary.Core.Logging.GRYLogger.ConcreteLogTargets;
 using GRYLibrary.Core.Misc;
+using GRYLibrary.Core.Misc.FilePath;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Epew.Core.Helper;
 
 namespace Epew.Core.Runner
 {
@@ -95,8 +96,15 @@ namespace Epew.Core.Runner
                 }
                 if(!string.IsNullOrWhiteSpace(this._Options.LogFile))
                 {
-                    _ProgramStarter._Log.Configuration.GetLogTarget<LogFile>().Enabled = true;
-                    _ProgramStarter._Log.Configuration.GetLogTarget<LogFile>().File = AbstractFilePath.FromString(this._Options.LogFile);
+                    foreach(GRYLogTarget target in this._ProgramStarter._Log.Configuration.LogTargets)
+                    {
+                        if(target is LogFile logFile)
+                        {
+                            logFile.Enabled = true;
+                            logFile.File = AbstractFilePath.FromString(this._Options.LogFile);
+                            break;
+                        }
+                    }
                 }
 
                 foreach(GRYLogTarget target in _ProgramStarter._Log.Configuration.LogTargets)
