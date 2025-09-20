@@ -62,7 +62,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
-        <PackageReference Include="GRYLibrary" Version="0.12.159" />
+        <PackageReference Include="GRYLibrary" Version="0.12.163" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
     </ItemGroup>
 </Project>
