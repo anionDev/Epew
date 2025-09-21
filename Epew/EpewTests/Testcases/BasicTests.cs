@@ -8,7 +8,7 @@ namespace Epew.Tests.Testcases
     public class BasicTests
     {
         [TestMethod]
-        public void Run()
+        public void Echo()
         {
             // arrange
             string output = "test";
