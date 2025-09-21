@@ -1,11 +1,14 @@
 ﻿using CommandLine;
 using GRYLibrary.Core.ExecutePrograms;
 using GRYLibrary.Core.Misc;
+using Epew.Core.Helper;
 
-namespace Epew.Core
+namespace Epew.Core.Verbs
 {
-    public class EpewOptions
+    [Verb(nameof(RunCLI), isDefault: true, HelpText = "Runs a program using the arguments specified by commandline-arguments.")]
+    public class RunCLI:VerbBase
     {
+        internal ExternalProgramExecutor _ExternalProgramExecutor = null;
 
         [Option('p', nameof(Program), Required = true, HelpText = "Program which should be executed")]
         public string Program { get; set; }
@@ -19,7 +22,7 @@ namespace Epew.Core
         [Option('w', nameof(Workingdirectory), Required = false, HelpText = "Workingdirectory for the program which should be executed")]
         public string Workingdirectory { get; set; }
 
-        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + ProgramExecutor.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Full)]//TODO fix this link
+        [Option('v', nameof(Verbosity), Required = false, HelpText = "Verbosity of " + ProgramStarter.ProgramName + ". The concrete available values are documentated at https://aniondev.github.io/GRYLibraryReference/api/GRYLibrary.Core.Miscellaneous.Verbosity.html", Default = Verbosity.Full)]//TODO fix this link
         public Verbosity Verbosity { get; set; }
 
         [Option('i', nameof(PrintErrorsAsInformation), Required = false, HelpText = "Treat errors as information", Default = false)]
@@ -28,7 +31,7 @@ namespace Epew.Core
         [Option('g', nameof(AddLogOverhead), Required = false, HelpText = "Add log overhead", Default = false)]
         public bool AddLogOverhead { get; set; }
 
-        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + ProgramExecutor.ProgramName)]
+        [Option('f', nameof(LogFile), Required = false, HelpText = "Logfile for " + ProgramStarter.ProgramName)]
         public string LogFile { get; set; }
 
         [Option('o', nameof(StdOutFile), Required = false, HelpText = "File for the stdout of the executed program")]
@@ -43,7 +46,7 @@ namespace Epew.Core
         [Option('r', nameof(ProcessIdFile), Required = false, HelpText = "File for the process-id of the executed program")]
         public string ProcessIdFile { get; set; }
 
-        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + ProgramExecutor.ProgramName, Default = int.MaxValue)]
+        [Option('d', nameof(TimeoutInMilliseconds), Required = false, HelpText = "Maximal duration of the execution process before it will by aborted by " + ProgramStarter.ProgramName, Default = int.MaxValue)]
         public int TimeoutInMilliseconds { get; set; }
 
         [Option('t', nameof(Title), Required = false, HelpText = "Title for the execution-process")]
@@ -62,5 +65,15 @@ namespace Epew.Core
 
         [Option('h', nameof(HideConsoleWindow), Required = false, HelpText = "Hide console window", Default = false)]
         public bool HideConsoleWindow { get; set; }
+
+        public override void Accept(IVerbBaseVisitor visitor)
+        {
+            visitor.Handle(this);
+        }
+
+        public override T Accept<T>(IVerbBaseVisitor<T> visitor)
+        {
+           return visitor.Handle(this);
+        }
     }
 }

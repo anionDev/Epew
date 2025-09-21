@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.19</Version>
-        <AssemblyVersion>5.0.19</AssemblyVersion>
-        <FileVersion>5.0.19</FileVersion>
+        <Version>5.1.0</Version>
+        <AssemblyVersion>5.1.0</AssemblyVersion>
+        <FileVersion>5.1.0</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -26,9 +26,9 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <WarningLevel>4</WarningLevel>
         <Prefer32Bit>false</Prefer32Bit>
-        <SignAssembly>True</SignAssembly>
+        <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\..\Other\Resources\PublicKeys\StronglyNamedKey\EpewPublicKey.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>True</DelaySign>
+        <DelaySign>true</DelaySign>
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
         <ErrorLog>..\Other\Resources\CodeAnalysisResult\EpewTests.sarif</ErrorLog>
@@ -65,12 +65,12 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeCoverage" Version="17.13.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.3" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.8.2" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.8.2" />
+        <PackageReference Include="Microsoft.CodeCoverage" Version="17.14.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.9" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.10.4" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.10.4" />
     </ItemGroup>
 </Project>
