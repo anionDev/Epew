@@ -1,10 +1,11 @@
 from pathlib import Path
 from ScriptCollection.GeneralUtilities import GeneralUtilities
-from ScriptCollection.TasksForCommonProjectStructure import TasksForCommonProjectStructure
+from ScriptCollection.ScriptCollectionCore import ScriptCollectionCore
+from ScriptCollection.TFCPS.TFCPS_Tools_General import TFCPS_Tools_General
 
 
 def prepare_build_codeunits():
-    t = TasksForCommonProjectStructure()
+    t = TFCPS_Tools_General(ScriptCollectionCore())
     current_file = str(Path(__file__).absolute())
     repository_folder = GeneralUtilities.resolve_relative_path("../../..", current_file)
     t.generate_tasksfile_from_workspace_file(repository_folder)

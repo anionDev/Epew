@@ -1,11 +1,9 @@
-import sys
-import os
-from pathlib import Path
-from ScriptCollection.TasksForCommonProjectStructure import TasksForCommonProjectStructure
-
+from ScriptCollection.TFCPS.DotNet.TFCPS_CodeUnitSpecific_DotNet import TFCPS_CodeUnitSpecific_DotNet_Functions,TFCPS_CodeUnitSpecific_DotNet_CLI
+ 
 
 def update_dependencies():
-    TasksForCommonProjectStructure().update_dependencies_of_typical_dotnet_codeunit(str(Path(__file__).absolute()), 1, sys.argv)
+    tf:TFCPS_CodeUnitSpecific_DotNet_Functions=TFCPS_CodeUnitSpecific_DotNet_CLI.parse(__file__)
+    tf.update_dependencies()
 
 
 if __name__ == "__main__":

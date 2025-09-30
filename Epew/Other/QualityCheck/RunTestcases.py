@@ -1,11 +1,9 @@
-import sys
-from pathlib import Path
-from ScriptCollection.TasksForCommonProjectStructure import TasksForCommonProjectStructure
+from ScriptCollection.TFCPS.DotNet.TFCPS_CodeUnitSpecific_DotNet import TFCPS_CodeUnitSpecific_DotNet_Functions,TFCPS_CodeUnitSpecific_DotNet_CLI
 
 
 def run_testcases():
-    t = TasksForCommonProjectStructure()
-    t.standardized_tasks_run_testcases_for_dotnet_project(str(Path(__file__).absolute()), "QualityCheck", 1, True, t.get_default_target_environmenttype_mapping(), sys.argv)
+    tf:TFCPS_CodeUnitSpecific_DotNet_Functions=TFCPS_CodeUnitSpecific_DotNet_CLI.parse(__file__)
+    tf.run_testcases()
 
 
 if __name__ == "__main__":
