@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.21</Version>
-        <AssemblyVersion>5.0.21</AssemblyVersion>
-        <FileVersion>5.0.21</FileVersion>
+        <Version>5.0.22</Version>
+        <AssemblyVersion>5.0.22</AssemblyVersion>
+        <FileVersion>5.0.22</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -26,9 +26,9 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <WarningLevel>4</WarningLevel>
         <Prefer32Bit>false</Prefer32Bit>
-        <SignAssembly>True</SignAssembly>
+        <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\..\Other\Resources\PublicKeys\StronglyNamedKey\EpewPublicKey.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>True</DelaySign>
+        <DelaySign>true</DelaySign>
         <NoWarn>1701;1702;CA1822;CS1591;CS1573;IDE0045;IDE0046;IDE0054;IDE0058;IDE0074;IDE0090</NoWarn>
         <WarningsAsErrors>NU1605</WarningsAsErrors>
         <ErrorLog>..\Other\Resources\CodeAnalysisResult\Epew.sarif</ErrorLog>
@@ -51,18 +51,18 @@
         <ErrorReport>none</ErrorReport>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Productive'">
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
-        <Optimize>true</Optimize>
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
         <DefineConstants>Productive</DefineConstants>
         <ErrorReport>none</ErrorReport>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
-        <PackageReference Include="GRYLibrary" Version="0.12.164" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
+        <PackageReference Include="GRYLibrary" Version="0.12.171" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
     </ItemGroup>
 </Project>

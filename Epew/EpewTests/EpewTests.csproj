@@ -2,9 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Authors>Marius Göcke</Authors>
-        <Version>5.0.21</Version>
-        <AssemblyVersion>5.0.21</AssemblyVersion>
-        <FileVersion>5.0.21</FileVersion>
+        <Version>5.0.22</Version>
+        <AssemblyVersion>5.0.22</AssemblyVersion>
+        <FileVersion>5.0.22</FileVersion>
         <SelfContained>false</SelfContained>
         <IsPackable>false</IsPackable>
         <PreserveCompilationContext>false</PreserveCompilationContext>
@@ -49,9 +49,9 @@
         <ErrorReport>none</ErrorReport>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Productive'">
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
-        <Optimize>true</Optimize>
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
         <DefineConstants>Productive</DefineConstants>
         <ErrorReport>none</ErrorReport>
     </PropertyGroup>
@@ -65,12 +65,12 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeCoverage" Version="17.14.1" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.9" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.10.4" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.10.4" />
+        <PackageReference Include="Microsoft.CodeCoverage" Version="18.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.10" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+        <PackageReference Include="MSTest.TestAdapter" Version="4.0.1" />
+        <PackageReference Include="MSTest.TestFramework" Version="4.0.1" />
     </ItemGroup>
 </Project>
